@@ -1,4 +1,6 @@
-# qdrant Java Client
+# Qdrant Java Client
+
+This project contains a java client for the [Qdrant vector database](https://qdrant.tech/). The client support HTTP and gRCP transport in either blocking or non-blocking fashion. For async operation a `Future` or RxJava3 based API can be used.
 
 ## Maven
 
@@ -76,6 +78,18 @@ for (int i = 0; i < 10; i++) {
 
 assertEquals(10, client.countPoints("test1", null, true).blocking().getResult().getCount());
 ```
+
+## Tasks
+
+* Complete HTTP implementation
+* Add more tests for gRCP
+* Add more helpers for gRCP
+* Add more docs
+* Add more examples
+* Add note on building / Java17
+* Add releasing
+* Test error handling
+* Add info on supported version
 
 
 ## Methods
