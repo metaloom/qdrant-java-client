@@ -1,6 +1,6 @@
 # Qdrant Java Client
 
-This project contains a java client for the [Qdrant vector database](https://qdrant.tech/). The client support HTTP and gRCP transport in either blocking or non-blocking fashion. For async operation a `Future` or RxJava3 based API can be used.
+This project contains a java client for the [Qdrant vector database](https://qdrant.tech/). The client supports HTTP and gRCP transport in either blocking or non-blocking fashion. For async operation a `Future` or RxJava3 based API can be used.
 
 ## Maven
 
@@ -91,49 +91,3 @@ assertEquals(10, client.countPoints("test1", null, true).blocking().getResult().
 * Test error handling
 * Add info on supported version
 
-
-## Methods
-
-
-# Only HTTP
-Create index for field in collection
-Delete index for field in collection
-Update collection cluster setup
-Remove peer from the cluster
-Collection cluster info
-Get cluster status info
-Update collection cluster setup
-Set lock options
-Get lock options
-Collect telemetry data
-Recover from a snapshot
-Download storage snapshot
-Download collection snapshot
-
-# gRCP Done
-Upsert points
-Update aliases of the collections
-Recommend batch points
-Recommend points
-Search batch points
-List collection snapshots
-Create collection snapshot
-Collection info
-List collections
-Delete collection
-Update collection parameters
-Create collection
-Search points
-Delete points
-Count points
-Scroll points
-Delete payload
-Clear payload
-Set payload
-Get point
-Get points
-List collection snapshots
-List of storage snapshots
-Create collection snapshot
-Create storage snapshot
-Overwrite payload

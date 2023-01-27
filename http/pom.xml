@@ -1,0 +1,107 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>qdrant-java-http-client</artifactId>
+
+	<parent>
+		<groupId>io.metaloom.qdrant</groupId>
+		<artifactId>qdrant-java-client</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+
+
+		<!-- HTTP -->
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>${okhttp.version}</version>
+		</dependency>
+
+		<!-- JSON -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.14.1</version>
+		</dependency>
+		<dependency>
+			<groupId>io.metaloom.qdrant</groupId>
+			<artifactId>qdrant-java-client-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- Test-->
+		<dependency>
+			<groupId>io.metaloom.qdrant</groupId>
+			<artifactId>qdrant-java-client-common</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<!--OpenAPI 
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>1.6.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.10.1</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.ws.rs</groupId>
+			<artifactId>jakarta.ws.rs-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		-->
+
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!--
+			<plugin>
+				<groupId>org.openapitools</groupId>
+			<artifactId>openapi-generator-maven-plugin</artifactId>
+			<version>6.2.1</version>
+				<executions>
+					<execution>
+						<?m2e
+			execute onConfiguration?>
+						<goals>
+							<goal>generate</goal>
+			</goals>
+						<configuration>
+							<inputSpec>
+			${project.basedir}/src/main/openapi/api.json</inputSpec>
+			<modelPackage>io.metaloom.qdrant.client.http.openapi</modelPackage>
+			<generatorName>java</generatorName>
+			<generateApis>false</generateApis>
+			<generateModels>true</generateModels>
+			<generateModelDocumentation>false</generateModelDocumentation>
+			<generateModelTests>false</generateModelTests>
+			<generateSupportingFiles>true</generateSupportingFiles>
+			<library>okhttp-gson</library>
+							<configOptions>
+			<annotationLibrary>none</annotationLibrary>
+			<openApiNullable>false</openApiNullable>
+			<dateLibrary>java8</dateLibrary>
+							</configOptions>
+			</configuration>
+					</execution>
+				</executions>
+			</plugin>
+-->
+
+
+		</plugins>
+	</build>
+
+
+</project>
