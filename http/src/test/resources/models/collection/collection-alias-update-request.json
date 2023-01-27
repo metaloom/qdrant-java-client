@@ -1,0 +1,10 @@
+{
+  "actions": [
+    {
+      "create_alias": {
+        "collection_name": "string",
+        "alias_name": "string"
+      }
+    }
+  ]
+}

@@ -4,5 +4,5 @@ import java.util.List;
 
 public class CollectionResult {
 
-	public 	List<Collection> collections;
+	private List<Collection> collections;
 }

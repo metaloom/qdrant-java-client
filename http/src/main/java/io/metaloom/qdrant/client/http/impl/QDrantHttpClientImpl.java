@@ -7,6 +7,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import io.metaloom.qdrant.client.http.AbstractQDrantClient;
@@ -26,7 +27,7 @@ import okhttp3.ResponseBody;
 public class QDrantHttpClientImpl extends AbstractQDrantClient {
 
 	public static final Logger log = LoggerFactory.getLogger(QDrantHttpClientImpl.class);
-	
+
 	public static Builder builder() {
 		return new Builder();
 	}
@@ -64,7 +65,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 			try {
 				newRequest = request.newBuilder().addHeader("Accept-Encoding", "identity").build();
 			} catch (Exception e) {
-				log.error("Error while creating new request" , e);
+				log.error("Error while creating new request", e);
 				return chain.proceed(request);
 			}
 			return chain.proceed(newRequest);
@@ -100,10 +101,10 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	 * Execute the request synchronously.
 	 * 
 	 * @param request
-	 * @return Parsed response object
+	 * @return Response body text
 	 * @throws HttpErrorException
 	 */
-	public JsonNode executeSync(Request request) throws HttpErrorException {
+	public String executeSync(Request request) throws HttpErrorException {
 		try (Response response = client.newCall(request).execute()) {
 			ResponseBody body = response.body();
 			String bodyStr = "";
@@ -118,9 +119,25 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 				throw new HttpErrorException("Request failed {" + response.message() + "}", response.code(), bodyStr);
 			}
 
-			return Json.toJson(bodyStr);
+			return bodyStr;
 		} catch (IOException e1) {
 			throw new HttpErrorException("Error while excuting request", e1);
+		}
+	}
+
+	/**
+	 * Execute the request synchronously.
+	 * 
+	 * @param request
+	 * @return Parsed response object
+	 * @throws HttpErrorException
+	 */
+	public JsonNode executeSyncJson(Request request) throws HttpErrorException {
+		try {
+			String bodyStr = executeSync(request);
+			return Json.toJson(bodyStr);
+		} catch (JsonProcessingException e) {
+			throw new HttpErrorException("Error while excuting request", e);
 		}
 	}
 

@@ -10,6 +10,7 @@ import io.metaloom.qdrant.json.Json;
 public interface HTTPMethods {
 
 	static final String PUT = "PUT";
+	static final String PATCH = "PATCH";
 	static final String GET = "GET";
 	static final String DELETE = "DELETE";
 	static final String POST = "POST";
@@ -66,6 +67,10 @@ public interface HTTPMethods {
 
 	default <T extends RestResponse> RequestBuilder<T> putBuilder(String path, RestRequest request) {
 		return actionBuilder(PUT, path, Json.parse(request));
+	}
+
+	default <T extends RestResponse> RequestBuilder<T> patchBuilder(String path, RestRequest request) {
+		return actionBuilder(PATCH, path, Json.parse(request));
 	}
 
 	default <T extends RestResponse> RequestBuilder<T> postBuilder(String path, String bulkData) {

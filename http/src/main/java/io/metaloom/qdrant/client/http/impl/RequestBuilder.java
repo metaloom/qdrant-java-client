@@ -74,8 +74,18 @@ public class RequestBuilder<T extends RestResponse> {
 	 * @return
 	 * @throws HttpErrorException
 	 */
-	public JsonNode sync() throws HttpErrorException {
+	public T sync() throws HttpErrorException {
 		return client.executeSync(build());
+	}
+	
+	/**
+	 * Executes the request in a synchronized blocking way.
+	 * 
+	 * @return
+	 * @throws HttpErrorException
+	 */
+	public JsonNode syncJson() throws HttpErrorException {
+		return client.executeSyncJson(build());
 	}
 
 	/**

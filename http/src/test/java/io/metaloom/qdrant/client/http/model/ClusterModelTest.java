@@ -5,8 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import io.metaloom.qdrant.client.http.model.cluster.ClusterStatusResponse;
+import io.metaloom.qdrant.client.http.model.cluster.CollectionUpdateClusterSetupRequest;
 import io.metaloom.qdrant.client.http.model.cluster.ReplicaState;
-import io.metaloom.qdrant.client.http.model.collection.CollectionUpdateClusterSetupRequest;
 
 public class ClusterModelTest extends AbstractModelTest {
 

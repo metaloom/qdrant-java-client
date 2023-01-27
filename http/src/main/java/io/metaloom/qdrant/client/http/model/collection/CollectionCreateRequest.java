@@ -1,25 +1,64 @@
 package io.metaloom.qdrant.client.http.model.collection;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.metaloom.qdrant.client.http.model.RestRequest;
 import io.metaloom.qdrant.client.http.model.collection.config.HnswConfigDiff;
 import io.metaloom.qdrant.client.http.model.collection.config.OptimizersConfigDiff;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorsConfig;
 import io.metaloom.qdrant.client.http.model.collection.config.WalConfigDiff;
 
-public class CollectionCreateRequest {
+public class CollectionCreateRequest implements RestRequest {
 
-	VectorsConfig vectors;
+	private VectorsConfig vectors;
 
-	Integer shard_number;
+	@JsonProperty("shard_number")
+	private Integer shardNumber;
 
-	Integer replication_factor;
+	@JsonProperty("replication_factor")
+	private Integer replicationFactor;
 
-	Integer write_consistency_factor;
+	@JsonProperty("write_consistency_factor")
+	private Integer writeConsistencyFactor;
 
-	Boolean on_disk_payload;
+	@JsonProperty("on_disk_payload")
+	private Boolean onDiskPayload;
 
-	HnswConfigDiff hnsw_config;
+	@JsonProperty("hnsw_config")
+	private HnswConfigDiff hnswConfig;
 
-	WalConfigDiff wal_config;
+	@JsonProperty("wal_config")
+	private WalConfigDiff walConfig;
 
-	OptimizersConfigDiff optimizers_config;
+	@JsonProperty("optimizers_config")
+	private OptimizersConfigDiff optimizersConfig;
+
+	public VectorsConfig getVectors() {
+		return vectors;
+	}
+
+	public Integer getShardNumber() {
+		return shardNumber;
+	}
+
+	public Integer getWriteConsistencyFactor() {
+		return writeConsistencyFactor;
+	}
+
+	public Boolean getOnDiskPayload() {
+		return onDiskPayload;
+	}
+
+	public HnswConfigDiff getHnswConfig() {
+		return hnswConfig;
+	}
+
+	public WalConfigDiff getWalConfig() {
+		return walConfig;
+	}
+
+	public OptimizersConfigDiff getOptimizersConfig() {
+		return optimizersConfig;
+	}
+
 }

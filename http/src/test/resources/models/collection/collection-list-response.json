@@ -1,0 +1,11 @@
+{
+  "time": 0,
+  "status": "ok",
+  "result": {
+    "collections": [
+      {
+        "name": "string"
+      }
+    ]
+  }
+}

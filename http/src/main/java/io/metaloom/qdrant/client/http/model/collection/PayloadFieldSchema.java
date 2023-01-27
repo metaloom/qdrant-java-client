@@ -1,5 +1,7 @@
 package io.metaloom.qdrant.client.http.model.collection;
 
-public class PayloadFieldSchema {
+import io.metaloom.qdrant.client.http.model.RestModel;
+
+public class PayloadFieldSchema implements RestModel {
 
 }

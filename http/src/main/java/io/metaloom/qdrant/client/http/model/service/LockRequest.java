@@ -7,9 +7,9 @@ import io.metaloom.qdrant.client.http.model.RestRequest;
 public class LockRequest implements RestRequest {
 
 	@JsonProperty("error_message")
-	String errorMessage;
+	private String errorMessage;
 
-	boolean write;
+	private boolean write;
 
 	public String getErrorMessage() {
 		return errorMessage;

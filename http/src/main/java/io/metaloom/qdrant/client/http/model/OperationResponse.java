@@ -1,8 +1,11 @@
 package io.metaloom.qdrant.client.http.model;
 
 public class OperationResponse {
-	long time;
+	private long time;
+	
 	// TODO use enum
-	String status;
-	boolean result;
+	private String status;
+	private boolean result;
+	
+	
 }

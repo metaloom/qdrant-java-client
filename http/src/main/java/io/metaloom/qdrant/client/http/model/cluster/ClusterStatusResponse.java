@@ -1,6 +1,6 @@
-package io.metaloom.qdrant.client.http.model;
+package io.metaloom.qdrant.client.http.model.cluster;
 
-import io.metaloom.qdrant.client.http.model.cluster.ClusterStatus;
+import io.metaloom.qdrant.client.http.model.AbstractResponse;
 
 public class ClusterStatusResponse extends AbstractResponse {
 

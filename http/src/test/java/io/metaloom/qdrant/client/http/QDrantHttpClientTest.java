@@ -4,12 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.metaloom.qdrant.client.AbstractContainerTest;
-import io.metaloom.qdrant.client.http.model.collection.CollectionList;
-import io.metaloom.qdrant.json.Json;
+import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
+import io.metaloom.qdrant.client.http.model.collection.CollectionListResponse;
 
 public class QDrantHttpClientTest extends AbstractContainerTest {
 
@@ -21,30 +18,20 @@ public class QDrantHttpClientTest extends AbstractContainerTest {
 			.setPort(qdrant.httpPort())
 			.build();
 
-		JsonNode collection = Json.toJson("""
-			{
-				"name": "example_collection",
-				"vectors": {
-					"size": 300,
-					"distance": "Cosine"
-				}
-			}
-			""");
-
+		CollectionCreateRequest req = new CollectionCreateRequest();
 		// Assert initial status
-		assertEquals("There should be no collections stored", 0, client.listCollections().sync().get("result").get("collections").size());
+		assertEquals("There should be no collections stored", 0, client.listCollections().sync().getResult().getCollections().size());
 
 		// Create a collection
-		client.createCollection("test", collection).sync();
+		client.createCollection("test", req).sync();
 
-		String json = client.listCollections().sync().toString();
-		CollectionList list = new ObjectMapper().readValue(json, CollectionList.class);
-		System.out.println(list.result.collections.get(0).name);
+		CollectionListResponse list = client.listCollections().sync();
+		System.out.println(list.getResult().getCollections().get(0).getName());
 
-//		// Now load the collection
-//		JSONObject collections = client.listCollections().sync();
-//		assertEquals("test", collections.getJSONObject("result").getJSONArray("collections").getJSONObject(0).getString("name"));
-//		System.out.println(collections.toString());
+		// // Now load the collection
+		// JSONObject collections = client.listCollections().sync();
+		// assertEquals("test", collections.getJSONObject("result").getJSONArray("collections").getJSONObject(0).getString("name"));
+		// System.out.println(collections.toString());
 
 	}
 }
