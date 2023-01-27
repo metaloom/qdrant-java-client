@@ -1,0 +1,13 @@
+{
+  "vector": [0, 42.42, 41],
+  "filter": {},
+  "params": {
+    "hnsw_ef": 42,
+    "exact": false
+  },
+  "limit": 0,
+  "offset": 0,
+  "with_payload": true,
+  "with_vector": null,
+  "score_threshold": 0
+}

@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CollectionClusterInfo {
+import io.metaloom.qdrant.client.http.model.RestModel;
+
+public class CollectionClusterInfo implements RestModel {
 
 	@JsonProperty("peer_id")
 	private int peerId;

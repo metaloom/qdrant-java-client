@@ -1,0 +1,30 @@
+{
+  "time": 0,
+  "status": "ok",
+  "result": {
+    "peer_id": 1,
+    "shard_count": 2,
+    "local_shards": [
+      {
+        "shard_id": 0,
+        "points_count": 0,
+        "state": "Active"
+      }
+    ],
+    "remote_shards": [
+      {
+        "shard_id": 0,
+        "peer_id": 0,
+        "state": "Active"
+      }
+    ],
+    "shard_transfers": [
+      {
+        "shard_id": 0,
+        "from": 0,
+        "to": 0,
+        "sync": true
+      }
+    ]
+  }
+}

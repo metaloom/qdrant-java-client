@@ -13,6 +13,7 @@ import io.metaloom.qdrant.client.http.model.collection.filter.condition.Conditio
 import io.metaloom.qdrant.client.http.model.collection.filter.match.Match;
 import io.metaloom.qdrant.client.http.model.point.NamedVector;
 import io.metaloom.qdrant.client.http.model.point.Payload;
+import io.metaloom.qdrant.client.http.model.telemetry.CollectionTelemetry;
 
 /**
  * Helper which manages JSON handling.
@@ -24,12 +25,13 @@ public final class Json {
 	static {
 		mapper = new ObjectMapper()
 			.enable(SerializationFeature.INDENT_OUTPUT);
-		
+
 		SimpleModule module = new SimpleModule();
 		module.addDeserializer(Condition.class, new ConditionDeserializer());
 		module.addDeserializer(Match.class, new MatchDeserializer());
 		module.addDeserializer(Payload.class, new PayloadDeserializer());
 		module.addDeserializer(NamedVector.class, new NamedVectorDeserializer());
+		module.addDeserializer(CollectionTelemetry.class, new CollectionTelemetryDeserializer());
 		mapper.registerModule(module);
 	}
 

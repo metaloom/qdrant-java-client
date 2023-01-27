@@ -1,0 +1,7 @@
+{
+  "move_shard": {
+    "shard_id": 42,
+    "to_peer_id": 43,
+    "from_peer_id": 44
+  }
+}

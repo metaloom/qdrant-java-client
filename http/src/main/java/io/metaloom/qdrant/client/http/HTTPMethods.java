@@ -3,8 +3,8 @@ package io.metaloom.qdrant.client.http;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import io.metaloom.qdrant.client.http.impl.RequestBuilder;
-import io.metaloom.qdrant.client.http.model.request.RestRequest;
-import io.metaloom.qdrant.client.http.model.response.RestResponse;
+import io.metaloom.qdrant.client.http.model.RestRequest;
+import io.metaloom.qdrant.client.http.model.RestResponse;
 import io.metaloom.qdrant.json.Json;
 
 public interface HTTPMethods {

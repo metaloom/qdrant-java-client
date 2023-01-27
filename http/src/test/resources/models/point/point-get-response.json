@@ -1,0 +1,9 @@
+{
+  "time": 0,
+  "status": "ok",
+  "result": {
+    "id": 42,
+    "payload": {},
+    "vector": [0]
+  }
+}

@@ -4,7 +4,7 @@ import java.nio.charset.StandardCharsets;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import io.metaloom.qdrant.client.http.model.response.RestResponse;
+import io.metaloom.qdrant.client.http.model.RestResponse;
 import io.reactivex.rxjava3.core.Single;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;

@@ -1,5 +1,7 @@
 package io.metaloom.qdrant.client.http.model.snapshot;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum SnapshotPriority {
 
 	SNAPSHOT("snapshot"), REPLICA("replica");
@@ -10,6 +12,7 @@ public enum SnapshotPriority {
 		this.name = name;
 	}
 
+	@JsonValue
 	public String getName() {
 		return name;
 	}

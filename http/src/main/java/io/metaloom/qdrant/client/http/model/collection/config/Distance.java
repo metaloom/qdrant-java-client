@@ -1,28 +1,28 @@
 package io.metaloom.qdrant.client.http.model.collection.config;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Distance {
 
-	/**
-	 * <code>UnknownDistance = 0;</code>
-	 */
-	UnknownDistance(0),
-	/**
-	 * <code>Cosine = 1;</code>
-	 */
-	Cosine(1),
-	/**
-	 * <code>Euclid = 2;</code>
-	 */
-	Euclid(2),
-	/**
-	 * <code>Dot = 3;</code>
-	 */
-	Dot(3), UNRECOGNIZED(-1);
+	UNKNOWN_DISTANCE("Unknown"),
 
-	int num;
+	COSINE("Cosine"),
 
-	Distance(int num) {
-		this.num = num;
+	EUCLID("Euclid"),
+
+	DOT("Dot"),
+
+	UNRECOGNIZED("Unrecognized");
+
+	String name;
+
+	Distance(String name) {
+		this.name = name;
+	}
+
+	@JsonValue
+	public String getName() {
+		return name;
 	}
 
 }

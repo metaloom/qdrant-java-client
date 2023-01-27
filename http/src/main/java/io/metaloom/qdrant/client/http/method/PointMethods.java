@@ -4,20 +4,20 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import io.metaloom.qdrant.client.http.HTTPMethods;
 import io.metaloom.qdrant.client.http.impl.RequestBuilder;
-import io.metaloom.qdrant.client.http.model.request.point.PointCountRequest;
-import io.metaloom.qdrant.client.http.model.request.point.PointDeletePayloadRequest;
-import io.metaloom.qdrant.client.http.model.request.point.PointOverwritePayloadRequest;
-import io.metaloom.qdrant.client.http.model.request.point.PointSetPayloadRequest;
-import io.metaloom.qdrant.client.http.model.request.point.PointsDeleteRequest;
-import io.metaloom.qdrant.client.http.model.request.point.PointsGetRequest;
-import io.metaloom.qdrant.client.http.model.request.point.PointsSearchRequest;
-import io.metaloom.qdrant.client.http.model.request.point.PointsUpsertRequest;
-import io.metaloom.qdrant.client.http.model.response.point.PointCountResponse;
-import io.metaloom.qdrant.client.http.model.response.point.PointGetResponse;
-import io.metaloom.qdrant.client.http.model.response.point.PointScrollResponse;
-import io.metaloom.qdrant.client.http.model.response.point.PointsGetResponse;
-import io.metaloom.qdrant.client.http.model.response.point.PointsSearchResponse;
-import io.metaloom.qdrant.client.http.model.response.point.UpdateResultResponse;
+import io.metaloom.qdrant.client.http.model.point.PointCountRequest;
+import io.metaloom.qdrant.client.http.model.point.PointCountResponse;
+import io.metaloom.qdrant.client.http.model.point.PointDeletePayloadRequest;
+import io.metaloom.qdrant.client.http.model.point.PointGetResponse;
+import io.metaloom.qdrant.client.http.model.point.PointOverwritePayloadRequest;
+import io.metaloom.qdrant.client.http.model.point.PointScrollResponse;
+import io.metaloom.qdrant.client.http.model.point.PointSetPayloadRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsDeleteRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsGetRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsGetResponse;
+import io.metaloom.qdrant.client.http.model.point.PointsSearchRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsSearchResponse;
+import io.metaloom.qdrant.client.http.model.point.PointsUpsertRequest;
+import io.metaloom.qdrant.client.http.model.point.UpdateResultResponse;
 import io.metaloom.qdrant.json.Json;
 
 public interface PointMethods extends HTTPMethods {
