@@ -1,4 +1,4 @@
-package io.metaloom.qdrant.client.http;
+package io.metaloom.qdrant.client.http.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import io.metaloom.qdrant.client.http.model.cluster.ReplicaState;
-import io.metaloom.qdrant.client.http.model.request.CollectionUpdateClusterSetupRequest;
+import io.metaloom.qdrant.client.http.model.request.collection.CollectionUpdateClusterSetupRequest;
 import io.metaloom.qdrant.client.http.model.response.ClusterStatusResponse;
 import io.metaloom.qdrant.client.http.model.response.CollectionClusterInfoResponse;
 import io.metaloom.qdrant.json.Json;

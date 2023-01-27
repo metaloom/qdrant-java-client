@@ -1,6 +1,18 @@
 package io.metaloom.qdrant.client.http.model.collection.filter;
 
-public class GeoRadius {
-	GeoPoint center;
-	double radius;
+import io.metaloom.qdrant.client.http.model.RestModel;
+
+public class GeoRadius implements RestModel {
+
+	private GeoPoint center;
+	private double radius;
+
+	public GeoPoint getCenter() {
+		return center;
+	}
+
+	public double getRadius() {
+		return radius;
+	}
+
 }

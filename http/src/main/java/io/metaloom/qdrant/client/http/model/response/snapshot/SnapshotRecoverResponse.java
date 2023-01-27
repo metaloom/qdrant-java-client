@@ -1,4 +1,4 @@
-package io.metaloom.qdrant.client.http.model.response;
+package io.metaloom.qdrant.client.http.model.response.snapshot;
 
 public class SnapshotRecoverResponse {
 	float time;

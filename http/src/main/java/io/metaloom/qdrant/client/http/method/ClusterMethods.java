@@ -2,7 +2,7 @@ package io.metaloom.qdrant.client.http.method;
 
 import io.metaloom.qdrant.client.http.HTTPMethods;
 import io.metaloom.qdrant.client.http.impl.RequestBuilder;
-import io.metaloom.qdrant.client.http.model.request.CollectionUpdateClusterSetupRequest;
+import io.metaloom.qdrant.client.http.model.request.collection.CollectionUpdateClusterSetupRequest;
 import io.metaloom.qdrant.client.http.model.response.ClusterStatusResponse;
 import io.metaloom.qdrant.client.http.model.response.CollectionClusterInfoResponse;
 import io.metaloom.qdrant.client.http.model.response.GenericBooleanStatusResponse;

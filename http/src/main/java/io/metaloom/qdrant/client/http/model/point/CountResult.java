@@ -1,6 +1,12 @@
 package io.metaloom.qdrant.client.http.model.point;
 
-public class CountResult {
+import io.metaloom.qdrant.client.http.model.RestModel;
 
-	int count;
+public class CountResult implements RestModel {
+
+	private long count;
+
+	public long getCount() {
+		return count;
+	}
 }

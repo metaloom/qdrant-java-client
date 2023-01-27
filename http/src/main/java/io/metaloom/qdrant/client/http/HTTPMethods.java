@@ -64,6 +64,10 @@ public interface HTTPMethods {
 		return actionBuilder(POST, path, Json.parse(request));
 	}
 
+	default <T extends RestResponse> RequestBuilder<T> putBuilder(String path, RestRequest request) {
+		return actionBuilder(PUT, path, Json.parse(request));
+	}
+
 	default <T extends RestResponse> RequestBuilder<T> postBuilder(String path, String bulkData) {
 		return actionBuilder(POST, path, bulkData);
 	}

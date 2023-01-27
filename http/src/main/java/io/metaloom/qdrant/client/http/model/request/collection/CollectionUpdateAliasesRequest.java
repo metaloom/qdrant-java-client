@@ -1,4 +1,4 @@
-package io.metaloom.qdrant.client.http.model.request;
+package io.metaloom.qdrant.client.http.model.request.collection;
 
 import java.util.List;
 
