@@ -16,8 +16,18 @@ public class GeoPoint implements RestModel {
 		return latitude;
 	}
 
+	public GeoPoint setLatitude(double latitude) {
+		this.latitude = latitude;
+		return this;
+	}
+
 	public double getLongitude() {
 		return longitude;
+	}
+
+	public GeoPoint setLongitude(double longitude) {
+		this.longitude = longitude;
+		return this;
 	}
 
 }

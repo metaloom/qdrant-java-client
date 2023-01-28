@@ -11,8 +11,18 @@ public class GeoRadius implements RestModel {
 		return center;
 	}
 
+	public GeoRadius setCenter(GeoPoint center) {
+		this.center = center;
+		return this;
+	}
+
 	public double getRadius() {
 		return radius;
+	}
+
+	public GeoRadius setRadius(double radius) {
+		this.radius = radius;
+		return this;
 	}
 
 }

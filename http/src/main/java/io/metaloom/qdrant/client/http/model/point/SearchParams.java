@@ -15,7 +15,17 @@ public class SearchParams implements RestModel {
 		return hnswBeamSearchSize;
 	}
 
+	public SearchParams setHnswBeamSearchSize(Integer hnswBeamSearchSize) {
+		this.hnswBeamSearchSize = hnswBeamSearchSize;
+		return this;
+	}
+
 	public Boolean getExact() {
 		return exact;
+	}
+
+	public SearchParams setExact(Boolean exact) {
+		this.exact = exact;
+		return this;
 	}
 }

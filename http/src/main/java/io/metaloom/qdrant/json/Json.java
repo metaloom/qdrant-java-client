@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import io.metaloom.qdrant.client.http.model.RestModel;
+import io.metaloom.qdrant.client.http.model.collection.AliasOperation;
 import io.metaloom.qdrant.client.http.model.collection.filter.condition.Condition;
 import io.metaloom.qdrant.client.http.model.collection.filter.match.Match;
 import io.metaloom.qdrant.client.http.model.point.NamedVector;
@@ -32,6 +33,7 @@ public final class Json {
 		module.addDeserializer(Payload.class, new PayloadDeserializer());
 		module.addDeserializer(NamedVector.class, new NamedVectorDeserializer());
 		module.addDeserializer(CollectionTelemetry.class, new CollectionTelemetryDeserializer());
+		module.addDeserializer(AliasOperation.class, new AliasOperationDeserializer());
 		mapper.registerModule(module);
 	}
 

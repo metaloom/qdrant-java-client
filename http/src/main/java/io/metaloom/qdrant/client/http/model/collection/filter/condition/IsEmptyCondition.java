@@ -12,4 +12,9 @@ public class IsEmptyCondition implements Condition {
 	public PayloadField getIsEmpty() {
 		return isEmpty;
 	}
+
+	public IsEmptyCondition setIsEmpty(PayloadField isEmpty) {
+		this.isEmpty = isEmpty;
+		return this;
+	}
 }

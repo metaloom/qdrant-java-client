@@ -20,12 +20,27 @@ public class LocalShardInfo implements RestModel {
 		return shardId;
 	}
 
+	public LocalShardInfo setShardId(int shardId) {
+		this.shardId = shardId;
+		return this;
+	}
+
 	public int getPointsCount() {
 		return pointsCount;
 	}
 
+	public LocalShardInfo setPointsCount(int pointsCount) {
+		this.pointsCount = pointsCount;
+		return this;
+	}
+
 	public ReplicaState getState() {
 		return state;
+	}
+
+	public LocalShardInfo setState(ReplicaState state) {
+		this.state = state;
+		return this;
 	}
 
 }

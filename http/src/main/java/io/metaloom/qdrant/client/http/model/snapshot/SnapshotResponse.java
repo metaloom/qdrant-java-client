@@ -9,4 +9,9 @@ public class SnapshotResponse extends AbstractResponse {
 	public SnapshotDescription getResult() {
 		return result;
 	}
+
+	public SnapshotResponse setResult(SnapshotDescription result) {
+		this.result = result;
+		return this;
+	}
 }

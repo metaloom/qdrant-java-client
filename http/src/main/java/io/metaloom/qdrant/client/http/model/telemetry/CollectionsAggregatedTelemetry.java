@@ -22,7 +22,17 @@ public class CollectionsAggregatedTelemetry implements CollectionTelemetry {
 		return optimizersStatus;
 	}
 
+	public CollectionsAggregatedTelemetry setOptimizersStatus(OptimizersStatus optimizersStatus) {
+		this.optimizersStatus = optimizersStatus;
+		return this;
+	}
+
 	public CollectionParams getParams() {
 		return params;
+	}
+
+	public CollectionsAggregatedTelemetry setParams(CollectionParams params) {
+		this.params = params;
+		return this;
 	}
 }

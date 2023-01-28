@@ -31,11 +31,26 @@ public class Filter implements RestModel, Condition {
 		return should;
 	}
 
+	public Filter setShould(List<? extends Condition> should) {
+		this.should = should;
+		return this;
+	}
+
 	public List<? extends Condition> getMust() {
 		return must;
 	}
 
+	public Filter setMust(List<? extends Condition> must) {
+		this.must = must;
+		return this;
+	}
+
 	public List<? extends Condition> getMustNot() {
 		return mustNot;
+	}
+
+	public Filter setMustNot(List<? extends Condition> mustNot) {
+		this.mustNot = mustNot;
+		return this;
 	}
 }

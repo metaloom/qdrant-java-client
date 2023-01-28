@@ -17,11 +17,26 @@ public class ClusterConfigTelemetry implements RestModel {
 		return grcpTimeoutMs;
 	}
 
+	public ClusterConfigTelemetry setGrcpTimeoutMs(long grcpTimeoutMs) {
+		this.grcpTimeoutMs = grcpTimeoutMs;
+		return this;
+	}
+
 	public P2pConfigTelemetry getP2p() {
 		return p2p;
 	}
 
+	public ClusterConfigTelemetry setP2p(P2pConfigTelemetry p2p) {
+		this.p2p = p2p;
+		return this;
+	}
+
 	public ConsensusConfigTelemetry getConsensus() {
 		return consensus;
+	}
+
+	public ClusterConfigTelemetry setConsensus(ConsensusConfigTelemetry consensus) {
+		this.consensus = consensus;
+		return this;
 	}
 }

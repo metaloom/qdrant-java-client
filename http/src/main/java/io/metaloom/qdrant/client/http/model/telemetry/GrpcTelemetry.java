@@ -11,4 +11,9 @@ public class GrpcTelemetry implements RestModel {
 	public Map<String, OperationDurationStatistics> getResponses() {
 		return responses;
 	}
+
+	public GrpcTelemetry setResponses(Map<String, OperationDurationStatistics> responses) {
+		this.responses = responses;
+		return this;
+	}
 }

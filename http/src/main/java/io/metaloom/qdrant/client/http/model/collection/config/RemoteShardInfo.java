@@ -20,12 +20,27 @@ public class RemoteShardInfo implements RestModel {
 		return shardId;
 	}
 
+	public RemoteShardInfo setShardId(int shardId) {
+		this.shardId = shardId;
+		return this;
+	}
+
 	public long getPeerId() {
 		return peerId;
 	}
 
+	public RemoteShardInfo setPeerId(long peerId) {
+		this.peerId = peerId;
+		return this;
+	}
+
 	public ReplicaState getState() {
 		return state;
+	}
+
+	public RemoteShardInfo setState(ReplicaState state) {
+		this.state = state;
+		return this;
 	}
 
 }

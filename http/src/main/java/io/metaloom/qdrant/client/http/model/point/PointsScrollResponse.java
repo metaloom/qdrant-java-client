@@ -10,4 +10,9 @@ public class PointsScrollResponse extends AbstractResponse {
 		return result;
 	}
 
+	public PointsScrollResponse setResult(ScrollResult result) {
+		this.result = result;
+		return this;
+	}
+
 }

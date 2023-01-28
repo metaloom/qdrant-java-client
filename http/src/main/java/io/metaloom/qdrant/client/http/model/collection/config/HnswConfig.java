@@ -27,23 +27,53 @@ public class HnswConfig implements RestModel {
 		return m;
 	}
 
+	public HnswConfig setM(Integer m) {
+		this.m = m;
+		return this;
+	}
+
 	public Integer getEfConstruct() {
 		return efConstruct;
+	}
+
+	public HnswConfig setEfConstruct(Integer efConstruct) {
+		this.efConstruct = efConstruct;
+		return this;
 	}
 
 	public Integer getFullScanThreshold() {
 		return fullScanThreshold;
 	}
 
+	public HnswConfig setFullScanThreshold(Integer fullScanThreshold) {
+		this.fullScanThreshold = fullScanThreshold;
+		return this;
+	}
+
 	public Integer getMaxIndexingThreads() {
 		return maxIndexingThreads;
+	}
+
+	public HnswConfig setMaxIndexingThreads(Integer maxIndexingThreads) {
+		this.maxIndexingThreads = maxIndexingThreads;
+		return this;
 	}
 
 	public Boolean getOnDisk() {
 		return onDisk;
 	}
 
+	public HnswConfig setOnDisk(Boolean onDisk) {
+		this.onDisk = onDisk;
+		return this;
+	}
+
 	public Integer getPayloadM() {
 		return payloadM;
+	}
+
+	public HnswConfig setPayloadM(Integer payloadM) {
+		this.payloadM = payloadM;
+		return this;
 	}
 }

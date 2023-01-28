@@ -10,7 +10,8 @@ public class CollectionListResponse extends AbstractResponse {
 		return result;
 	}
 
-	public void setResult(CollectionsResponse result) {	
+	public CollectionListResponse setResult(CollectionsResponse result) {	
 		this.result = result;
+		return this;
 	}
 }

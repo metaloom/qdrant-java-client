@@ -8,4 +8,9 @@ public class MatchText implements Match {
 		return text;
 	}
 
+	public MatchText setText(String text) {
+		this.text = text;
+		return this;
+	}
+
 }

@@ -9,4 +9,9 @@ public class CountResult implements RestModel {
 	public long getCount() {
 		return count;
 	}
+	
+	public CountResult setCount(long count) {
+		this.count = count;
+		return this;
+	}
 }

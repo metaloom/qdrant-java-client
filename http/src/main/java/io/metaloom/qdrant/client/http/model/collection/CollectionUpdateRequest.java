@@ -17,7 +17,17 @@ public class CollectionUpdateRequest implements RestRequestModel {
 		return optimizersConfig;
 	}
 
+	public CollectionUpdateRequest setOptimizersConfig(OptimizersConfigDiff optimizersConfig) {
+		this.optimizersConfig = optimizersConfig;
+		return this;
+	}
+
 	public CollectionParamsDiff getParams() {
 		return params;
+	}
+
+	public CollectionUpdateRequest setParams(CollectionParamsDiff params) {
+		this.params = params;
+		return this;
 	}
 }

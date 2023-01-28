@@ -19,12 +19,27 @@ public class LocalShardTelemetry implements RestModel {
 		return variantName;
 	}
 
+	public LocalShardTelemetry setVariantName(String variantName) {
+		this.variantName = variantName;
+		return this;
+	}
+
 	public List<SegmentTelemetry> getSegments() {
 		return segments;
 	}
 
+	public LocalShardTelemetry setSegments(List<SegmentTelemetry> segments) {
+		this.segments = segments;
+		return this;
+	}
+
 	public OptimizerTelemetry getOptimizations() {
 		return optimizations;
+	}
+
+	public LocalShardTelemetry setOptimizations(OptimizerTelemetry optimizations) {
+		this.optimizations = optimizations;
+		return this;
 	}
 
 }

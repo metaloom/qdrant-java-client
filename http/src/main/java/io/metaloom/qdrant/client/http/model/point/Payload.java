@@ -12,7 +12,8 @@ public class Payload implements RestModel {
 		return json;
 	}
 
-	public void setJson(JsonNode json) {
+	public Payload setJson(JsonNode json) {
 		this.json = json;
+		return this;
 	}
 }

@@ -9,4 +9,9 @@ public class PayloadField implements RestModel {
 	public String getKey() {
 		return key;
 	}
+
+	public PayloadField setKey(String key) {
+		this.key = key;
+		return this;
+	}
 }

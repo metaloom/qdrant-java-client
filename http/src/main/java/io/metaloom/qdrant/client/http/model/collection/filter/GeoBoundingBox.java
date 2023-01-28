@@ -15,9 +15,19 @@ public class GeoBoundingBox implements RestModel {
 	public GeoPoint getTopLeft() {
 		return topLeft;
 	}
+	
+	public GeoBoundingBox setTopLeft(GeoPoint topLeft) {
+		this.topLeft = topLeft;
+		return this;
+	}
 
 	public GeoPoint getBottomRight() {
 		return bottomRight;
+	}
+	
+	public GeoBoundingBox setBottomRight(GeoPoint bottomRight) {
+		this.bottomRight = bottomRight;
+		return this;
 	}
 
 }

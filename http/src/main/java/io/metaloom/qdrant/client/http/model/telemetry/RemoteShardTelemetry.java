@@ -20,16 +20,36 @@ public class RemoteShardTelemetry implements RestModel {
 		return shardId;
 	}
 
+	public RemoteShardTelemetry setShardId(int shardId) {
+		this.shardId = shardId;
+		return this;
+	}
+
 	public Long getPeerId() {
 		return peerId;
+	}
+
+	public RemoteShardTelemetry setPeerId(Long peerId) {
+		this.peerId = peerId;
+		return this;
 	}
 
 	public OperationDurationStatistics getSearches() {
 		return searches;
 	}
 
+	public RemoteShardTelemetry setSearches(OperationDurationStatistics searches) {
+		this.searches = searches;
+		return this;
+	}
+
 	public OperationDurationStatistics getUpdates() {
 		return updates;
+	}
+
+	public RemoteShardTelemetry setUpdates(OperationDurationStatistics updates) {
+		this.updates = updates;
+		return this;
 	}
 
 }

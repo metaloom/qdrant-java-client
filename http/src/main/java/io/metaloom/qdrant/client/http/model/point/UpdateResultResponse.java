@@ -9,4 +9,9 @@ public class UpdateResultResponse extends AbstractResponse {
 	public UpdateResult getResult() {
 		return result;
 	}
+
+	public UpdateResultResponse setResult(UpdateResult result) {
+		this.result = result;
+		return this;
+	}
 }

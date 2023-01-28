@@ -16,16 +16,36 @@ public class ShardTransferInfo implements RestModel {
 		return shardId;
 	}
 
+	public ShardTransferInfo setShardId(int shardId) {
+		this.shardId = shardId;
+		return this;
+	}
+
 	public long getFrom() {
 		return from;
+	}
+
+	public ShardTransferInfo setFrom(long from) {
+		this.from = from;
+		return this;
 	}
 
 	public long getTo() {
 		return to;
 	}
 
+	public ShardTransferInfo setTo(long to) {
+		this.to = to;
+		return this;
+	}
+
 	public boolean isSync() {
 		return sync;
+	}
+
+	public ShardTransferInfo setSync(boolean sync) {
+		this.sync = sync;
+		return this;
 	}
 
 }

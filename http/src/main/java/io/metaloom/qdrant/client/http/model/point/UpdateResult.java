@@ -15,15 +15,17 @@ public class UpdateResult implements RestModel {
 		return operationId;
 	}
 
-	public void setOperationId(long operationId) {
+	public UpdateResult setOperationId(long operationId) {
 		this.operationId = operationId;
+		return this;
 	}
 
 	public UpdateStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(UpdateStatus status) {
+	public UpdateResult setStatus(UpdateStatus status) {
 		this.status = status;
+		return this;
 	}
 }

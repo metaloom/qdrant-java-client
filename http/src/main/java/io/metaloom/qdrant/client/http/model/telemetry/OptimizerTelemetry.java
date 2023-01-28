@@ -13,7 +13,17 @@ public class OptimizerTelemetry implements RestModel {
 		return status;
 	}
 
+	public OptimizerTelemetry setStatus(OptimizersStatus status) {
+		this.status = status;
+		return this;
+	}
+
 	public OperationDurationStatistics getOptimizations() {
 		return optimizations;
+	}
+
+	public OptimizerTelemetry setOptimizations(OperationDurationStatistics optimizations) {
+		this.optimizations = optimizations;
+		return this;
 	}
 }

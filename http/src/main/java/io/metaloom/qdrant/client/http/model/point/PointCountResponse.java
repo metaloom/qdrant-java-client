@@ -9,4 +9,9 @@ public class PointCountResponse extends AbstractResponse {
 	public CountResult getResult() {
 		return result;
 	}
+
+	public PointCountResponse setResult(CountResult result) {
+		this.result = result;
+		return this;
+	}
 }

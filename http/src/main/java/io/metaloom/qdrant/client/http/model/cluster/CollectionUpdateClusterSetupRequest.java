@@ -26,31 +26,35 @@ public class CollectionUpdateClusterSetupRequest implements RestRequestModel {
 		return abortTransferOperation;
 	}
 
-	public void setAbortTransferOperation(AbortTransferOperation abortTransferOperation) {
+	public CollectionUpdateClusterSetupRequest setAbortTransferOperation(AbortTransferOperation abortTransferOperation) {
 		this.abortTransferOperation = abortTransferOperation;
+		return this;
 	}
 
 	public DropReplicaOperation getDropReplicaOperation() {
 		return dropReplicaOperation;
 	}
 
-	public void setDropReplicaOperation(DropReplicaOperation dropReplicaOperation) {
+	public CollectionUpdateClusterSetupRequest setDropReplicaOperation(DropReplicaOperation dropReplicaOperation) {
 		this.dropReplicaOperation = dropReplicaOperation;
+		return this;
 	}
 
 	public MoveShardOperation getMoveShardOperation() {
 		return moveShardOperation;
 	}
 
-	public void setMoveShardOperation(MoveShardOperation moveShardOperation) {
+	public CollectionUpdateClusterSetupRequest setMoveShardOperation(MoveShardOperation moveShardOperation) {
 		this.moveShardOperation = moveShardOperation;
+		return this;
 	}
 
 	public ReplicateShardOperation getReplicateShardOperation() {
 		return replicateShardOperation;
 	}
 
-	public void setReplicateShardOperation(ReplicateShardOperation replicateShardOperation) {
+	public CollectionUpdateClusterSetupRequest setReplicateShardOperation(ReplicateShardOperation replicateShardOperation) {
 		this.replicateShardOperation = replicateShardOperation;
+		return this;
 	}
 }

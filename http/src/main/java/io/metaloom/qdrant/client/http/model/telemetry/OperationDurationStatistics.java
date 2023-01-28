@@ -24,19 +24,44 @@ public class OperationDurationStatistics implements RestModel {
 		return count;
 	}
 
+	public OperationDurationStatistics setCount(int count) {
+		this.count = count;
+		return this;
+	}
+
 	public Integer getFailCount() {
 		return failCount;
+	}
+
+	public OperationDurationStatistics setFailCount(Integer failCount) {
+		this.failCount = failCount;
+		return this;
 	}
 
 	public Float getAvgDurationMicros() {
 		return avgDurationMicros;
 	}
 
+	public OperationDurationStatistics setAvgDurationMicros(Float avgDurationMicros) {
+		this.avgDurationMicros = avgDurationMicros;
+		return this;
+	}
+
 	public Float getMinDurationMicros() {
 		return minDurationMicros;
 	}
 
+	public OperationDurationStatistics setMinDurationMicros(Float minDurationMicros) {
+		this.minDurationMicros = minDurationMicros;
+		return this;
+	}
+
 	public Float getMaxDurationMicros() {
 		return maxDurationMicros;
+	}
+
+	public OperationDurationStatistics setMaxDurationMicros(Float maxDurationMicros) {
+		this.maxDurationMicros = maxDurationMicros;
+		return this;
 	}
 }

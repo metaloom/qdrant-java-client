@@ -12,4 +12,9 @@ public class PointsRecommendBatchResponse extends AbstractResponse {
 		return result;
 	}
 
+	public PointsRecommendBatchResponse setResult(List<List<ScoredPoint>> result) {
+		this.result = result;
+		return this;
+	}
+
 }

@@ -22,16 +22,35 @@ public class Range implements RestModel {
 		return greaterThan;
 	}
 
+	public Range setGreaterThan(Double greaterThan) {
+		this.greaterThan = greaterThan;
+		return this;
+	}
+
 	public Double getGreaterThanEqual() {
 		return greaterThanEqual;
+	}
+
+	public Range setGreaterThanEqual(Double greaterThanEqual) {
+		this.greaterThanEqual = greaterThanEqual;
+		return this;
 	}
 
 	public Double getLessThan() {
 		return lessThan;
 	}
 
+	public Range setLessThan(Double lessThan) {
+		this.lessThan = lessThan;
+		return this;
+	}
+
 	public Double getLessThanEqual() {
 		return lessThanEqual;
 	}
 
+	public Range setLessThanEqual(Double lessThanEqual) {
+		this.lessThanEqual = lessThanEqual;
+		return this;
+	}
 }

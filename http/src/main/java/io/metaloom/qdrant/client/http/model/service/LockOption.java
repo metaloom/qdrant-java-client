@@ -15,7 +15,17 @@ public class LockOption implements RestModel {
 		return errorMessage;
 	}
 
+	public LockOption setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+		return this;
+	}
+
 	public boolean isWrite() {
 		return write;
+	}
+
+	public LockOption setWrite(boolean write) {
+		this.write = write;
+		return this;
 	}
 }

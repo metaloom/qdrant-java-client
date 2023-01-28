@@ -32,28 +32,63 @@ public class OptimizersConfig {
 		return deletedThreshold;
 	}
 
+	public OptimizersConfig setDeletedThreshold(Double deletedThreshold) {
+		this.deletedThreshold = deletedThreshold;
+		return this;
+	}
+
 	public Integer getVacuumMinVectorNumber() {
 		return vacuumMinVectorNumber;
+	}
+
+	public OptimizersConfig setVacuumMinVectorNumber(Integer vacuumMinVectorNumber) {
+		this.vacuumMinVectorNumber = vacuumMinVectorNumber;
+		return this;
 	}
 
 	public Integer getMaxOptimizationThreads() {
 		return maxOptimizationThreads;
 	}
 
+	public OptimizersConfig setMaxOptimizationThreads(Integer maxOptimizationThreads) {
+		this.maxOptimizationThreads = maxOptimizationThreads;
+		return this;
+	}
+
 	public Integer getMemmapThreshold() {
 		return memmapThreshold;
+	}
+
+	public OptimizersConfig setMemmapThreshold(Integer memmapThreshold) {
+		this.memmapThreshold = memmapThreshold;
+		return this;
 	}
 
 	public Integer getIndexingThreshold() {
 		return indexingThreshold;
 	}
 
+	public OptimizersConfig setIndexingThreshold(Integer indexingThreshold) {
+		this.indexingThreshold = indexingThreshold;
+		return this;
+	}
+
 	public Integer getFlushIntervalSec() {
 		return flushIntervalSec;
 	}
 
+	public OptimizersConfig setFlushIntervalSec(Integer flushIntervalSec) {
+		this.flushIntervalSec = flushIntervalSec;
+		return this;
+	}
+
 	public Integer getMaxSegmentSize() {
 		return maxSegmentSize;
+	}
+
+	public OptimizersConfig setMaxSegmentSize(Integer maxSegmentSize) {
+		this.maxSegmentSize = maxSegmentSize;
+		return this;
 	}
 
 }

@@ -37,55 +37,62 @@ public class CollectionCreateRequest implements RestRequestModel {
 		return vectors;
 	}
 
-	public void setVectors(VectorsConfig vectors) {
+	public CollectionCreateRequest setVectors(VectorsConfig vectors) {
 		this.vectors = vectors;
+		return this;
 	}
 
 	public Integer getShardNumber() {
 		return shardNumber;
 	}
 
-	public void setShardNumber(Integer shardNumber) {
+	public CollectionCreateRequest setShardNumber(Integer shardNumber) {
 		this.shardNumber = shardNumber;
+		return this;
 	}
 
 	public Integer getWriteConsistencyFactor() {
 		return writeConsistencyFactor;
 	}
 
-	public void setWriteConsistencyFactor(Integer writeConsistencyFactor) {
+	public CollectionCreateRequest setWriteConsistencyFactor(Integer writeConsistencyFactor) {
 		this.writeConsistencyFactor = writeConsistencyFactor;
+		return this;
 	}
 
 	public Boolean getOnDiskPayload() {
 		return onDiskPayload;
 	}
 
-	public void setOnDiskPayload(Boolean onDiskPayload) {
+	public CollectionCreateRequest setOnDiskPayload(Boolean onDiskPayload) {
 		this.onDiskPayload = onDiskPayload;
+		return this;
 	}
 
 	public HnswConfigDiff getHnswConfig() {
 		return hnswConfig;
 	}
 
-	public void setHnswConfig(HnswConfigDiff hnswConfig) {
+	public CollectionCreateRequest setHnswConfig(HnswConfigDiff hnswConfig) {
 		this.hnswConfig = hnswConfig;
+		return this;
 	}
 
 	public WalConfigDiff getWalConfig() {
 		return walConfig;
 	}
 
-	public void setWalConfig(WalConfigDiff walConfig) {
+	public CollectionCreateRequest setWalConfig(WalConfigDiff walConfig) {
 		this.walConfig = walConfig;
+		return this;
 	}
 
 	public OptimizersConfigDiff getOptimizersConfig() {
 		return optimizersConfig;
 	}
 
-	public void setOptimizersConfig(OptimizersConfigDiff optimizersConfig) {
+	public CollectionCreateRequest setOptimizersConfig(OptimizersConfigDiff optimizersConfig) {
 		this.optimizersConfig = optimizersConfig;
+		return this;
 	}
 }

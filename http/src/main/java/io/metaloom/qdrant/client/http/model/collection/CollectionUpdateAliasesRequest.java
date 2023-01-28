@@ -6,9 +6,14 @@ import io.metaloom.qdrant.client.http.model.RestRequestModel;
 
 public class CollectionUpdateAliasesRequest implements RestRequestModel {
 
-	private List<? extends AliasOperations> actions;
+	private List<AliasOperation> actions;
 
-	public List<? extends AliasOperations> getActions() {
+	public List<AliasOperation> getActions() {
 		return actions;
+	}
+
+	public CollectionUpdateAliasesRequest setActions(List<AliasOperation> actions) {
+		this.actions = actions;
+		return this;
 	}
 }

@@ -14,11 +14,26 @@ public class AppBuildTelemetry implements RestModel {
 		return version;
 	}
 
+	public AppBuildTelemetry setVersion(String version) {
+		this.version = version;
+		return this;
+	}
+
 	public AppFeaturesTelemetry getFeatures() {
 		return features;
 	}
 
+	public AppBuildTelemetry setFeatures(AppFeaturesTelemetry features) {
+		this.features = features;
+		return this;
+	}
+
 	public RunningEnvironmentTelemetry getSystem() {
 		return system;
+	}
+
+	public AppBuildTelemetry setSystem(RunningEnvironmentTelemetry system) {
+		this.system = system;
+		return this;
 	}
 }

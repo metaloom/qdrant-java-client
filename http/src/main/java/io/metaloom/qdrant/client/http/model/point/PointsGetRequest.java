@@ -20,12 +20,27 @@ public class PointsGetRequest implements RestRequestModel {
 		return ids;
 	}
 
+	public PointsGetRequest setIds(List<Long> ids) {
+		this.ids = ids;
+		return this;
+	}
+
 	public boolean isWithPayload() {
 		return withPayload;
 	}
 
+	public PointsGetRequest setWithPayload(boolean withPayload) {
+		this.withPayload = withPayload;
+		return this;
+	}
+
 	public boolean isWithVector() {
 		return withVector;
+	}
+
+	public PointsGetRequest setWithVector(boolean withVector) {
+		this.withVector = withVector;
+		return this;
 	}
 
 }

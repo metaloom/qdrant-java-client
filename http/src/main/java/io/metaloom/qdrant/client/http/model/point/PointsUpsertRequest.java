@@ -14,8 +14,18 @@ public class PointsUpsertRequest implements RestRequestModel {
 		return batch;
 	}
 
+	public PointsUpsertRequest setBatch(PointsBatch batch) {
+		this.batch = batch;
+		return this;
+	}
+
 	public List<PointStruct> getPoints() {
 		return points;
+	}
+
+	public PointsUpsertRequest setPoints(List<PointStruct> points) {
+		this.points = points;
+		return this;
 	}
 
 }

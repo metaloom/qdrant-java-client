@@ -32,23 +32,53 @@ public class FieldCondition implements Condition {
 		return key;
 	}
 
+	public FieldCondition setKey(String key) {
+		this.key = key;
+		return this;
+	}
+
 	public GeoBoundingBox getGeoBoundingBox() {
 		return geoBoundingBox;
+	}
+
+	public FieldCondition setGeoBoundingBox(GeoBoundingBox geoBoundingBox) {
+		this.geoBoundingBox = geoBoundingBox;
+		return this;
 	}
 
 	public Match getMatch() {
 		return match;
 	}
 
+	public FieldCondition setMatch(Match match) {
+		this.match = match;
+		return this;
+	}
+
 	public Range getRange() {
 		return range;
+	}
+
+	public FieldCondition setRange(Range range) {
+		this.range = range;
+		return this;
 	}
 
 	public GeoRadius getGeoRadius() {
 		return geoRadius;
 	}
 
+	public FieldCondition setGeoRadius(GeoRadius geoRadius) {
+		this.geoRadius = geoRadius;
+		return this;
+	}
+
 	public ValuesCount getValuesCount() {
 		return valuesCount;
+	}
+
+	public FieldCondition setValuesCount(ValuesCount valuesCount) {
+		this.valuesCount = valuesCount;
+		return this;
 	}
 }

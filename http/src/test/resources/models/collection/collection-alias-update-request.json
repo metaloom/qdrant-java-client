@@ -2,8 +2,8 @@
   "actions": [
     {
       "create_alias": {
-        "collection_name": "string",
-        "alias_name": "string"
+        "collection_name": "theCollectionName",
+        "alias_name": "theAlias"
       }
     }
   ]

@@ -22,16 +22,36 @@ public class ValuesCount implements RestModel {
 		return greaterThan;
 	}
 
+	public ValuesCount setGreaterThan(Integer greaterThan) {
+		this.greaterThan = greaterThan;
+		return this;
+	}
+
 	public Integer getGreaterThanEqual() {
 		return greaterThanEqual;
+	}
+
+	public ValuesCount setGreaterThanEqual(Integer greaterThanEqual) {
+		this.greaterThanEqual = greaterThanEqual;
+		return this;
 	}
 
 	public Integer getLessThan() {
 		return lessThan;
 	}
 
+	public ValuesCount setLessThan(Integer lessThan) {
+		this.lessThan = lessThan;
+		return this;
+	}
+
 	public Integer getLessThanEqual() {
 		return lessThanEqual;
+	}
+
+	public ValuesCount setLessThanEqual(Integer lessThanEqual) {
+		this.lessThanEqual = lessThanEqual;
+		return this;
 	}
 
 }

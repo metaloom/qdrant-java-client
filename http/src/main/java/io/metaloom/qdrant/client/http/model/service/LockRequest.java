@@ -15,16 +15,18 @@ public class LockRequest implements RestRequestModel {
 		return errorMessage;
 	}
 
-	public void setErrorMessage(String errorMessage) {
+	public LockRequest setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
+		return this;
 	}
 
 	public boolean isWrite() {
 		return write;
 	}
 
-	public void setWrite(boolean write) {
+	public LockRequest setWrite(boolean write) {
 		this.write = write;
+		return this;
 	}
 
 }

@@ -12,7 +12,17 @@ public class VectorParams implements RestModel {
 		return size;
 	}
 
+	public VectorParams setSize(long size) {
+		this.size = size;
+		return this;
+	}
+
 	public Distance getDistance() {
 		return distance;
+	}
+
+	public VectorParams setDistance(Distance distance) {
+		this.distance = distance;
+		return this;
 	}
 }

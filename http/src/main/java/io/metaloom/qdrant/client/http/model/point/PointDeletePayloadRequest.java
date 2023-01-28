@@ -26,11 +26,26 @@ public class PointDeletePayloadRequest implements RestRequestModel {
 		return keys;
 	}
 
+	public PointDeletePayloadRequest setKeys(List<String> keys) {
+		this.keys = keys;
+		return this;
+	}
+
 	public List<Long> getPoints() {
 		return points;
 	}
 
+	public PointDeletePayloadRequest setPoints(List<Long> points) {
+		this.points = points;
+		return this;
+	}
+
 	public Filter getFilter() {
 		return filter;
+	}
+
+	public PointDeletePayloadRequest setFilter(Filter filter) {
+		this.filter = filter;
+		return this;
 	}
 }

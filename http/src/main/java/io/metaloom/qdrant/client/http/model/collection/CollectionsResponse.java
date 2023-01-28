@@ -12,7 +12,8 @@ public class CollectionsResponse implements RestModel {
 		return collections;
 	}
 
-	public void setCollections(List<CollectionDescription> collections) {
+	public CollectionsResponse setCollections(List<CollectionDescription> collections) {
 		this.collections = collections;
+		return this;
 	}
 }

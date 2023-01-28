@@ -11,4 +11,9 @@ public class SnapshotListResponse extends AbstractResponse {
 	public List<SnapshotDescription> getResult() {
 		return result;
 	}
+
+	public SnapshotListResponse setResult(List<SnapshotDescription> result) {
+		this.result = result;
+		return this;
+	}
 }

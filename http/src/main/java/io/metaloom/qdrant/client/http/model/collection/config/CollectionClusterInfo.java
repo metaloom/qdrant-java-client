@@ -27,20 +27,45 @@ public class CollectionClusterInfo implements RestModel {
 		return peerId;
 	}
 
+	public CollectionClusterInfo setPeerId(int peerId) {
+		this.peerId = peerId;
+		return this;
+	}
+
 	public int getShardCount() {
 		return shardCount;
+	}
+
+	public CollectionClusterInfo setShardCount(int shardCount) {
+		this.shardCount = shardCount;
+		return this;
 	}
 
 	public List<LocalShardInfo> getLocalShards() {
 		return localShards;
 	}
 
+	public CollectionClusterInfo setLocalShards(List<LocalShardInfo> localShards) {
+		this.localShards = localShards;
+		return this;
+	}
+
 	public List<RemoteShardInfo> getRemoteShards() {
 		return remoteShards;
 	}
 
+	public CollectionClusterInfo setRemoteShards(List<RemoteShardInfo> remoteShards) {
+		this.remoteShards = remoteShards;
+		return this;
+	}
+
 	public List<ShardTransferInfo> getShardTransfers() {
 		return shardTransfers;
+	}
+
+	public CollectionClusterInfo setShardTransfers(List<ShardTransferInfo> shardTransfers) {
+		this.shardTransfers = shardTransfers;
+		return this;
 	}
 
 }

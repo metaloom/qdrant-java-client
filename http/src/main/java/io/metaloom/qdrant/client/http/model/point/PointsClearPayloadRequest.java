@@ -15,16 +15,18 @@ public class PointsClearPayloadRequest implements RestRequestModel {
 		return points;
 	}
 
-	public void setPoints(List<Long> points) {
+	public PointsClearPayloadRequest setPoints(List<Long> points) {
 		this.points = points;
+		return this;
 	}
 
 	public Filter getFilter() {
 		return filter;
 	}
 
-	public void setFilter(Filter filter) {
+	public PointsClearPayloadRequest setFilter(Filter filter) {
 		this.filter = filter;
+		return this;
 	}
 
 }

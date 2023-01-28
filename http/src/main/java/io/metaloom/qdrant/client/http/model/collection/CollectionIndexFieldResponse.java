@@ -11,7 +11,8 @@ public class CollectionIndexFieldResponse extends AbstractResponse {
 		return result;
 	}
 
-	public void setResult(UpdateResult result) {
+	public CollectionIndexFieldResponse setResult(UpdateResult result) {
 		this.result = result;
+		return this;
 	}
 }

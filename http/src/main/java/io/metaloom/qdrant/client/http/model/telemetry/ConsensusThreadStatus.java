@@ -19,11 +19,26 @@ public class ConsensusThreadStatus implements RestModel {
 		return consensusThreadStatus;
 	}
 
+	public ConsensusThreadStatus setConsensusThreadStatus(String consensusThreadStatus) {
+		this.consensusThreadStatus = consensusThreadStatus;
+		return this;
+	}
+
 	public String getLastUpdate() {
 		return lastUpdate;
 	}
 
+	public ConsensusThreadStatus setLastUpdate(String lastUpdate) {
+		this.lastUpdate = lastUpdate;
+		return this;
+	}
+
 	public String getError() {
 		return error;
+	}
+
+	public ConsensusThreadStatus setError(String error) {
+		this.error = error;
+		return this;
 	}
 }

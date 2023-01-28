@@ -10,7 +10,8 @@ public class CollectionDescription implements RestModel {
 		return name;
 	}
 
-	public void setName(String name) {
+	public CollectionDescription setName(String name) {
 		this.name = name;
+		return this;
 	}
 }

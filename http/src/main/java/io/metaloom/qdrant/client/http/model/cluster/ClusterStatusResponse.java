@@ -9,4 +9,9 @@ public class ClusterStatusResponse extends AbstractResponse {
 	public ClusterStatus getResult() {
 		return result;
 	}
+	
+	public ClusterStatusResponse setResult(ClusterStatus result) {
+		this.result = result;
+		return this;
+	}
 }

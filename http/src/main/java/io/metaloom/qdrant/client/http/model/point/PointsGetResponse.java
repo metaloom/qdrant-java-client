@@ -11,4 +11,9 @@ public class PointsGetResponse extends AbstractResponse {
 	public List<Record> getResult() {
 		return result;
 	}
+
+	public PointsGetResponse setResult(List<Record> result) {
+		this.result = result;
+		return this;
+	}
 }

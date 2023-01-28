@@ -21,16 +21,36 @@ public class ReplicaSetTelemetry implements RestModel {
 		return id;
 	}
 
+	public ReplicaSetTelemetry setId(int id) {
+		this.id = id;
+		return this;
+	}
+
 	public LocalShardTelemetry getLocal() {
 		return local;
+	}
+
+	public ReplicaSetTelemetry setLocal(LocalShardTelemetry local) {
+		this.local = local;
+		return this;
 	}
 
 	public List<RemoteShardTelemetry> getRemote() {
 		return remote;
 	}
 
+	public ReplicaSetTelemetry setRemote(List<RemoteShardTelemetry> remote) {
+		this.remote = remote;
+		return this;
+	}
+
 	public Object getReplicateStates() {
 		return replicateStates;
 	}
-	
+
+	public ReplicaSetTelemetry setReplicateStates(Object replicateStates) {
+		this.replicateStates = replicateStates;
+		return this;
+	}
+
 }

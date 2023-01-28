@@ -12,7 +12,17 @@ public class RequestsTelemetry implements RestModel {
 		return grpc;
 	}
 
+	public RequestsTelemetry setGrpc(GrpcTelemetry grpc) {
+		this.grpc = grpc;
+		return this;
+	}
+
 	public WebApiTelemetry getRest() {
 		return rest;
+	}
+
+	public RequestsTelemetry setRest(WebApiTelemetry rest) {
+		this.rest = rest;
+		return this;
 	}
 }

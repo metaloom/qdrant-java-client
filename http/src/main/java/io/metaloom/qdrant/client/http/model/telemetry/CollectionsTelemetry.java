@@ -17,7 +17,17 @@ public class CollectionsTelemetry implements RestModel {
 		return numberOfCollections;
 	}
 
+	public CollectionsTelemetry setNumberOfCollections(int numberOfCollections) {
+		this.numberOfCollections = numberOfCollections;
+		return this;
+	}
+
 	public List<CollectionTelemetry> getCollections() {
 		return collections;
+	}
+
+	public CollectionsTelemetry setCollections(List<CollectionTelemetry> collections) {
+		this.collections = collections;
+		return this;
 	}
 }

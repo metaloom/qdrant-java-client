@@ -9,4 +9,9 @@ public class PointsSearchResponse extends AbstractResponse {
 	public ScoredPoint getResult() {
 		return result;
 	}
+
+	public PointsSearchResponse setResult(ScoredPoint result) {
+		this.result = result;
+		return this;
+	}
 }

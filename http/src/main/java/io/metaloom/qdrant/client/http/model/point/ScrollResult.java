@@ -17,7 +17,17 @@ public class ScrollResult implements RestModel {
 		return points;
 	}
 
+	public ScrollResult setPoints(List<Record> points) {
+		this.points = points;
+		return this;
+	}
+
 	public Long getNextPageOffset() {
 		return nextPageOffset;
+	}
+
+	public ScrollResult setNextPageOffset(Long nextPageOffset) {
+		this.nextPageOffset = nextPageOffset;
+		return this;
 	}
 }

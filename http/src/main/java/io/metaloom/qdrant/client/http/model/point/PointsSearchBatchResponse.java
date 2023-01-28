@@ -12,7 +12,8 @@ public class PointsSearchBatchResponse extends AbstractResponse {
 		return result;
 	}
 
-	public void setResult(List<List<ScoredPoint>> result) {
+	public PointsSearchBatchResponse setResult(List<List<ScoredPoint>> result) {
 		this.result = result;
+		return this;
 	}
 }

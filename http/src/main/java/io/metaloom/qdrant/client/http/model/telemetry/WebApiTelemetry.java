@@ -11,4 +11,9 @@ public class WebApiTelemetry implements RestModel {
 	public Map<String, Map<String, OperationDurationStatistics>> getResponses() {
 		return responses;
 	}
+
+	public WebApiTelemetry setResponses(Map<String, Map<String, OperationDurationStatistics>> responses) {
+		this.responses = responses;
+		return this;
+	}
 }

@@ -17,13 +17,27 @@ public class AppFeaturesTelemetry implements RestModel {
 	public boolean isDebug() {
 		return debug;
 	}
+	
+	public AppFeaturesTelemetry setDebug(boolean debug) {
+		this.debug = debug;
+		return this;
+	}
 
 	public boolean isServiceDebugFeature() {
 		return serviceDebugFeature;
+	}
+
+	public AppFeaturesTelemetry setServiceDebugFeature(boolean serviceDebugFeature) {
+		this.serviceDebugFeature = serviceDebugFeature;
+		return this;
 	}
 
 	public boolean isWebFeature() {
 		return webFeature;
 	}
 
+	public AppFeaturesTelemetry setWebFeature(boolean webFeature) {
+		this.webFeature = webFeature;
+		return this;
+	}
 }

@@ -9,4 +9,9 @@ public class PointGetResponse extends AbstractResponse {
 	public Record getResult() {
 		return result;
 	}
+
+	public PointGetResponse setResult(Record result) {
+		this.result = result;
+		return this;
+	}
 }

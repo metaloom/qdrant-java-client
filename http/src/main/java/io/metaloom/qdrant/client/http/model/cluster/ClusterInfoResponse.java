@@ -10,4 +10,9 @@ public class ClusterInfoResponse extends AbstractResponse {
 	public CollectionClusterInfo getResult() {
 		return result;
 	}
+
+	public ClusterInfoResponse setResult(CollectionClusterInfo result) {
+		this.result = result;
+		return this;
+	}
 }

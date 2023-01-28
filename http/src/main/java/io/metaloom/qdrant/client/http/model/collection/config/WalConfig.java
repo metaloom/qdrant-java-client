@@ -16,8 +16,18 @@ public class WalConfig implements RestModel {
 		return walCapacityMB;
 	}
 
+	public WalConfig setWalCapacityMB(Integer walCapacityMB) {
+		this.walCapacityMB = walCapacityMB;
+		return this;
+	}
+
 	public Integer getWalSegmentsAhead() {
 		return walSegmentsAhead;
+	}
+
+	public WalConfig setWalSegmentsAhead(Integer walSegmentsAhead) {
+		this.walSegmentsAhead = walSegmentsAhead;
+		return this;
 	}
 
 }

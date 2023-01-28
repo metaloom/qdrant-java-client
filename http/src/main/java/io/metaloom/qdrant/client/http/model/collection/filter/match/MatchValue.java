@@ -8,4 +8,9 @@ public class MatchValue implements Match {
 		return value;
 	}
 
+	public MatchValue setValue(Object value) {
+		this.value = value;
+		return this;
+	}
+
 }

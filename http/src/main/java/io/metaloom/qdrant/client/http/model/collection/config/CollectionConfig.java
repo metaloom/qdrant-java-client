@@ -21,15 +21,35 @@ public class CollectionConfig implements RestModel {
 		return params;
 	}
 
+	public CollectionConfig setParams(CollectionParams params) {
+		this.params = params;
+		return this;
+	}
+
 	public HnswConfig getHnswConfig() {
 		return hnswConfig;
+	}
+
+	public CollectionConfig setHnswConfig(HnswConfig hnswConfig) {
+		this.hnswConfig = hnswConfig;
+		return this;
 	}
 
 	public OptimizersConfig getOptimizerConfig() {
 		return optimizerConfig;
 	}
 
+	public CollectionConfig setOptimizerConfig(OptimizersConfig optimizerConfig) {
+		this.optimizerConfig = optimizerConfig;
+		return this;
+	}
+
 	public WalConfig getWalConfig() {
 		return walConfig;
+	}
+
+	public CollectionConfig setWalConfig(WalConfig walConfig) {
+		this.walConfig = walConfig;
+		return this;
 	}
 }

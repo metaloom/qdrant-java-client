@@ -14,11 +14,17 @@ public class NamedVector implements RestModel {
 		return name;
 	}
 
+	public NamedVector setName(String name) {
+		this.name = name;
+		return this;
+	}
+
 	public List<Float> getVector() {
 		return vector;
 	}
-	
-	public void setVector(List<Float> vector) {
+
+	public NamedVector setVector(List<Float> vector) {
 		this.vector = vector;
+		return this;
 	}
 }

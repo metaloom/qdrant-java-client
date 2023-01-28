@@ -14,7 +14,17 @@ public class PointsDeleteRequest implements RestRequestModel {
 		return points;
 	}
 
+	public PointsDeleteRequest setPoints(List<Long> points) {
+		this.points = points;
+		return this;
+	}
+
 	public Filter getFilter() {
 		return filter;
+	}
+
+	public PointsDeleteRequest setFilter(Filter filter) {
+		this.filter = filter;
+		return this;
 	}
 }

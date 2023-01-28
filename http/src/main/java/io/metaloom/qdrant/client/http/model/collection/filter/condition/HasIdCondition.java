@@ -12,4 +12,9 @@ public class HasIdCondition implements Condition {
 	public List<Long> getIds() {
 		return ids;
 	}
+	
+	public HasIdCondition setIds(List<Long> ids) {
+		this.ids = ids;
+		return this;
+	}
 }

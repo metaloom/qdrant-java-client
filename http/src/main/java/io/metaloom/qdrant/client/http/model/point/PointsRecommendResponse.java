@@ -11,4 +11,9 @@ public class PointsRecommendResponse extends AbstractResponse {
 	public List<ScoredPoint> getResult() {
 		return result;
 	}
+
+	public PointsRecommendResponse setResult(List<ScoredPoint> result) {
+		this.result = result;
+		return this;
+	}
 }

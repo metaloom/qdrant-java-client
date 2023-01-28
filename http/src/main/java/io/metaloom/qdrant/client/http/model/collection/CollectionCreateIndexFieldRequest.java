@@ -16,15 +16,17 @@ public class CollectionCreateIndexFieldRequest implements RestRequestModel {
 		return fieldName;
 	}
 
-	public void setFieldName(String fieldName) {
+	public CollectionCreateIndexFieldRequest setFieldName(String fieldName) {
 		this.fieldName = fieldName;
+		return this;
 	}
 
 	public PayloadFieldSchema getFieldSchema() {
 		return fieldSchema;
 	}
 
-	public void setFieldSchema(PayloadFieldSchema fieldSchema) {
+	public CollectionCreateIndexFieldRequest setFieldSchema(PayloadFieldSchema fieldSchema) {
 		this.fieldSchema = fieldSchema;
+		return this;
 	}
 }

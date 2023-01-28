@@ -9,4 +9,9 @@ public class ClusterStatus implements RestModel {
 	public String getStatus() {
 		return status;
 	}
+
+	public ClusterStatus setStatus(String status) {
+		this.status = status;
+		return this;
+	}
 }

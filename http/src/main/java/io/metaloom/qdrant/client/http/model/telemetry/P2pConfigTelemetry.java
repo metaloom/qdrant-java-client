@@ -13,4 +13,9 @@ public class P2pConfigTelemetry implements RestModel {
 		return connectionPoolSize;
 	}
 
+	public P2pConfigTelemetry setConnectionPoolSize(int connectionPoolSize) {
+		this.connectionPoolSize = connectionPoolSize;
+		return this;
+	}
+
 }
