@@ -1,8 +1,13 @@
 package io.metaloom.qdrant.client.http.model.point;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JacksonException;
+import com.fasterxml.jackson.databind.JsonNode;
+
 import io.metaloom.qdrant.client.http.model.RestModel;
+import io.metaloom.qdrant.json.Json;
 
 public class PointStruct implements RestModel {
 
@@ -28,6 +33,15 @@ public class PointStruct implements RestModel {
 		return this;
 	}
 
+	public PointStruct setVector(float... vector) {
+		List<Float> result = new ArrayList<>(vector.length);
+		for (float f : vector) {
+			result.add(f);
+		}
+		this.vector = result;
+		return this;
+	}
+
 	public Payload getPayload() {
 		return payload;
 	}
@@ -37,4 +51,13 @@ public class PointStruct implements RestModel {
 		return this;
 	}
 
+	public PointStruct setPayload(JsonNode json) {
+		this.payload = new Payload().setJson(json);
+		return this;
+	}
+
+	public PointStruct setPayload(String json) throws JacksonException {
+		setPayload(Json.toJson(json));
+		return this;
+	}
 }

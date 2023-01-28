@@ -2,6 +2,9 @@ package io.metaloom.qdrant.client.http.impl;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -26,6 +29,8 @@ import okhttp3.ResponseBody;
 
 public class QDrantClientRequestImpl<T extends RestResponse> implements QDrantClientRequest<T> {
 
+	public static final Logger log = LoggerFactory.getLogger(QDrantClientRequestImpl.class);
+
 	public static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
 
 	private final QDrantHttpClient qdrantClient;
@@ -49,7 +54,11 @@ public class QDrantClientRequestImpl<T extends RestResponse> implements QDrantCl
 		this.responseClass = responseClass;
 
 		if (requestModel != null) {
-			this.body = RequestBody.create(Json.parse(requestModel), MEDIA_TYPE_JSON);
+			String bodyStr = Json.parse(requestModel);
+			if (log.isDebugEnabled()) {
+				log.debug("Sending request: " + method + "@" + path + " with " + bodyStr);
+			}
+			this.body = RequestBody.create(bodyStr, MEDIA_TYPE_JSON);
 		} else {
 			if (method.equals("POST")) {
 				this.body = RequestBody.create("", null);
@@ -131,6 +140,9 @@ public class QDrantClientRequestImpl<T extends RestResponse> implements QDrantCl
 				}
 			}
 			if (!response.isSuccessful()) {
+				if (log.isDebugEnabled()) {
+					log.debug("Failed request with code {" + response.code() + "} and body " + bodyStr);
+				}
 				throw new HttpErrorException("Request failed {" + response.message() + "}", response.code(), bodyStr);
 			}
 
@@ -153,7 +165,11 @@ public class QDrantClientRequestImpl<T extends RestResponse> implements QDrantCl
 	public T executeSync(Request request) throws HttpErrorException {
 		if (RestModel.class.isAssignableFrom(responseClass)) {
 			Class<? extends RestModel> r = (Class<? extends RestModel>) responseClass;
-			return (T) Json.parse(executeSyncPlain(request), r);
+			String bodyStr = executeSyncPlain(request);
+			if (log.isDebugEnabled()) {
+				log.debug("Response JSON:\n" + bodyStr);
+			}
+			return (T) Json.parse(bodyStr, r);
 		} else if (QDrantBinaryResponse.class.equals(responseClass)) {
 			return (T) executeSyncBinary(request);
 		} else {

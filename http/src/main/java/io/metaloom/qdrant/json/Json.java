@@ -14,6 +14,7 @@ import io.metaloom.qdrant.client.http.model.collection.filter.condition.Conditio
 import io.metaloom.qdrant.client.http.model.collection.filter.match.Match;
 import io.metaloom.qdrant.client.http.model.point.NamedVector;
 import io.metaloom.qdrant.client.http.model.point.Payload;
+import io.metaloom.qdrant.client.http.model.service.ServiceTelemetryResponse;
 import io.metaloom.qdrant.client.http.model.telemetry.CollectionTelemetry;
 
 /**
@@ -31,6 +32,7 @@ public final class Json {
 		module.addDeserializer(Condition.class, new ConditionDeserializer());
 		module.addDeserializer(Match.class, new MatchDeserializer());
 		module.addDeserializer(Payload.class, new PayloadDeserializer());
+		module.addSerializer(Payload.class, new PayloadSerializer());
 		module.addDeserializer(NamedVector.class, new NamedVectorDeserializer());
 		module.addDeserializer(CollectionTelemetry.class, new CollectionTelemetryDeserializer());
 		module.addDeserializer(AliasOperation.class, new AliasOperationDeserializer());
@@ -63,4 +65,5 @@ public final class Json {
 			throw new RuntimeException("Error while parsing model to JSON.", e);
 		}
 	}
+
 }

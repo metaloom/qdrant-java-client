@@ -1,185 +1,183 @@
 {
   "time": 0,
   "status": "ok",
-  "result": [
-    {
-      "id": "string",
-      "app": {
-        "version": "string",
-        "features": {
-          "debug": true,
-          "web_feature": true,
-          "service_debug_feature": true
-        },
-        "system": {
-          "distribution": "string",
-          "distribution_version": "string",
-          "is_docker": true,
-          "cores": 0,
-          "ram_size": 0,
-          "disk_size": 0,
-          "cpu_flags": "string"
-        }
+  "result": {
+    "id": "string",
+    "app": {
+      "version": "string",
+      "features": {
+        "debug": true,
+        "web_feature": true,
+        "service_debug_feature": true
       },
-      "collections": {
-        "number_of_collections": 0,
-        "collections": [
-          {
-            "id": "string",
-            "init_time_ms": 0,
-            "config": {
-              "params": {
-                "vectors": {
-                  "size": 1,
-                  "distance": "Cosine"
-                },
-                "shard_number": 1,
-                "replication_factor": 1,
-                "write_consistency_factor": 1,
-                "on_disk_payload": false
+      "system": {
+        "distribution": "string",
+        "distribution_version": "string",
+        "is_docker": true,
+        "cores": 0,
+        "ram_size": 0,
+        "disk_size": 0,
+        "cpu_flags": "string"
+      }
+    },
+    "collections": {
+      "number_of_collections": 0,
+      "collections": [
+        {
+          "id": "string",
+          "init_time_ms": 0,
+          "config": {
+            "params": {
+              "vectors": {
+                "size": 1,
+                "distance": "Cosine"
               },
-              "hnsw_config": {
-                "m": 0,
-                "ef_construct": 0,
-                "full_scan_threshold": 0,
-                "max_indexing_threads": 0,
-                "on_disk": true,
-                "payload_m": 0
-              },
-              "optimizer_config": {
-                "deleted_threshold": 0,
-                "vacuum_min_vector_number": 0,
-                "default_segment_number": 0,
-                "max_segment_size": null,
-                "memmap_threshold": null,
-                "indexing_threshold": 0,
-                "flush_interval_sec": 0,
-                "max_optimization_threads": 0
-              },
-              "wal_config": {
-                "wal_capacity_mb": 0,
-                "wal_segments_ahead": 0
-              }
+              "shard_number": 1,
+              "replication_factor": 1,
+              "write_consistency_factor": 1,
+              "on_disk_payload": false
             },
-            "shards": [
-              {
-                "id": 0,
-                "local": {
-                  "variant_name": "string",
-                  "segments": [null],
-                  "optimizations": {
-                    "status": null,
-                    "optimizations": null
-                  }
-                },
-                "remote": [
-                  {
-                    "shard_id": null,
-                    "peer_id": null,
-                    "searches": null,
-                    "updates": null
-                  }
-                ],
-                "replicate_states": {
-                  "property1": "Active",
-                  "property2": "Active"
-                }
-              }
-            ],
-            "transfers": [
-              {
-                "shard_id": 0,
-                "from": 0,
-                "to": 0,
-                "sync": true
-              }
-            ]
-          }
-        ]
-      },
-      "cluster": {
-        "enabled": true,
-        "status": {
-          "number_of_peers": 0,
-          "term": 0,
-          "commit": 0,
-          "pending_operations": 0,
-          "role": "Follower",
-          "is_voter": true,
-          "peer_id": 0,
-          "consensus_thread_status": {
-            "consensus_thread_status": "working",
-            "last_update": "2019-08-24T14:15:22Z"
-          }
-        },
-        "config": {
-          "grpc_timeout_ms": 0,
-          "p2p": {
-            "connection_pool_size": 0
+            "hnsw_config": {
+              "m": 0,
+              "ef_construct": 0,
+              "full_scan_threshold": 0,
+              "max_indexing_threads": 0,
+              "on_disk": true,
+              "payload_m": 0
+            },
+            "optimizer_config": {
+              "deleted_threshold": 0,
+              "vacuum_min_vector_number": 0,
+              "default_segment_number": 0,
+              "max_segment_size": null,
+              "memmap_threshold": null,
+              "indexing_threshold": 0,
+              "flush_interval_sec": 0,
+              "max_optimization_threads": 0
+            },
+            "wal_config": {
+              "wal_capacity_mb": 0,
+              "wal_segments_ahead": 0
+            }
           },
-          "consensus": {
-            "max_message_queue_size": 0,
-            "tick_period_ms": 0,
-            "bootstrap_timeout_sec": 0
+          "shards": [
+            {
+              "id": 0,
+              "local": {
+                "variant_name": "string",
+                "segments": [null],
+                "optimizations": {
+                  "status": null,
+                  "optimizations": null
+                }
+              },
+              "remote": [
+                {
+                  "shard_id": null,
+                  "peer_id": null,
+                  "searches": null,
+                  "updates": null
+                }
+              ],
+              "replicate_states": {
+                "property1": "Active",
+                "property2": "Active"
+              }
+            }
+          ],
+          "transfers": [
+            {
+              "shard_id": 0,
+              "from": 0,
+              "to": 0,
+              "sync": true
+            }
+          ]
+        }
+      ]
+    },
+    "cluster": {
+      "enabled": true,
+      "status": {
+        "number_of_peers": 0,
+        "term": 0,
+        "commit": 0,
+        "pending_operations": 0,
+        "role": "Follower",
+        "is_voter": true,
+        "peer_id": 0,
+        "consensus_thread_status": {
+          "consensus_thread_status": "working",
+          "last_update": "2019-08-24T14:15:22Z"
+        }
+      },
+      "config": {
+        "grpc_timeout_ms": 0,
+        "p2p": {
+          "connection_pool_size": 0
+        },
+        "consensus": {
+          "max_message_queue_size": 0,
+          "tick_period_ms": 0,
+          "bootstrap_timeout_sec": 0
+        }
+      }
+    },
+    "requests": {
+      "rest": {
+        "responses": {
+          "property1": {
+            "property1": {
+              "count": 0,
+              "fail_count": 0,
+              "avg_duration_micros": 0,
+              "min_duration_micros": 0,
+              "max_duration_micros": 0
+            },
+            "property2": {
+              "count": 0,
+              "fail_count": 0,
+              "avg_duration_micros": 0,
+              "min_duration_micros": 0,
+              "max_duration_micros": 0
+            }
+          },
+          "property2": {
+            "property1": {
+              "count": 0,
+              "fail_count": 0,
+              "avg_duration_micros": 0,
+              "min_duration_micros": 0,
+              "max_duration_micros": 0
+            },
+            "property2": {
+              "count": 0,
+              "fail_count": 0,
+              "avg_duration_micros": 0,
+              "min_duration_micros": 0,
+              "max_duration_micros": 0
+            }
           }
         }
       },
-      "requests": {
-        "rest": {
-          "responses": {
-            "property1": {
-              "property1": {
-                "count": 0,
-                "fail_count": 0,
-                "avg_duration_micros": 0,
-                "min_duration_micros": 0,
-                "max_duration_micros": 0
-              },
-              "property2": {
-                "count": 0,
-                "fail_count": 0,
-                "avg_duration_micros": 0,
-                "min_duration_micros": 0,
-                "max_duration_micros": 0
-              }
-            },
-            "property2": {
-              "property1": {
-                "count": 0,
-                "fail_count": 0,
-                "avg_duration_micros": 0,
-                "min_duration_micros": 0,
-                "max_duration_micros": 0
-              },
-              "property2": {
-                "count": 0,
-                "fail_count": 0,
-                "avg_duration_micros": 0,
-                "min_duration_micros": 0,
-                "max_duration_micros": 0
-              }
-            }
-          }
-        },
-        "grpc": {
-          "responses": {
-            "property1": {
-              "count": 0,
-              "fail_count": 0,
-              "avg_duration_micros": 0,
-              "min_duration_micros": 0,
-              "max_duration_micros": 0
-            },
-            "property2": {
-              "count": 0,
-              "fail_count": 0,
-              "avg_duration_micros": 0,
-              "min_duration_micros": 0,
-              "max_duration_micros": 0
-            }
+      "grpc": {
+        "responses": {
+          "property1": {
+            "count": 0,
+            "fail_count": 0,
+            "avg_duration_micros": 0,
+            "min_duration_micros": 0,
+            "max_duration_micros": 0
+          },
+          "property2": {
+            "count": 0,
+            "fail_count": 0,
+            "avg_duration_micros": 0,
+            "min_duration_micros": 0,
+            "max_duration_micros": 0
           }
         }
       }
     }
-  ]
+  }
 }

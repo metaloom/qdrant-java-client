@@ -3,6 +3,7 @@ package io.metaloom.qdrant.client.http.model.collection;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.metaloom.qdrant.client.http.model.RestRequestModel;
+import io.metaloom.qdrant.client.http.model.collection.config.Distance;
 import io.metaloom.qdrant.client.http.model.collection.config.HnswConfigDiff;
 import io.metaloom.qdrant.client.http.model.collection.config.OptimizersConfigDiff;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorsConfig;
@@ -40,6 +41,10 @@ public class CollectionCreateRequest implements RestRequestModel {
 	public CollectionCreateRequest setVectors(VectorsConfig vectors) {
 		this.vectors = vectors;
 		return this;
+	}
+
+	public CollectionCreateRequest setVectors(int size, Distance distance) {
+		return setVectors(new VectorsConfig().setSize(size).setDistance(distance));
 	}
 
 	public Integer getShardNumber() {
@@ -95,4 +100,5 @@ public class CollectionCreateRequest implements RestRequestModel {
 		this.optimizersConfig = optimizersConfig;
 		return this;
 	}
+
 }

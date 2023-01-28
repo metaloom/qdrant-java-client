@@ -1,0 +1,25 @@
+{
+  "result": {
+    "id": "883ddbf9-8144-406e-bee1-69e1d9215473",
+    "app": { "version": "0.11.7" },
+    "collections": { "number_of_collections": 0 },
+    "cluster": { "enabled": false },
+    "requests": {
+      "rest": {
+        "responses": {
+          "GET /": {
+            "200": {
+              "count": 1,
+              "avg_duration_micros": 16.0,
+              "min_duration_micros": 16.0,
+              "max_duration_micros": 16.0
+            }
+          }
+        }
+      },
+      "grpc": {}
+    }
+  },
+  "status": "ok",
+  "time": 0.000012624
+}
