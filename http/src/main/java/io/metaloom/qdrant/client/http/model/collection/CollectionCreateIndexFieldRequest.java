@@ -2,9 +2,9 @@ package io.metaloom.qdrant.client.http.model.collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.metaloom.qdrant.client.http.model.RestRequest;
+import io.metaloom.qdrant.client.http.model.RestRequestModel;
 
-public class CollectionCreateIndexFieldRequest implements RestRequest {
+public class CollectionCreateIndexFieldRequest implements RestRequestModel {
 
 	@JsonProperty("field_name")
 	private String fieldName;

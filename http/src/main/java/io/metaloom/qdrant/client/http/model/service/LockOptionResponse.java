@@ -9,4 +9,8 @@ public class LockOptionResponse extends AbstractResponse {
 	public LockOption getResult() {
 		return result;
 	}
+
+	public void setResult(LockOption result) {
+		this.result = result;
+	}
 }

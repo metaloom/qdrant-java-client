@@ -1,9 +1,9 @@
 package io.metaloom.qdrant.client.http.model.point;
 
-import io.metaloom.qdrant.client.http.model.RestRequest;
+import io.metaloom.qdrant.client.http.model.RestRequestModel;
 import io.metaloom.qdrant.client.http.model.collection.filter.Filter;
 
-public class PointCountRequest implements RestRequest {
+public class PointCountRequest implements RestRequestModel {
 
 	private Filter filter;
 

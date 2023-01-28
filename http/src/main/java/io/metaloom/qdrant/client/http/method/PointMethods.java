@@ -1,96 +1,57 @@
 package io.metaloom.qdrant.client.http.method;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
-import io.metaloom.qdrant.client.http.HTTPMethods;
-import io.metaloom.qdrant.client.http.impl.RequestBuilder;
+import io.metaloom.qdrant.client.http.QDrantClientRequest;
 import io.metaloom.qdrant.client.http.model.point.PointCountRequest;
 import io.metaloom.qdrant.client.http.model.point.PointCountResponse;
 import io.metaloom.qdrant.client.http.model.point.PointDeletePayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointGetResponse;
 import io.metaloom.qdrant.client.http.model.point.PointOverwritePayloadRequest;
-import io.metaloom.qdrant.client.http.model.point.PointScrollResponse;
 import io.metaloom.qdrant.client.http.model.point.PointSetPayloadRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsClearPayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsDeleteRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsGetRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsGetResponse;
+import io.metaloom.qdrant.client.http.model.point.PointsRecommendBatchRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsRecommendBatchResponse;
+import io.metaloom.qdrant.client.http.model.point.PointsRecommendRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsRecommendResponse;
+import io.metaloom.qdrant.client.http.model.point.PointsScrollRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsScrollResponse;
+import io.metaloom.qdrant.client.http.model.point.PointsSearchBatchRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsSearchBatchResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsUpsertRequest;
 import io.metaloom.qdrant.client.http.model.point.UpdateResultResponse;
-import io.metaloom.qdrant.json.Json;
 
-public interface PointMethods extends HTTPMethods {
+public interface PointMethods {
 
-	default RequestBuilder<PointGetResponse> getPoint(String collectionName, String pointId) {
-		RequestBuilder<PointGetResponse> req = getBuilder("collections/" + collectionName + "/points/" + pointId);
-		return req;
-	}
+	QDrantClientRequest<PointGetResponse> getPoint(String collectionName, String pointId);
 
-	default RequestBuilder<PointsGetResponse> getPoints(String collectionName, PointsGetRequest request) {
-		RequestBuilder<PointsGetResponse> req = postBuilder("collections/" + collectionName + "/points", request);
-		return req;
-	}
+	QDrantClientRequest<PointsGetResponse> getPoints(String collectionName, PointsGetRequest request);
 
-	default RequestBuilder<UpdateResultResponse> upsertPoints(String collectionName, PointsUpsertRequest request, boolean wait) {
-		RequestBuilder<UpdateResultResponse> req  = putBuilder("collections/" + collectionName + "/points", request);
-		req.addQueryParameter("wait", String.valueOf(wait));
-		return req;
-	}
+	QDrantClientRequest<UpdateResultResponse> upsertPoints(String collectionName, PointsUpsertRequest request, boolean wait);
 
-	default RequestBuilder<UpdateResultResponse> deletePoints(String collectionName, PointsDeleteRequest request, boolean wait) {
-		RequestBuilder<UpdateResultResponse> req  = postBuilder("collections/" + collectionName + "/points/delete", request);
-		req.addQueryParameter("wait", String.valueOf(wait));
-		return req;
-	}
+	QDrantClientRequest<UpdateResultResponse> deletePoints(String collectionName, PointsDeleteRequest request, boolean wait);
 
-	default RequestBuilder<UpdateResultResponse> setPointPayload(String collectionName, PointSetPayloadRequest request, boolean wait) {
-		RequestBuilder<UpdateResultResponse> req = postBuilder("collections/" + collectionName + "/points/payload", request);
-		req.addQueryParameter("wait", String.valueOf(wait));
-		return req;
-	}
+	QDrantClientRequest<UpdateResultResponse> setPointPayload(String collectionName, PointSetPayloadRequest request, boolean wait);
 
-	default RequestBuilder<UpdateResultResponse> overwritePayload(String collectionName, PointOverwritePayloadRequest request, boolean wait) {
-		RequestBuilder<UpdateResultResponse> req =putBuilder("collections/" + collectionName + "/points/payload", request);
-		req.addQueryParameter("wait", String.valueOf(wait));
-		return req;
-	}
+	QDrantClientRequest<UpdateResultResponse> overwritePayload(String collectionName, PointOverwritePayloadRequest request, boolean wait);
 
-	default RequestBuilder<UpdateResultResponse> deletePayload(String collectionName, PointDeletePayloadRequest request, boolean wait) {
-		RequestBuilder<UpdateResultResponse> req = postBuilder("collections/" + collectionName + "/points/payload/delete", request);
-		req.addQueryParameter("wait", String.valueOf(wait));
-		return req;
-	}
+	QDrantClientRequest<UpdateResultResponse> deletePayload(String collectionName, PointDeletePayloadRequest request, boolean wait);
 
-	default RequestBuilder<UpdateResultResponse> clearPayload(String collectionName, JsonNode json, boolean wait) {
-		RequestBuilder<UpdateResultResponse> req = postBuilder("collections/" + collectionName + "/points/payload/clear", json);
-		req.addQueryParameter("wait", String.valueOf(wait));
-		return req;
-	}
+	QDrantClientRequest<UpdateResultResponse> clearPayload(String collectionName, PointsClearPayloadRequest request, boolean wait);
 
-	default RequestBuilder<PointScrollResponse> scrollPoints(String collectionName, JsonNode json) {
-		return postBuilder("collections/" + collectionName + "/points/scroll", json);
-	}
+	QDrantClientRequest<PointsScrollResponse> scrollPoints(String collectionName, PointsScrollRequest request);
 
-	default RequestBuilder<PointsSearchResponse> searchPoints(String collectionName, PointsSearchRequest request) {
-		RequestBuilder<PointsSearchResponse> req = postBuilder("collections/" + collectionName + "/points/search", request);
-		return req;
-	}
+	QDrantClientRequest<PointsSearchResponse> searchPoints(String collectionName, PointsSearchRequest request);
 
-	default RequestBuilder searchBatchPoints(String collectionName, JsonNode json) {
-		return postBuilder("collections/" + collectionName + "/points/search/batch", json);
-	}
+	QDrantClientRequest<PointsSearchBatchResponse> searchBatchPoints(String collectionName, PointsSearchBatchRequest request);
 
-	default RequestBuilder recommendPoints(String collectionName, JsonNode json) {
-		return postBuilder("collections/" + collectionName + "/points/recommend", json);
-	}
+	QDrantClientRequest<PointsRecommendResponse> recommendPoints(String collectionName, PointsRecommendRequest request);
 
-	default RequestBuilder recommendBatchPoints(String collectionName, JsonNode json) {
-		return postBuilder("collections/" + collectionName + "/points/recommend/batch", json);
-	}
+	QDrantClientRequest<PointsRecommendBatchResponse> recommendBatchPoints(String collectionName, PointsRecommendBatchRequest request);
 
-	default RequestBuilder<PointCountResponse> countPoints(String collectionName, PointCountRequest request) {
-		return postBuilder("collections/" + collectionName + "/points/count", Json.parse(request));
-	}
+	QDrantClientRequest<PointCountResponse> countPoints(String collectionName, PointCountRequest request);
 
 }

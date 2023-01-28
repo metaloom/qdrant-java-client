@@ -2,10 +2,10 @@ package io.metaloom.qdrant.client.http.model.point;
 
 import java.util.List;
 
-import io.metaloom.qdrant.client.http.model.RestRequest;
+import io.metaloom.qdrant.client.http.model.RestRequestModel;
 import io.metaloom.qdrant.client.http.model.collection.filter.Filter;
 
-public class PointSetPayloadRequest implements RestRequest {
+public class PointSetPayloadRequest implements RestRequestModel {
 
 	private Payload payload;
 

@@ -2,9 +2,9 @@ package io.metaloom.qdrant.client.http.model.collection;
 
 import java.util.List;
 
-import io.metaloom.qdrant.client.http.model.RestRequest;
+import io.metaloom.qdrant.client.http.model.RestRequestModel;
 
-public class CollectionUpdateAliasesRequest implements RestRequest {
+public class CollectionUpdateAliasesRequest implements RestRequestModel {
 
 	private List<? extends AliasOperations> actions;
 

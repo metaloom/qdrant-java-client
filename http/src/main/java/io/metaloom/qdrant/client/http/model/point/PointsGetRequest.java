@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.metaloom.qdrant.client.http.model.RestRequest;
+import io.metaloom.qdrant.client.http.model.RestRequestModel;
 
-public class PointsGetRequest implements RestRequest {
+public class PointsGetRequest implements RestRequestModel {
 
 	private List<Long> ids;
 

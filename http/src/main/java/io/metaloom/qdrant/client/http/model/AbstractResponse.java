@@ -1,6 +1,6 @@
 package io.metaloom.qdrant.client.http.model;
 
-public abstract class AbstractResponse implements RestResponse {
+public abstract class AbstractResponse implements RestResponse, RestModel {
 
 	private float time;
 

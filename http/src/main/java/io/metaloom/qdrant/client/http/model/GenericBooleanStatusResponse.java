@@ -8,4 +8,9 @@ public class GenericBooleanStatusResponse extends AbstractResponse {
 		return result;
 	}
 
+	public GenericBooleanStatusResponse setResult(boolean result) {
+		this.result = result;
+		return this;
+	}
+
 }

@@ -1,8 +1,8 @@
 package io.metaloom.qdrant.client.http.model.snapshot;
 
-import io.metaloom.qdrant.client.http.model.RestRequest;
+import io.metaloom.qdrant.client.http.model.RestRequestModel;
 
-public class SnapshotRecoverRequest implements RestRequest {
+public class SnapshotRecoverRequest implements RestRequestModel {
 
 	private String location;
 

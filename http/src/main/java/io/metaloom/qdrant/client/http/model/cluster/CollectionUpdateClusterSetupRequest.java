@@ -2,13 +2,13 @@ package io.metaloom.qdrant.client.http.model.cluster;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.metaloom.qdrant.client.http.model.RestRequest;
+import io.metaloom.qdrant.client.http.model.RestRequestModel;
 import io.metaloom.qdrant.client.http.model.cluster.operation.AbortTransferOperation;
 import io.metaloom.qdrant.client.http.model.cluster.operation.DropReplicaOperation;
 import io.metaloom.qdrant.client.http.model.cluster.operation.MoveShardOperation;
 import io.metaloom.qdrant.client.http.model.cluster.operation.ReplicateShardOperation;
 
-public class CollectionUpdateClusterSetupRequest implements RestRequest {
+public class CollectionUpdateClusterSetupRequest implements RestRequestModel {
 
 	@JsonProperty("move_shard")
 	private MoveShardOperation moveShardOperation;

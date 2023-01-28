@@ -1,7 +1,5 @@
 package io.metaloom.qdrant.client.http.model.collection;
 
-import java.util.List;
-
 import io.metaloom.qdrant.client.http.model.AbstractResponse;
 
 public class CollectionListResponse extends AbstractResponse {
@@ -12,7 +10,7 @@ public class CollectionListResponse extends AbstractResponse {
 		return result;
 	}
 
-	public void setResult(CollectionsResponse result) {
+	public void setResult(CollectionsResponse result) {	
 		this.result = result;
 	}
 }

@@ -2,10 +2,10 @@ package io.metaloom.qdrant.client.http.model.point;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.metaloom.qdrant.client.http.model.RestRequest;
+import io.metaloom.qdrant.client.http.model.RestRequestModel;
 import io.metaloom.qdrant.client.http.model.collection.filter.Filter;
 
-public class PointsSearchRequest implements RestRequest {
+public class PointsSearchRequest implements RestRequestModel {
 
 	private NamedVector vector;
 

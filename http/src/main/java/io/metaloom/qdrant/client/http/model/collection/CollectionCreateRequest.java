@@ -2,13 +2,13 @@ package io.metaloom.qdrant.client.http.model.collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.metaloom.qdrant.client.http.model.RestRequest;
+import io.metaloom.qdrant.client.http.model.RestRequestModel;
 import io.metaloom.qdrant.client.http.model.collection.config.HnswConfigDiff;
 import io.metaloom.qdrant.client.http.model.collection.config.OptimizersConfigDiff;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorsConfig;
 import io.metaloom.qdrant.client.http.model.collection.config.WalConfigDiff;
 
-public class CollectionCreateRequest implements RestRequest {
+public class CollectionCreateRequest implements RestRequestModel {
 
 	private VectorsConfig vectors;
 
@@ -37,28 +37,55 @@ public class CollectionCreateRequest implements RestRequest {
 		return vectors;
 	}
 
+	public void setVectors(VectorsConfig vectors) {
+		this.vectors = vectors;
+	}
+
 	public Integer getShardNumber() {
 		return shardNumber;
+	}
+
+	public void setShardNumber(Integer shardNumber) {
+		this.shardNumber = shardNumber;
 	}
 
 	public Integer getWriteConsistencyFactor() {
 		return writeConsistencyFactor;
 	}
 
+	public void setWriteConsistencyFactor(Integer writeConsistencyFactor) {
+		this.writeConsistencyFactor = writeConsistencyFactor;
+	}
+
 	public Boolean getOnDiskPayload() {
 		return onDiskPayload;
+	}
+
+	public void setOnDiskPayload(Boolean onDiskPayload) {
+		this.onDiskPayload = onDiskPayload;
 	}
 
 	public HnswConfigDiff getHnswConfig() {
 		return hnswConfig;
 	}
 
+	public void setHnswConfig(HnswConfigDiff hnswConfig) {
+		this.hnswConfig = hnswConfig;
+	}
+
 	public WalConfigDiff getWalConfig() {
 		return walConfig;
+	}
+
+	public void setWalConfig(WalConfigDiff walConfig) {
+		this.walConfig = walConfig;
 	}
 
 	public OptimizersConfigDiff getOptimizersConfig() {
 		return optimizersConfig;
 	}
 
+	public void setOptimizersConfig(OptimizersConfigDiff optimizersConfig) {
+		this.optimizersConfig = optimizersConfig;
+	}
 }

@@ -2,9 +2,9 @@ package io.metaloom.qdrant.client.http.model.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.metaloom.qdrant.client.http.model.RestRequest;
+import io.metaloom.qdrant.client.http.model.RestRequestModel;
 
-public class LockRequest implements RestRequest {
+public class LockRequest implements RestRequestModel {
 
 	@JsonProperty("error_message")
 	private String errorMessage;

@@ -3,11 +3,13 @@ package io.metaloom.qdrant.client.http;
 import java.time.Duration;
 
 import io.metaloom.qdrant.client.http.impl.QDrantHttpClientImpl;
+import io.metaloom.qdrant.client.http.method.ClusterMethods;
 import io.metaloom.qdrant.client.http.method.CollectionMethods;
+import io.metaloom.qdrant.client.http.method.PointMethods;
 import io.metaloom.qdrant.client.http.method.ServiceMethods;
 import io.metaloom.qdrant.client.http.method.SnapshotMethods;
 
-public interface QDrantHttpClient extends CollectionMethods, SnapshotMethods, ServiceMethods {
+public interface QDrantHttpClient extends CollectionMethods, SnapshotMethods, ServiceMethods, PointMethods, ClusterMethods, ClientSettings {
 
 	static QDrantHttpClientImpl.Builder builder() {
 		return QDrantHttpClientImpl.builder();

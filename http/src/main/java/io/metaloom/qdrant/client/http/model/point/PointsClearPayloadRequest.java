@@ -5,32 +5,26 @@ import java.util.List;
 import io.metaloom.qdrant.client.http.model.RestRequestModel;
 import io.metaloom.qdrant.client.http.model.collection.filter.Filter;
 
-public class PointDeletePayloadRequest implements RestRequestModel {
+public class PointsClearPayloadRequest implements RestRequestModel {
 
-	/**
-	 * List of payload keys to remove from payload
-	 */
-	private List<String> keys;
-
-	/**
-	 * Deletes values from each point in this list
-	 */
 	private List<Long> points;
 
-	/**
-	 * Deletes values from points that satisfy this filter condition
-	 */
 	private Filter filter;
-
-	public List<String> getKeys() {
-		return keys;
-	}
 
 	public List<Long> getPoints() {
 		return points;
 	}
 
+	public void setPoints(List<Long> points) {
+		this.points = points;
+	}
+
 	public Filter getFilter() {
 		return filter;
 	}
+
+	public void setFilter(Filter filter) {
+		this.filter = filter;
+	}
+
 }

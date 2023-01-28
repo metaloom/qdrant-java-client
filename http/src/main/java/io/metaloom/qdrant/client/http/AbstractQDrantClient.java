@@ -2,7 +2,7 @@ package io.metaloom.qdrant.client.http;
 
 import java.time.Duration;
 
-public abstract class AbstractQDrantClient implements QDrantHttpClient, HTTPMethods {
+public abstract class AbstractQDrantClient implements QDrantHttpClient {
 
 	protected final String scheme;
 	protected final String hostname;
@@ -59,5 +59,6 @@ public abstract class AbstractQDrantClient implements QDrantHttpClient, HTTPMeth
 	public Duration getWriteTimeout() {
 		return writeTimeout;
 	}
+	
 
 }

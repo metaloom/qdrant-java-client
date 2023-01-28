@@ -1,42 +1,27 @@
 package io.metaloom.qdrant.client.http.method;
 
-import io.metaloom.qdrant.client.http.HTTPMethods;
-import io.metaloom.qdrant.client.http.impl.RequestBuilder;
+import io.metaloom.qdrant.client.http.QDrantBinaryResponse;
+import io.metaloom.qdrant.client.http.QDrantClientRequest;
 import io.metaloom.qdrant.client.http.model.GenericBooleanStatusResponse;
 import io.metaloom.qdrant.client.http.model.snapshot.SnapshotCreateResponse;
 import io.metaloom.qdrant.client.http.model.snapshot.SnapshotListResponse;
 import io.metaloom.qdrant.client.http.model.snapshot.SnapshotRecoverRequest;
 import io.metaloom.qdrant.client.http.model.snapshot.SnapshotResponse;
 
-public interface SnapshotMethods extends HTTPMethods {
+public interface SnapshotMethods {
 
-	// Collection
-	default RequestBuilder<SnapshotListResponse> listCollectionSnapshots(String collectionName) {
-		return getBuilder("collections/" + collectionName + "/snapshots");
-	}
+	QDrantClientRequest<SnapshotListResponse> listCollectionSnapshots(String collectionName);
 
-	default RequestBuilder<GenericBooleanStatusResponse> recoverSnapshot(String collectionName, SnapshotRecoverRequest request) {
-		return putBuilder("collections/" + collectionName + "snapshots/recover", request);
-	}
+	QDrantClientRequest<GenericBooleanStatusResponse> recoverSnapshot(String collectionName, SnapshotRecoverRequest request);
 
-	default RequestBuilder<SnapshotResponse> createCollectionSnapshot(String collectionName) {
-		return postBuilder("collections/" + collectionName + "/snapshots");
-	}
+	QDrantClientRequest<SnapshotResponse> createCollectionSnapshot(String collectionName);
 
-	default RequestBuilder<?> downloadCollectionSnapshot(String collectionName, String snapshotName) {
-		return getBuilder("collections/" + collectionName + "/snapshots/" + snapshotName);
-	}
+	QDrantClientRequest<QDrantBinaryResponse> downloadCollectionSnapshot(String collectionName, String snapshotName);
 
 	// Storage
-	default RequestBuilder<SnapshotListResponse> listStorageSnapshots() {
-		return getBuilder("snapshots");
-	}
+	QDrantClientRequest<SnapshotListResponse> listStorageSnapshots();
 
-	default RequestBuilder<SnapshotCreateResponse> createStorageSnapshot() {
-		return postBuilder("snapshots");
-	}
+	QDrantClientRequest<SnapshotCreateResponse> createStorageSnapshot();
 
-	default RequestBuilder<?> downloadStorageSnapshot(String snapshotName) {
-		return getBuilder("snapshots/" + snapshotName);
-	}
+	QDrantClientRequest<QDrantBinaryResponse> downloadStorageSnapshot(String snapshotName);
 }
