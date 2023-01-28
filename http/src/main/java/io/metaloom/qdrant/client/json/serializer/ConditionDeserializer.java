@@ -1,4 +1,4 @@
-package io.metaloom.qdrant.json;
+package io.metaloom.qdrant.client.json.serializer;
 
 import java.io.IOException;
 

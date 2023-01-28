@@ -14,7 +14,7 @@ import io.metaloom.qdrant.client.http.QDrantHttpClient;
 import io.metaloom.qdrant.client.http.model.RestModel;
 import io.metaloom.qdrant.client.http.model.RestRequestModel;
 import io.metaloom.qdrant.client.http.model.RestResponse;
-import io.metaloom.qdrant.json.Json;
+import io.metaloom.qdrant.client.json.Json;
 import io.reactivex.rxjava3.core.Single;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -56,7 +56,7 @@ public class QDrantClientRequestImpl<T extends RestResponse> implements QDrantCl
 		if (requestModel != null) {
 			String bodyStr = Json.parse(requestModel);
 			if (log.isDebugEnabled()) {
-				log.debug("Sending request: " + method + "@" + path + " with " + bodyStr);
+				log.debug("Sending request: " + method + " " + path + "\n" + bodyStr);
 			}
 			this.body = RequestBody.create(bodyStr, MEDIA_TYPE_JSON);
 		} else {
@@ -141,8 +141,9 @@ public class QDrantClientRequestImpl<T extends RestResponse> implements QDrantCl
 			}
 			if (!response.isSuccessful()) {
 				if (log.isDebugEnabled()) {
-					log.debug("Failed request with code {" + response.code() + "} and body " + bodyStr);
+					log.debug("Failed request with code {" + response.code() + "} and body:\n" + bodyStr);
 				}
+
 				throw new HttpErrorException("Request failed {" + response.message() + "}", response.code(), bodyStr);
 			}
 

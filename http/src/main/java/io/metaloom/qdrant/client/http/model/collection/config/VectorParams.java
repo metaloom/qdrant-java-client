@@ -1,8 +1,6 @@
 package io.metaloom.qdrant.client.http.model.collection.config;
 
-import io.metaloom.qdrant.client.http.model.RestModel;
-
-public class VectorParams implements RestModel {
+public class VectorParams implements VectorsConfig {
 
 	private long size;
 
@@ -24,5 +22,9 @@ public class VectorParams implements RestModel {
 	public VectorParams setDistance(Distance distance) {
 		this.distance = distance;
 		return this;
+	}
+
+	public static VectorParams of(long size, Distance distance) {
+		return new VectorParams().setSize(size).setDistance(distance);
 	}
 }

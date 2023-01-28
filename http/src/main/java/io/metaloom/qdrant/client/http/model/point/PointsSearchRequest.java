@@ -18,10 +18,10 @@ public class PointsSearchRequest implements RestRequestModel {
 	private Integer offset;
 
 	@JsonProperty("with_payload")
-	private boolean withPayload;
+	private Boolean withPayload;
 
 	@JsonProperty("with_vector")
-	private boolean withVector;
+	private Boolean withVector;
 
 	@JsonProperty("score_threshold")
 	private Float scoreThreshold;
@@ -71,20 +71,20 @@ public class PointsSearchRequest implements RestRequestModel {
 		return this;
 	}
 
-	public boolean isWithPayload() {
+	public Boolean getWithPayload() {
 		return withPayload;
 	}
 
-	public PointsSearchRequest setWithPayload(boolean withPayload) {
+	public PointsSearchRequest setWithPayload(Boolean withPayload) {
 		this.withPayload = withPayload;
 		return this;
 	}
 
-	public boolean isWithVector() {
+	public Boolean getWithVector() {
 		return withVector;
 	}
 
-	public PointsSearchRequest setWithVector(boolean withVector) {
+	public PointsSearchRequest setWithVector(Boolean withVector) {
 		this.withVector = withVector;
 		return this;
 	}

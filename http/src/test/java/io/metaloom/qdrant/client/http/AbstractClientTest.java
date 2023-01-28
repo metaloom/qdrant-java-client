@@ -2,12 +2,14 @@ package io.metaloom.qdrant.client.http;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 
 import io.metaloom.qdrant.client.AbstractContainerTest;
 import io.metaloom.qdrant.client.http.impl.HttpErrorException;
 import io.metaloom.qdrant.client.http.model.AbstractResponse;
+import io.metaloom.qdrant.client.http.model.ErrorResponse;
 import io.metaloom.qdrant.client.http.model.GenericBooleanStatusResponse;
 import io.metaloom.qdrant.client.http.model.RestResponse;
 
@@ -26,6 +28,16 @@ public abstract class AbstractClientTest extends AbstractContainerTest {
 			.build();
 	}
 
+	/**
+	 * Return JSON with name property and specified value.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	protected String json(String key, String name) {
+		return "{ \"" + key + "\": \"" + name + "\"}";
+	}
+
 	protected void assertSuccess(GenericBooleanStatusResponse response) {
 		assertTrue("The response should be successful.", response.getResult());
 	}
@@ -35,9 +47,15 @@ public abstract class AbstractClientTest extends AbstractContainerTest {
 	}
 
 	protected <T extends RestResponse> T invoke(QDrantClientRequest<T> request) throws HttpErrorException {
-		T response = request.sync();
-		assertSuccess((AbstractResponse) response);
-		return response;
+		try {
+			T response = request.sync();
+			assertSuccess((AbstractResponse) response);
+			return response;
+		} catch (HttpErrorException e) {
+			ErrorResponse error = e.getError();
+			fail("Request failed with error " + error.getStatus().getError());
+			return null;
+		}
 	}
 
 }

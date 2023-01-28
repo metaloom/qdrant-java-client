@@ -1,10 +1,13 @@
 package io.metaloom.qdrant.client.http.model.point;
 
+import static io.metaloom.qdrant.client.util.QDrantClientUtil.toList;
+
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.metaloom.qdrant.client.http.model.RestRequestModel;
+import io.metaloom.qdrant.client.util.QDrantClientUtil;
 
 public class PointsGetRequest implements RestRequestModel {
 
@@ -41,6 +44,10 @@ public class PointsGetRequest implements RestRequestModel {
 	public PointsGetRequest setWithVector(boolean withVector) {
 		this.withVector = withVector;
 		return this;
+	}
+
+	public void setIds(long... ids) {
+		this.ids = toList(ids);
 	}
 
 }

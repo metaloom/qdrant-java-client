@@ -5,7 +5,7 @@ import static org.junit.Assert.fail;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import io.metaloom.qdrant.json.Json;
+import io.metaloom.qdrant.client.json.Json;
 
 public abstract class AbstractModelTest {
 

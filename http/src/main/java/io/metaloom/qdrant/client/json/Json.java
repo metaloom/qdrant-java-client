@@ -1,5 +1,6 @@
-package io.metaloom.qdrant.json;
+package io.metaloom.qdrant.client.json;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -10,12 +11,23 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import io.metaloom.qdrant.client.http.model.RestModel;
 import io.metaloom.qdrant.client.http.model.collection.AliasOperation;
+import io.metaloom.qdrant.client.http.model.collection.config.VectorsConfig;
 import io.metaloom.qdrant.client.http.model.collection.filter.condition.Condition;
 import io.metaloom.qdrant.client.http.model.collection.filter.match.Match;
 import io.metaloom.qdrant.client.http.model.point.NamedVector;
 import io.metaloom.qdrant.client.http.model.point.Payload;
-import io.metaloom.qdrant.client.http.model.service.ServiceTelemetryResponse;
+import io.metaloom.qdrant.client.http.model.point.Vector;
 import io.metaloom.qdrant.client.http.model.telemetry.CollectionTelemetry;
+import io.metaloom.qdrant.client.json.serializer.AliasOperationDeserializer;
+import io.metaloom.qdrant.client.json.serializer.CollectionTelemetryDeserializer;
+import io.metaloom.qdrant.client.json.serializer.ConditionDeserializer;
+import io.metaloom.qdrant.client.json.serializer.MatchDeserializer;
+import io.metaloom.qdrant.client.json.serializer.NamedVectorDeserializer;
+import io.metaloom.qdrant.client.json.serializer.PayloadDeserializer;
+import io.metaloom.qdrant.client.json.serializer.PayloadSerializer;
+import io.metaloom.qdrant.client.json.serializer.VectorDeserializer;
+import io.metaloom.qdrant.client.json.serializer.VectorSerializer;
+import io.metaloom.qdrant.client.json.serializer.VectorsConfigDeserializer;
 
 /**
  * Helper which manages JSON handling.
@@ -26,7 +38,8 @@ public final class Json {
 
 	static {
 		mapper = new ObjectMapper()
-			.enable(SerializationFeature.INDENT_OUTPUT);
+			.enable(SerializationFeature.INDENT_OUTPUT)
+			.setSerializationInclusion(Include.NON_NULL);
 
 		SimpleModule module = new SimpleModule();
 		module.addDeserializer(Condition.class, new ConditionDeserializer());
@@ -36,6 +49,10 @@ public final class Json {
 		module.addDeserializer(NamedVector.class, new NamedVectorDeserializer());
 		module.addDeserializer(CollectionTelemetry.class, new CollectionTelemetryDeserializer());
 		module.addDeserializer(AliasOperation.class, new AliasOperationDeserializer());
+		module.addDeserializer(VectorsConfig.class, new VectorsConfigDeserializer());
+
+		module.addSerializer(Vector.class, new VectorSerializer());
+		module.addDeserializer(Vector.class, new VectorDeserializer());
 		mapper.registerModule(module);
 	}
 

@@ -2,6 +2,9 @@ package io.metaloom.qdrant.client.http.impl;
 
 import java.util.function.Function;
 
+import io.metaloom.qdrant.client.http.model.ErrorResponse;
+import io.metaloom.qdrant.client.json.Json;
+
 /**
  * Exception which is also used to return non-200 error responses.
  */
@@ -9,9 +12,9 @@ public class HttpErrorException extends Exception {
 
 	private static final long serialVersionUID = -1799524340729007029L;
 
-	public int statusCode;
+	private int statusCode;
 
-	public String body;
+	private String body;
 
 	public HttpErrorException(String message, int statusCode, String body) {
 		super(message);
@@ -39,6 +42,15 @@ public class HttpErrorException extends Exception {
 	 */
 	public int getStatusCode() {
 		return statusCode;
+	}
+
+	/**
+	 * Return the server error response.
+	 * 
+	 * @return
+	 */
+	public ErrorResponse getError() {
+		return Json.parse(body, ErrorResponse.class);
 	}
 
 	/**

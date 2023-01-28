@@ -1,5 +1,8 @@
 package io.metaloom.qdrant.client.http.model.point;
 
+import static io.metaloom.qdrant.client.util.QDrantClientUtil.toList;
+
+import java.util.Arrays;
 import java.util.List;
 
 import io.metaloom.qdrant.client.http.model.RestRequestModel;
@@ -31,12 +34,22 @@ public class PointDeletePayloadRequest implements RestRequestModel {
 		return this;
 	}
 
+	public PointDeletePayloadRequest setKeys(String... keys) {
+		this.keys = Arrays.asList(keys);
+		return this;
+	}
+
 	public List<Long> getPoints() {
 		return points;
 	}
 
 	public PointDeletePayloadRequest setPoints(List<Long> points) {
 		this.points = points;
+		return this;
+	}
+
+	public PointDeletePayloadRequest setPoints(long... ids) {
+		this.points = toList(ids);
 		return this;
 	}
 

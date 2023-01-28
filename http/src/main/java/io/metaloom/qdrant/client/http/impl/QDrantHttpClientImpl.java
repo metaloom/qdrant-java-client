@@ -96,18 +96,18 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 		builder.connectTimeout(connectTimeout);
 		builder.readTimeout(readTimeout);
 		builder.writeTimeout(writeTimeout);
-//		// Disable gzip
-//		builder.addInterceptor(chain -> {
-//			Request request = chain.request();
-//			Request newRequest;
-//			try {
-//				newRequest = request.newBuilder().addHeader("Accept-Encoding", "identity").build();
-//			} catch (Exception e) {
-//				log.error("Error while creating new request", e);
-//				return chain.proceed(request);
-//			}
-//			return chain.proceed(newRequest);
-//		});
+		// // Disable gzip
+		// builder.addInterceptor(chain -> {
+		// Request request = chain.request();
+		// Request newRequest;
+		// try {
+		// newRequest = request.newBuilder().addHeader("Accept-Encoding", "identity").build();
+		// } catch (Exception e) {
+		// log.error("Error while creating new request", e);
+		// return chain.proceed(request);
+		// }
+		// return chain.proceed(newRequest);
+		// });
 		return builder.build();
 	}
 
@@ -218,49 +218,29 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 
 	}
 
-	private <T extends RestResponse> QDrantClientRequest<T> deleteRequest(String path, Class<T> responseClass) {
-		return QDrantClientRequest.create(DELETE, path, this, client, responseClass);
-	}
-
-	private <T extends RestResponse> QDrantClientRequest<T> getRequest(String path, Class<T> responseClass) {
-		return QDrantClientRequest.create(GET, path, this, client, responseClass);
-	}
-
-	private <T extends RestResponse> QDrantClientRequest<T> postRequest(String path, RestRequestModel request, Class<T> responseClass) {
-		return QDrantClientRequest.create(POST, path, this, client, request, responseClass);
-	}
-
-	private <T extends RestResponse> QDrantClientRequest<T> postRequest(String path, Class<T> responseClass) {
-		return QDrantClientRequest.create(POST, path, this, client, responseClass);
-	}
-
-	private <T extends RestResponse> QDrantClientRequest<T> putRequest(String path, RestRequestModel request, Class<T> responseClass) {
-		return QDrantClientRequest.create(PUT, path, this, client, request, responseClass);
-	}
-
-	private <T extends RestResponse> QDrantClientRequest<T> patchRequest(String path, RestRequestModel request, Class<T> responseClass) {
-		return QDrantClientRequest.create(PATCH, path, this, client, request, responseClass);
-	}
-
 	// REST Methods
 	@Override
 	public QDrantClientRequest<PointGetResponse> getPoint(String collectionName, String pointId) {
+		assertCollectionName(collectionName);
 		return getRequest("collections/" + collectionName + "/points/" + pointId, PointGetResponse.class);
 	}
 
 	@Override
 	public QDrantClientRequest<PointsGetResponse> getPoints(String collectionName, PointsGetRequest request) {
+		assertCollectionName(collectionName);
 		return postRequest("collections/" + collectionName + "/points", request, PointsGetResponse.class);
 	}
 
 	@Override
 	public QDrantClientRequest<UpdateResultResponse> upsertPoints(String collectionName, PointsUpsertRequest request, boolean wait) {
+		assertCollectionName(collectionName);
 		QDrantClientRequest<UpdateResultResponse> req = putRequest("collections/" + collectionName + "/points", request, UpdateResultResponse.class);
 		return req.addWait(wait);
 	}
 
 	@Override
 	public QDrantClientRequest<UpdateResultResponse> deletePoints(String collectionName, PointsDeleteRequest request, boolean wait) {
+		assertCollectionName(collectionName);
 		QDrantClientRequest<UpdateResultResponse> req = postRequest("collections/" + collectionName + "/points/delete", request,
 			UpdateResultResponse.class);
 		return req.addWait(wait);
@@ -268,6 +248,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 
 	@Override
 	public QDrantClientRequest<UpdateResultResponse> setPointPayload(String collectionName, PointSetPayloadRequest request, boolean wait) {
+		assertCollectionName(collectionName);
 		QDrantClientRequest<UpdateResultResponse> req = postRequest("collections/" + collectionName + "/points/payload", request,
 			UpdateResultResponse.class);
 		return req.addWait(wait);
@@ -275,6 +256,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 
 	@Override
 	public QDrantClientRequest<UpdateResultResponse> overwritePayload(String collectionName, PointOverwritePayloadRequest request, boolean wait) {
+		assertCollectionName(collectionName);
 		QDrantClientRequest<UpdateResultResponse> req = putRequest("collections/" + collectionName + "/points/payload", request,
 			UpdateResultResponse.class);
 		return req.addWait(wait);
@@ -282,6 +264,8 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 
 	@Override
 	public QDrantClientRequest<UpdateResultResponse> deletePayload(String collectionName, PointDeletePayloadRequest request, boolean wait) {
+		assertCollectionName(collectionName);
+		Objects.requireNonNull(request.getKeys(), "Keys must be specified");
 		QDrantClientRequest<UpdateResultResponse> req = postRequest("collections/" + collectionName + "/points/payload/delete", request,
 			UpdateResultResponse.class);
 		return req;
@@ -289,6 +273,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 
 	@Override
 	public QDrantClientRequest<UpdateResultResponse> clearPayload(String collectionName, PointsClearPayloadRequest request, boolean wait) {
+		assertCollectionName(collectionName);
 		QDrantClientRequest<UpdateResultResponse> req = postRequest("collections/" + collectionName + "/points/payload/clear", request,
 			UpdateResultResponse.class);
 		return req.addWait(wait);
@@ -296,11 +281,15 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 
 	@Override
 	public QDrantClientRequest<PointsScrollResponse> scrollPoints(String collectionName, PointsScrollRequest request) {
+		assertCollectionName(collectionName);
 		return postRequest("collections/" + collectionName + "/points/scroll", request, PointsScrollResponse.class);
 	}
 
 	@Override
 	public QDrantClientRequest<PointsSearchResponse> searchPoints(String collectionName, PointsSearchRequest request) {
+		assertCollectionName(collectionName);
+		Objects.requireNonNull(request.getVector(), "A vector must be specified to run the search");
+		Objects.requireNonNull(request.getLimit(), "A limit must be specified");
 		QDrantClientRequest<PointsSearchResponse> req = postRequest("collections/" + collectionName + "/points/search", request,
 			PointsSearchResponse.class);
 		return req;
@@ -308,21 +297,25 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 
 	@Override
 	public QDrantClientRequest<PointsSearchBatchResponse> searchBatchPoints(String collectionName, PointsSearchBatchRequest request) {
+		assertCollectionName(collectionName);
 		return postRequest("collections/" + collectionName + "/points/search/batch", request, PointsSearchBatchResponse.class);
 	}
 
 	@Override
 	public QDrantClientRequest<PointsRecommendResponse> recommendPoints(String collectionName, PointsRecommendRequest request) {
+		assertCollectionName(collectionName);
 		return postRequest("collections/" + collectionName + "/points/recommend", request, PointsRecommendResponse.class);
 	}
 
 	@Override
 	public QDrantClientRequest<PointsRecommendBatchResponse> recommendBatchPoints(String collectionName, PointsRecommendBatchRequest request) {
+		assertCollectionName(collectionName);
 		return postRequest("collections/" + collectionName + "/points/recommend/batch", request, PointsRecommendBatchResponse.class);
 	}
 
 	@Override
 	public QDrantClientRequest<PointCountResponse> countPoints(String collectionName, PointCountRequest request) {
+		assertCollectionName(collectionName);
 		return postRequest("collections/" + collectionName + "/points/count", request, PointCountResponse.class);
 	}
 
@@ -339,12 +332,14 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 
 	@Override
 	public QDrantClientRequest<CollectionClusterInfoResponse> getCollectionClusterInfo(String collectionName) {
+		assertCollectionName(collectionName);
 		return getRequest("collections/" + collectionName + "/cluster", CollectionClusterInfoResponse.class);
 	}
 
 	@Override
 	public QDrantClientRequest<GenericBooleanStatusResponse> updateCollectionClusterSetup(String collectionName,
 		CollectionUpdateClusterSetupRequest request) {
+		assertCollectionName(collectionName);
 		return postRequest("collections/" + collectionName + "/cluster", request, GenericBooleanStatusResponse.class);
 	}
 
@@ -352,21 +347,25 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 
 	@Override
 	public QDrantClientRequest<SnapshotListResponse> listCollectionSnapshots(String collectionName) {
+		assertCollectionName(collectionName);
 		return getRequest("collections/" + collectionName + "/snapshots", SnapshotListResponse.class);
 	}
 
 	@Override
 	public QDrantClientRequest<GenericBooleanStatusResponse> recoverSnapshot(String collectionName, SnapshotRecoverRequest request) {
+		assertCollectionName(collectionName);
 		return putRequest("collections/" + collectionName + "snapshots/recover", request, GenericBooleanStatusResponse.class);
 	}
 
 	@Override
 	public QDrantClientRequest<SnapshotResponse> createCollectionSnapshot(String collectionName) {
+		assertCollectionName(collectionName);
 		return postRequest("collections/" + collectionName + "/snapshots", SnapshotResponse.class);
 	}
 
 	@Override
 	public QDrantClientRequest<QDrantBinaryResponse> downloadCollectionSnapshot(String collectionName, String snapshotName) {
+		assertCollectionName(collectionName);
 		return getRequest("collections/" + collectionName + "/snapshots/" + snapshotName, QDrantBinaryResponse.class);
 	}
 
@@ -450,6 +449,34 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 		QDrantClientRequest<CollectionIndexFieldResponse> req = deleteRequest("collections/" + collectionName + "/index/" + fieldName,
 			CollectionIndexFieldResponse.class);
 		return req.addWait(wait);
+	}
+
+	private <T extends RestResponse> QDrantClientRequest<T> deleteRequest(String path, Class<T> responseClass) {
+		return QDrantClientRequest.create(DELETE, path, this, client, responseClass);
+	}
+
+	private <T extends RestResponse> QDrantClientRequest<T> getRequest(String path, Class<T> responseClass) {
+		return QDrantClientRequest.create(GET, path, this, client, responseClass);
+	}
+
+	private <T extends RestResponse> QDrantClientRequest<T> postRequest(String path, RestRequestModel request, Class<T> responseClass) {
+		return QDrantClientRequest.create(POST, path, this, client, request, responseClass);
+	}
+
+	private <T extends RestResponse> QDrantClientRequest<T> postRequest(String path, Class<T> responseClass) {
+		return QDrantClientRequest.create(POST, path, this, client, responseClass);
+	}
+
+	private <T extends RestResponse> QDrantClientRequest<T> putRequest(String path, RestRequestModel request, Class<T> responseClass) {
+		return QDrantClientRequest.create(PUT, path, this, client, request, responseClass);
+	}
+
+	private <T extends RestResponse> QDrantClientRequest<T> patchRequest(String path, RestRequestModel request, Class<T> responseClass) {
+		return QDrantClientRequest.create(PATCH, path, this, client, request, responseClass);
+	}
+
+	private void assertCollectionName(String collectionName) {
+		Objects.requireNonNull(collectionName, "A collection name must be specified");
 	}
 
 }

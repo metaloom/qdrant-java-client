@@ -1,5 +1,7 @@
 package io.metaloom.qdrant.client.http.model;
 
+import io.metaloom.qdrant.client.json.Json;
+
 public abstract class AbstractResponse implements RestResponse, RestModel {
 
 	private float time;
@@ -22,6 +24,11 @@ public abstract class AbstractResponse implements RestResponse, RestModel {
 	public AbstractResponse setStatus(String status) {
 		this.status = status;
 		return this;
+	}
+
+	@Override
+	public String toString() {
+		return Json.parse(this);
 	}
 
 }

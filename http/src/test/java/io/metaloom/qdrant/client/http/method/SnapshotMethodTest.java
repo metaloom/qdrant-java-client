@@ -17,7 +17,7 @@ import io.metaloom.qdrant.client.http.QDrantBinaryResponse;
 import io.metaloom.qdrant.client.http.impl.HttpErrorException;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
 import io.metaloom.qdrant.client.http.model.collection.config.Distance;
-import io.metaloom.qdrant.client.http.model.collection.config.VectorsConfig;
+import io.metaloom.qdrant.client.http.model.collection.config.VectorParams;
 import io.metaloom.qdrant.client.http.model.snapshot.SnapshotDescription;
 
 public class SnapshotMethodTest extends AbstractClientTest {
@@ -26,7 +26,7 @@ public class SnapshotMethodTest extends AbstractClientTest {
 	public void testDownloadSnapshot() throws HttpErrorException, IOException, InterruptedException {
 		// 1. Create Collection
 		CollectionCreateRequest request = new CollectionCreateRequest();
-		request.setVectors(new VectorsConfig().setSize(4).setDistance(Distance.EUCLID));
+		request.setVectors(VectorParams.of(4,Distance.EUCLID));
 		assertSuccess(client.createCollection("test", request).sync());
 
 		// 2. Create Snapshot

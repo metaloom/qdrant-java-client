@@ -1,5 +1,7 @@
 package io.metaloom.qdrant.client.http.model.point;
 
+import static io.metaloom.qdrant.client.util.QDrantClientUtil.toList;
+
 import java.util.List;
 
 import io.metaloom.qdrant.client.http.model.RestModel;
@@ -27,4 +29,14 @@ public class NamedVector implements RestModel {
 		this.vector = vector;
 		return this;
 	}
+
+	public NamedVector setVector(float... values) {
+		this.vector = toList(values);
+		return this;
+	}
+
+	public static NamedVector of(String name, float... values) {
+		return new NamedVector().setName(name).setVector(values);
+	}
+
 }

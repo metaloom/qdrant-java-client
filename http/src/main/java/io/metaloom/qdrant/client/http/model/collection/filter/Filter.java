@@ -1,5 +1,6 @@
 package io.metaloom.qdrant.client.http.model.collection.filter;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,6 +37,11 @@ public class Filter implements RestModel, Condition {
 		return this;
 	}
 
+	public Filter setShould(Condition... should) {
+		this.should = Arrays.asList(should);
+		return this;
+	}
+
 	public List<? extends Condition> getMust() {
 		return must;
 	}
@@ -45,12 +51,22 @@ public class Filter implements RestModel, Condition {
 		return this;
 	}
 
+	public Filter setMust(Condition... must) {
+		this.must = Arrays.asList(must);
+		return this;
+	}
+
 	public List<? extends Condition> getMustNot() {
 		return mustNot;
 	}
 
 	public Filter setMustNot(List<? extends Condition> mustNot) {
 		this.mustNot = mustNot;
+		return this;
+	}
+
+	public Filter setMustNot(Condition... mustNot) {
+		this.mustNot = Arrays.asList(mustNot);
 		return this;
 	}
 }

@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.metaloom.qdrant.client.http.model.RestRequestModel;
 import io.metaloom.qdrant.client.http.model.collection.config.Distance;
 import io.metaloom.qdrant.client.http.model.collection.config.HnswConfigDiff;
+import io.metaloom.qdrant.client.http.model.collection.config.NamedVectorParams;
 import io.metaloom.qdrant.client.http.model.collection.config.OptimizersConfigDiff;
+import io.metaloom.qdrant.client.http.model.collection.config.VectorParams;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorsConfig;
 import io.metaloom.qdrant.client.http.model.collection.config.WalConfigDiff;
 
@@ -44,7 +46,22 @@ public class CollectionCreateRequest implements RestRequestModel {
 	}
 
 	public CollectionCreateRequest setVectors(int size, Distance distance) {
-		return setVectors(new VectorsConfig().setSize(size).setDistance(distance));
+		return setVectors(new VectorParams().setSize(size).setDistance(distance));
+	}
+
+	/**
+	 * Set a named vector parameter to the create request.
+	 * 
+	 * @param name
+	 *            Name of the configuration
+	 * @param size
+	 * @param distance
+	 * @return parameters object to which more configurations can be added
+	 */
+	public NamedVectorParams setVectors(String name, int size, Distance distance) {
+		NamedVectorParams params = NamedVectorParams.of(name, size, distance);
+		setVectors(params);
+		return params;
 	}
 
 	public Integer getShardNumber() {
