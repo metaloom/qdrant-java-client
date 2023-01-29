@@ -47,6 +47,14 @@ public class PointStruct implements RestModel {
 		return this;
 	}
 
+	@JsonIgnore
+	public PointStruct setVector(String vectorName, float... vector) {
+		VectorDataMap dataMap = new VectorDataMap();
+		dataMap.put(vectorName, toList(vector));
+		this.vector = dataMap;
+		return this;
+	}
+
 	public Payload getPayload() {
 		return payload;
 	}
@@ -66,6 +74,12 @@ public class PointStruct implements RestModel {
 	public PointStruct setPayload(String json) throws JacksonException {
 		setPayload(Json.toJson(json));
 		return this;
+	}
+
+	public static PointStruct of(String vectorName, float... vectorComponent) {
+		PointStruct p = new PointStruct();
+		p.setVector(vectorName, vectorComponent);
+		return p;
 	}
 
 	@JsonIgnore

@@ -45,6 +45,7 @@ import io.metaloom.qdrant.client.json.Json;
 
 public class PointMethodTest extends AbstractClientTest {
 
+	public static String VECTOR_NAME = "test-points";
 	public static float[] VECTOR_1 = { 0.42f, 0.33f, 42.15f, 68.72f };
 	public static float[] NEAR_VECTOR_1 = { 0.41f, 0.32f, 42.11f, 68.71f };
 	public static float[] VECTOR_2 = { 0.12f, 0.23f, 12.46f, 47.17f };
@@ -54,21 +55,23 @@ public class PointMethodTest extends AbstractClientTest {
 	@Before
 	public void setupTestData() throws Exception {
 		CollectionCreateRequest collection = new CollectionCreateRequest();
-		collection.setVectors("default", 4, Distance.EUCLID);
+		collection.setVectors(VECTOR_NAME, 4, Distance.EUCLID);
 		invoke(client.createCollection(TEST_COLLECTION_NAME, collection));
 
-		PointStruct p1 = PointStruct.of(VECTOR_1).setId(1);
+		PointStruct p1 = PointStruct.of(VECTOR_NAME, VECTOR_1).setId(1);
 		p1.setPayload("{\"name\": \"first\"}");
 
-		PointStruct p2 = PointStruct.of(VECTOR_2).setId(2);
-		PointStruct p3 = PointStruct.of(VECTOR_3).setId(3);
-		PointStruct p4 = PointStruct.of(VECTOR_4).setId(4);
+		PointStruct p2 = PointStruct.of(VECTOR_NAME, VECTOR_2).setId(2);
+		PointStruct p3 = PointStruct.of(VECTOR_NAME, VECTOR_3).setId(3);
+		PointStruct p4 = PointStruct.of(VECTOR_NAME, VECTOR_4).setId(4);
 
 		JsonNode json = Json.toJson("{ \"color\": \"red\"}");
 		p4.setPayload(json);
 		PointsListUpsertRequest pointsRequest = new PointsListUpsertRequest();
 		pointsRequest.setPoints(p1, p2, p3, p4);
 		invoke(client.upsertPoints(TEST_COLLECTION_NAME, pointsRequest, false));
+
+		assertThat(client).hasPoints(TEST_COLLECTION_NAME, 4);
 	}
 
 	@Test
@@ -108,6 +111,8 @@ public class PointMethodTest extends AbstractClientTest {
 
 	@Test
 	public void testDeletePoints() throws HttpErrorException {
+		assertThat(client).hasPoints(TEST_COLLECTION_NAME, 4);
+
 		// Delete via list of ids
 		PointsListDeleteRequest listRequest = new PointsListDeleteRequest();
 		listRequest.setPoints(1L, 2L);

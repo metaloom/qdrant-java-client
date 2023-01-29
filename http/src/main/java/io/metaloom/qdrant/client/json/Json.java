@@ -57,7 +57,7 @@ public final class Json {
 		module.addSerializer(Vector.class, new VectorSerializer());
 		module.addDeserializer(Vector.class, new VectorDeserializer());
 
-		//module.addSerializer(VectorData.class, new VectorDataSerializer());
+		module.addSerializer(VectorData.class, new VectorDataSerializer());
 		module.addDeserializer(VectorData.class, new VectorDataDeserializer());
 		mapper.registerModule(module);
 	}

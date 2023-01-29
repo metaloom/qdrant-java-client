@@ -17,6 +17,15 @@ public final class QDrantClientUtil {
 		return floatArray;
 	}
 
+	public static double[] toDoubleArray(List<Float> list) {
+		double[] doubleArray = new double[list.size()];
+		int i = 0;
+		for (Float f : list) {
+			doubleArray[i++] = (f != null ? f : Double.NaN);
+		}
+		return doubleArray;
+	}
+
 	public static List<Float> toList(float... values) {
 		List<Float> result = new ArrayList<>(values.length);
 		for (float id : values) {

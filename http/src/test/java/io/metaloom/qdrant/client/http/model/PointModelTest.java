@@ -13,6 +13,7 @@ import io.metaloom.qdrant.client.http.model.point.PointCountResponse;
 import io.metaloom.qdrant.client.http.model.point.PointDeletePayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointGetResponse;
 import io.metaloom.qdrant.client.http.model.point.PointSetPayloadRequest;
+import io.metaloom.qdrant.client.http.model.point.PointStruct;
 import io.metaloom.qdrant.client.http.model.point.PointsBatchUpsertRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsGetResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsListUpsertRequest;
@@ -72,6 +73,10 @@ public class PointModelTest extends AbstractModelTest {
 	public void testPointsUpsertListRequestModel() {
 		PointsListUpsertRequest req = load("point/points-list-upsert-request", PointsListUpsertRequest.class);
 		assertEquals(3L, req.getPoints().get(2).getId());
+
+		PointsListUpsertRequest req2 = new PointsListUpsertRequest();
+		req2.setPoints(PointStruct.of(0.42f));
+		Json.parse(req2);
 	}
 
 	@Test
