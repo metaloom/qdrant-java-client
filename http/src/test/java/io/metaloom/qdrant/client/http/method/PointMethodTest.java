@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.Arrays;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,7 +42,7 @@ import io.metaloom.qdrant.client.http.model.point.PointsScrollResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchBatchRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchRequest;
 import io.metaloom.qdrant.client.http.model.point.Record;
-import io.metaloom.qdrant.client.http.model.point.Vector;
+import io.metaloom.qdrant.client.http.model.point.VectorDataMap;
 import io.metaloom.qdrant.client.json.Json;
 
 public class PointMethodTest extends AbstractClientTest {
@@ -95,14 +97,16 @@ public class PointMethodTest extends AbstractClientTest {
 	@Test
 	public void testUpsertPoints() throws HttpErrorException, JacksonException {
 		PointsListUpsertRequest listRequest = new PointsListUpsertRequest();
-		listRequest.setPoints(PointStruct.of(42.51f, 51f, 0.14f, 516.1f));
+		listRequest.setPoints(PointStruct.of(VECTOR_NAME, 42.51f, 51f, 0.14f, 516.1f));
 		invoke(client.upsertPoints(TEST_COLLECTION_NAME, listRequest, true));
 
 		PointsBatchUpsertRequest batchRequest = new PointsBatchUpsertRequest();
 		PointsBatch batch = new PointsBatch();
 		batch.setIds(4L);
 		batch.setPayloads(Payload.of("{\"name\": \"fourth\"}"));
-		batch.setVectors(Vector.of(42f, 66f, 1f, 0.42f));
+		VectorDataMap vectorDataMap = new VectorDataMap();
+		vectorDataMap.put(VECTOR_NAME, Arrays.asList(42f, 66f, 1f, 0.42f));
+		batch.setVectors(vectorDataMap);
 		batchRequest.setBatch(batch);
 		invoke(client.upsertPoints(TEST_COLLECTION_NAME, batchRequest, true));
 

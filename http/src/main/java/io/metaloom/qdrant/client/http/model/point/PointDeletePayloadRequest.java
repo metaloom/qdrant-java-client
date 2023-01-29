@@ -4,6 +4,7 @@ import static io.metaloom.qdrant.client.util.QDrantClientUtil.toList;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,7 +24,7 @@ public class PointDeletePayloadRequest implements RestRequestModel {
 	 * Deletes values from each point in this list
 	 */
 	@JsonProperty("points")
-	private List<Long> points;
+	private List<PointId> points;
 
 	/**
 	 * Deletes values from points that satisfy this filter condition
@@ -46,18 +47,18 @@ public class PointDeletePayloadRequest implements RestRequestModel {
 		return this;
 	}
 
-	public List<Long> getPoints() {
+	public List<PointId> getPoints() {
 		return points;
 	}
 
-	public PointDeletePayloadRequest setPoints(List<Long> points) {
+	public PointDeletePayloadRequest setPoints(List<PointId> points) {
 		this.points = points;
 		return this;
 	}
 
 	@JsonIgnore
 	public PointDeletePayloadRequest setPoints(long... ids) {
-		this.points = toList(ids);
+		this.points = toList(ids).stream().map(PointId::of).collect(Collectors.toList());
 		return this;
 	}
 

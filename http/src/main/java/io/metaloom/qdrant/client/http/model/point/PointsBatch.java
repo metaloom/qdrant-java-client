@@ -16,7 +16,7 @@ public class PointsBatch implements RestModel {
 	private List<Long> ids;
 
 	@JsonProperty("vectors")
-	private List<Vector> vectors;
+	private List<VectorData> vectors;
 
 	@JsonProperty("payloads")
 	private List<Payload> payloads;
@@ -30,17 +30,17 @@ public class PointsBatch implements RestModel {
 		return this;
 	}
 
-	public List<Vector> getVectors() {
+	public List<VectorData> getVectors() {
 		return vectors;
 	}
 
-	public PointsBatch setVectors(List<Vector> vectors) {
+	public PointsBatch setVectors(List<VectorData> vectors) {
 		this.vectors = vectors;
 		return this;
 	}
 
 	@JsonIgnore
-	public PointsBatch setVectors(Vector... vectors) {
+	public PointsBatch setVectors(VectorData... vectors) {
 		this.vectors = Arrays.asList(vectors);
 		return this;
 	}
