@@ -9,7 +9,7 @@ import io.metaloom.qdrant.client.http.model.RestModel;
 
 public class Vector implements RestModel {
 
-	List<Float> components;
+	private List<Float> components;
 
 	public List<Float> getComponents() {
 		return components;

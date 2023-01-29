@@ -17,6 +17,7 @@ import io.metaloom.qdrant.client.http.model.collection.filter.match.Match;
 import io.metaloom.qdrant.client.http.model.point.NamedVector;
 import io.metaloom.qdrant.client.http.model.point.Payload;
 import io.metaloom.qdrant.client.http.model.point.Vector;
+import io.metaloom.qdrant.client.http.model.point.VectorData;
 import io.metaloom.qdrant.client.http.model.telemetry.CollectionTelemetry;
 import io.metaloom.qdrant.client.json.serializer.AliasOperationDeserializer;
 import io.metaloom.qdrant.client.json.serializer.CollectionTelemetryDeserializer;
@@ -25,6 +26,8 @@ import io.metaloom.qdrant.client.json.serializer.MatchDeserializer;
 import io.metaloom.qdrant.client.json.serializer.NamedVectorDeserializer;
 import io.metaloom.qdrant.client.json.serializer.PayloadDeserializer;
 import io.metaloom.qdrant.client.json.serializer.PayloadSerializer;
+import io.metaloom.qdrant.client.json.serializer.VectorDataDeserializer;
+import io.metaloom.qdrant.client.json.serializer.VectorDataSerializer;
 import io.metaloom.qdrant.client.json.serializer.VectorDeserializer;
 import io.metaloom.qdrant.client.json.serializer.VectorSerializer;
 import io.metaloom.qdrant.client.json.serializer.VectorsConfigDeserializer;
@@ -53,6 +56,9 @@ public final class Json {
 
 		module.addSerializer(Vector.class, new VectorSerializer());
 		module.addDeserializer(Vector.class, new VectorDeserializer());
+
+		//module.addSerializer(VectorData.class, new VectorDataSerializer());
+		module.addDeserializer(VectorData.class, new VectorDataDeserializer());
 		mapper.registerModule(module);
 	}
 

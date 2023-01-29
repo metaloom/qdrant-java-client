@@ -1,138 +1,138 @@
 {
-    "payload": {
-      "name": "jacket",
-      "colors": ["red", "blue"],
-      "count": 10,
-      "price": 11.99,
-      "locations": [
-          {
-              "lon": 52.5200,
-              "lat": 13.4050
-          }
-      ],
-      "reviews": [
-          {
-              "user": "alice",
-              "score": 4>
-          },
-          {
-              "user": "bob",
-              "score": 5
-          }
-      ]
+  "payload": {
+    "name": "jacket",
+    "colors": ["red", "blue"],
+    "count": 10,
+    "price": 11.99,
+    "locations": [
+      {
+        "lon": 52.52,
+        "lat": 13.405
+      }
+    ],
+    "reviews": [
+      {
+        "user": "alice",
+        "score": 4
+      },
+      {
+        "user": "bob",
+        "score": 5
+      }
+    ]
   },
-    "points": [0],
-    "filter": {
-      "should": [
-        {
-          "key": "string",
-          "match": {
-            "value": "string"
+  "points": [0],
+  "filter": {
+    "should": [
+      {
+        "key": "string",
+        "match": {
+          "value": "string"
+        },
+        "range": {
+          "lt": 0,
+          "gt": 0,
+          "gte": 0,
+          "lte": 0
+        },
+        "geo_bounding_box": {
+          "top_left": {
+            "lon": 0,
+            "lat": 0
           },
-          "range": {
-            "lt": 0,
-            "gt": 0,
-            "gte": 0,
-            "lte": 0
-          },
-          "geo_bounding_box": {
-            "top_left": {
-              "lon": 0,
-              "lat": 0
-            },
-            "bottom_right": {
-              "lon": 0,
-              "lat": 0
-            }
-          },
-          "geo_radius": {
-            "center": {
-              "lon": 0,
-              "lat": 0
-            },
-            "radius": 0
-          },
-          "values_count": {
-            "lt": 0,
-            "gt": 0,
-            "gte": 0,
-            "lte": 0
+          "bottom_right": {
+            "lon": 0,
+            "lat": 0
           }
+        },
+        "geo_radius": {
+          "center": {
+            "lon": 0,
+            "lat": 0
+          },
+          "radius": 0
+        },
+        "values_count": {
+          "lt": 0,
+          "gt": 0,
+          "gte": 0,
+          "lte": 0
         }
-      ],
-      "must": [
-        {
-          "key": "string",
-          "match": {
-            "value": "string"
+      }
+    ],
+    "must": [
+      {
+        "key": "string",
+        "match": {
+          "value": "string"
+        },
+        "range": {
+          "lt": 0,
+          "gt": 0,
+          "gte": 0,
+          "lte": 0
+        },
+        "geo_bounding_box": {
+          "top_left": {
+            "lon": 0,
+            "lat": 0
           },
-          "range": {
-            "lt": 0,
-            "gt": 0,
-            "gte": 0,
-            "lte": 0
-          },
-          "geo_bounding_box": {
-            "top_left": {
-              "lon": 0,
-              "lat": 0
-            },
-            "bottom_right": {
-              "lon": 0,
-              "lat": 0
-            }
-          },
-          "geo_radius": {
-            "center": {
-              "lon": 0,
-              "lat": 0
-            },
-            "radius": 0
-          },
-          "values_count": {
-            "lt": 0,
-            "gt": 0,
-            "gte": 0,
-            "lte": 0
+          "bottom_right": {
+            "lon": 0,
+            "lat": 0
           }
+        },
+        "geo_radius": {
+          "center": {
+            "lon": 0,
+            "lat": 0
+          },
+          "radius": 0
+        },
+        "values_count": {
+          "lt": 0,
+          "gt": 0,
+          "gte": 0,
+          "lte": 0
         }
-      ],
-      "must_not": [
-        {
-          "key": "string",
-          "match": {
-            "value": "string"
+      }
+    ],
+    "must_not": [
+      {
+        "key": "string",
+        "match": {
+          "value": "string"
+        },
+        "range": {
+          "lt": 0,
+          "gt": 0,
+          "gte": 0,
+          "lte": 0
+        },
+        "geo_bounding_box": {
+          "top_left": {
+            "lon": 0,
+            "lat": 0
           },
-          "range": {
-            "lt": 0,
-            "gt": 0,
-            "gte": 0,
-            "lte": 0
-          },
-          "geo_bounding_box": {
-            "top_left": {
-              "lon": 0,
-              "lat": 0
-            },
-            "bottom_right": {
-              "lon": 0,
-              "lat": 0
-            }
-          },
-          "geo_radius": {
-            "center": {
-              "lon": 0,
-              "lat": 0
-            },
-            "radius": 0
-          },
-          "values_count": {
-            "lt": 0,
-            "gt": 0,
-            "gte": 0,
-            "lte": 0
+          "bottom_right": {
+            "lon": 0,
+            "lat": 0
           }
+        },
+        "geo_radius": {
+          "center": {
+            "lon": 0,
+            "lat": 0
+          },
+          "radius": 0
+        },
+        "values_count": {
+          "lt": 0,
+          "gt": 0,
+          "gte": 0,
+          "lte": 0
         }
-      ]
-    }
+      }
+    ]
   }
+}

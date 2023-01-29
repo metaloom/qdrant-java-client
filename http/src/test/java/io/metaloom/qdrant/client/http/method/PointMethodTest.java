@@ -46,6 +46,7 @@ import io.metaloom.qdrant.client.json.Json;
 public class PointMethodTest extends AbstractClientTest {
 
 	public static float[] VECTOR_1 = { 0.42f, 0.33f, 42.15f, 68.72f };
+	public static float[] NEAR_VECTOR_1 = { 0.41f, 0.32f, 42.11f, 68.71f };
 	public static float[] VECTOR_2 = { 0.12f, 0.23f, 12.46f, 47.17f };
 	public static float[] VECTOR_3 = { 0.76f, 0.43f, 63.45f, 22.10f };
 	public static float[] VECTOR_4 = { 0.17f, 0.36f, 72.39f, 0.0f };
@@ -212,8 +213,10 @@ public class PointMethodTest extends AbstractClientTest {
 	@Test
 	public void testSearchPoints() throws HttpErrorException {
 		PointsSearchRequest request = new PointsSearchRequest();
-		request.setVector(NamedVector.of("default", VECTOR_1));
-		request.setLimit(2);
+		request.setVector(NamedVector.of("default", NEAR_VECTOR_1));
+		request.setLimit(10);
+		request.setWithPayload(true);
+		request.setWithVector(true);
 		invoke(client.searchPoints(TEST_COLLECTION_NAME, request));
 	}
 

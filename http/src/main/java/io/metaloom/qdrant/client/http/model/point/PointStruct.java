@@ -2,8 +2,8 @@ package io.metaloom.qdrant.client.http.model.point;
 
 import static io.metaloom.qdrant.client.util.QDrantClientUtil.toList;
 
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -12,8 +12,13 @@ import io.metaloom.qdrant.client.json.Json;
 
 public class PointStruct implements RestModel {
 
+	@JsonProperty("id")
 	private int id;
-	private List<Float> vector;
+
+	@JsonProperty("vector")
+	private VectorData vector;
+
+	@JsonProperty("payload")
 	private Payload payload;
 
 	public int getId() {
@@ -25,17 +30,20 @@ public class PointStruct implements RestModel {
 		return this;
 	}
 
-	public List<Float> getVector() {
+	public VectorData getVector() {
 		return vector;
 	}
 
-	public PointStruct setVector(List<Float> vector) {
+	public PointStruct setVector(VectorData vector) {
 		this.vector = vector;
 		return this;
 	}
 
+	@JsonIgnore
 	public PointStruct setVector(float... vector) {
-		this.vector = toList(vector);
+		VectorDataPlain data = new VectorDataPlain();
+		data.setVector(toList(vector));
+		this.vector = data;
 		return this;
 	}
 
@@ -48,16 +56,19 @@ public class PointStruct implements RestModel {
 		return this;
 	}
 
+	@JsonIgnore
 	public PointStruct setPayload(JsonNode json) {
 		this.payload = new Payload().setJson(json);
 		return this;
 	}
 
+	@JsonIgnore
 	public PointStruct setPayload(String json) throws JacksonException {
 		setPayload(Json.toJson(json));
 		return this;
 	}
 
+	@JsonIgnore
 	public static PointStruct of(float... vectorComponent) {
 		PointStruct p = new PointStruct();
 		p.setVector(vectorComponent);

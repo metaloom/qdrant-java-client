@@ -5,6 +5,9 @@ import static io.metaloom.qdrant.client.util.QDrantClientUtil.toList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.metaloom.qdrant.client.http.model.RestRequestModel;
 import io.metaloom.qdrant.client.http.model.collection.filter.Filter;
 
@@ -13,16 +16,19 @@ public class PointDeletePayloadRequest implements RestRequestModel {
 	/**
 	 * List of payload keys to remove from payload
 	 */
+	@JsonProperty("keys")
 	private List<String> keys;
 
 	/**
 	 * Deletes values from each point in this list
 	 */
+	@JsonProperty("points")
 	private List<Long> points;
 
 	/**
 	 * Deletes values from points that satisfy this filter condition
 	 */
+	@JsonProperty("filter")
 	private Filter filter;
 
 	public List<String> getKeys() {
@@ -34,6 +40,7 @@ public class PointDeletePayloadRequest implements RestRequestModel {
 		return this;
 	}
 
+	@JsonIgnore
 	public PointDeletePayloadRequest setKeys(String... keys) {
 		this.keys = Arrays.asList(keys);
 		return this;
@@ -48,6 +55,7 @@ public class PointDeletePayloadRequest implements RestRequestModel {
 		return this;
 	}
 
+	@JsonIgnore
 	public PointDeletePayloadRequest setPoints(long... ids) {
 		this.points = toList(ids);
 		return this;

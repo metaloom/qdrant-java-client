@@ -5,12 +5,20 @@ import static io.metaloom.qdrant.client.util.QDrantClientUtil.toList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.metaloom.qdrant.client.http.model.RestModel;
 
 public class PointsBatch implements RestModel {
 
+	@JsonProperty("ids")
 	private List<Long> ids;
+
+	@JsonProperty("vectors")
 	private List<Vector> vectors;
+
+	@JsonProperty("payloads")
 	private List<Payload> payloads;
 
 	public List<Long> getIds() {
@@ -31,6 +39,7 @@ public class PointsBatch implements RestModel {
 		return this;
 	}
 
+	@JsonIgnore
 	public PointsBatch setVectors(Vector... vectors) {
 		this.vectors = Arrays.asList(vectors);
 		return this;
@@ -45,11 +54,13 @@ public class PointsBatch implements RestModel {
 		return this;
 	}
 
+	@JsonIgnore
 	public PointsBatch setIds(long... ids) {
 		this.ids = toList(ids);
 		return this;
 	}
 
+	@JsonIgnore
 	public PointsBatch setPayloads(Payload... payloads) {
 		this.payloads = Arrays.asList(payloads);
 		return this;

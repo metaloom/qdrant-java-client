@@ -4,6 +4,7 @@ import static io.metaloom.qdrant.client.util.QDrantClientUtil.toList;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HasIdCondition implements Condition {
@@ -20,6 +21,7 @@ public class HasIdCondition implements Condition {
 		return this;
 	}
 
+	@JsonIgnore
 	public HasIdCondition setIds(long... ids) {
 		this.ids = toList(ids);
 		return this;

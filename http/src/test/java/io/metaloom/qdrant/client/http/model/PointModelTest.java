@@ -13,23 +13,25 @@ import io.metaloom.qdrant.client.http.model.point.PointCountResponse;
 import io.metaloom.qdrant.client.http.model.point.PointDeletePayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointGetResponse;
 import io.metaloom.qdrant.client.http.model.point.PointSetPayloadRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsBatchUpsertRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsGetResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsListUpsertRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchRequest;
 import io.metaloom.qdrant.client.http.model.point.UpdateResultResponse;
 import io.metaloom.qdrant.client.http.model.point.UpdateStatus;
+import io.metaloom.qdrant.client.json.Json;
 
 public class PointModelTest extends AbstractModelTest {
 
 	@Test
 	public void testPointCountResponseModel() {
-		PointCountResponse response = load("point-count-response", PointCountResponse.class);
+		PointCountResponse response = load("point/point-count-response", PointCountResponse.class);
 		assertEquals(42, response.getResult().getCount());
 	}
 
 	@Test
 	public void testPointCountRequestModel() {
-		PointCountRequest request = load("point-count-request", PointCountRequest.class);
+		PointCountRequest request = load("point/point-count-request", PointCountRequest.class);
 		FieldCondition shouldCondition = (FieldCondition) request.getFilter().getShould().get(0);
 		assertEquals("string", shouldCondition.getKey());
 
@@ -45,7 +47,7 @@ public class PointModelTest extends AbstractModelTest {
 
 	@Test
 	public void testPointSetPayloadRequestModel() {
-		PointSetPayloadRequest request = load("point-set-payload-request", PointSetPayloadRequest.class);
+		PointSetPayloadRequest request = load("point/point-set-payload-request", PointSetPayloadRequest.class);
 		assertEquals("jacket", request.getPayload().getJson().get("name").asText());
 	}
 
@@ -57,24 +59,32 @@ public class PointModelTest extends AbstractModelTest {
 
 	@Test
 	public void testPointDeletePayloadRequestModel() {
-		PointDeletePayloadRequest req = load("point-delete-payload-request", PointDeletePayloadRequest.class);
+		PointDeletePayloadRequest req = load("point/point-delete-payload-request", PointDeletePayloadRequest.class);
 	}
 
 	@Test
-	public void testPointsUpsertRequestModelPointsBatch() {
-		PointsListUpsertRequest req = load("points-upsert-request", PointsListUpsertRequest.class);
-		assertEquals(42L, req.getPoints().get(0).getId());
+	public void testPointsUpsertBatchRequestModel() {
+		PointsBatchUpsertRequest req = load("point/points-batch-upsert-request", PointsBatchUpsertRequest.class);
+		assertEquals(2L, req.getBatch().getIds().get(1).longValue());
 	}
 
 	@Test
-	public void testPointsUpsertRequestModelListBatch() {
-		PointsListUpsertRequest req = load("points-upsert-list-batch-request", PointsListUpsertRequest.class);
-		assertEquals(42, req.getPoints().get(0).getId());
+	public void testPointsUpsertListRequestModel() {
+		PointsListUpsertRequest req = load("point/points-list-upsert-request", PointsListUpsertRequest.class);
+		assertEquals(3L, req.getPoints().get(2).getId());
+	}
+
+	@Test
+	public void testNamedPointsUpsertListRequestModel() {
+		PointsListUpsertRequest req = load("point/named-points-list-upsert-request", PointsListUpsertRequest.class);
+		assertEquals(2L, req.getPoints().get(1).getId());
+		String json = Json.parse(req);
+		System.out.println(json);
 	}
 
 	@Test
 	public void testPointGetResponseModel() {
-		PointGetResponse response = load("point-get-response", PointGetResponse.class);
+		PointGetResponse response = load("point/point-get-response", PointGetResponse.class);
 		assertEquals(42, response.getResult().getId().longValue());
 		assertTrue(response.getResult().getPayload().getJson().isEmpty());
 		assertEquals(1, response.getResult().getVector().size());
@@ -82,13 +92,13 @@ public class PointModelTest extends AbstractModelTest {
 
 	@Test
 	public void testPointsGetResponseModel() {
-		PointsGetResponse response = load("points-get-response", PointsGetResponse.class);
+		PointsGetResponse response = load("point/points-get-response", PointsGetResponse.class);
 		assertEquals(42, response.getResult().get(0).getId().longValue());
 	}
 
 	@Test
 	public void testPointsSearchRequestModel() {
-		PointsSearchRequest request = load("points-search-request", PointsSearchRequest.class);
+		PointsSearchRequest request = load("point/points-search-request", PointsSearchRequest.class);
 		assertEquals(42, request.getParams().getHnswBeamSearchSize().longValue());
 		assertEquals(42.42f, request.getVector().getVector().get(1), 0f);
 	}

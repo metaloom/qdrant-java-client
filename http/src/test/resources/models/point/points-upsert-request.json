@@ -1,7 +1,0 @@
-{
-  "batch": {
-    "ids": [42],
-    "vectors": [[0]],
-    "payloads": [{}]
-  }
-}

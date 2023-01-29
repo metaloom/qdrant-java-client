@@ -22,6 +22,8 @@ public abstract class AbstractModelTest {
 	}
 
 	public <T extends RestModel> T load(String modelName, Class<T> classOfT) {
-		return Json.parse(load(modelName), classOfT);
+		String body = load(modelName);
+		System.out.println(body);
+		return Json.parse(body, classOfT);
 	}
 }
