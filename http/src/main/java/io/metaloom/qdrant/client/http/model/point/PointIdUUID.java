@@ -15,4 +15,9 @@ public class PointIdUUID implements PointId {
 		return this;
 	}
 
+	@Override
+	public String toString() {
+		return id == null ? "" : id.toString();
+	}
+
 }

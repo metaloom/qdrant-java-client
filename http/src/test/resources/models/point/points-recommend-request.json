@@ -1,0 +1,128 @@
+{
+  "positive": [0],
+  "negative": [],
+  "filter": {
+    "should": [
+      {
+        "key": "string",
+        "match": {
+          "value": "string"
+        },
+        "range": {
+          "lt": 0,
+          "gt": 0,
+          "gte": 0,
+          "lte": 0
+        },
+        "geo_bounding_box": {
+          "top_left": {
+            "lon": 0,
+            "lat": 0
+          },
+          "bottom_right": {
+            "lon": 0,
+            "lat": 0
+          }
+        },
+        "geo_radius": {
+          "center": {
+            "lon": 0,
+            "lat": 0
+          },
+          "radius": 0
+        },
+        "values_count": {
+          "lt": 0,
+          "gt": 0,
+          "gte": 0,
+          "lte": 0
+        }
+      }
+    ],
+    "must": [
+      {
+        "key": "string",
+        "match": {
+          "value": "string"
+        },
+        "range": {
+          "lt": 0,
+          "gt": 0,
+          "gte": 0,
+          "lte": 0
+        },
+        "geo_bounding_box": {
+          "top_left": {
+            "lon": 0,
+            "lat": 0
+          },
+          "bottom_right": {
+            "lon": 0,
+            "lat": 0
+          }
+        },
+        "geo_radius": {
+          "center": {
+            "lon": 0,
+            "lat": 0
+          },
+          "radius": 0
+        },
+        "values_count": {
+          "lt": 0,
+          "gt": 0,
+          "gte": 0,
+          "lte": 0
+        }
+      }
+    ],
+    "must_not": [
+      {
+        "key": "string",
+        "match": {
+          "value": "string"
+        },
+        "range": {
+          "lt": 0,
+          "gt": 0,
+          "gte": 0,
+          "lte": 0
+        },
+        "geo_bounding_box": {
+          "top_left": {
+            "lon": 0,
+            "lat": 0
+          },
+          "bottom_right": {
+            "lon": 0,
+            "lat": 0
+          }
+        },
+        "geo_radius": {
+          "center": {
+            "lon": 0,
+            "lat": 0
+          },
+          "radius": 0
+        },
+        "values_count": {
+          "lt": 0,
+          "gt": 0,
+          "gte": 0,
+          "lte": 0
+        }
+      }
+    ]
+  },
+  "params": {
+    "hnsw_ef": 0,
+    "exact": false
+  },
+  "limit": 0,
+  "offset": 0,
+  "with_payload": true,
+  "with_vector": null,
+  "score_threshold": 0,
+  "using": null,
+  "lookup_from": null
+}

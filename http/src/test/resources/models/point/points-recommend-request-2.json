@@ -1,0 +1,15 @@
+{
+  "filter": {
+        "must": [
+            {
+                "key": "city",
+                "match": {
+                    "value": "London"
+                }
+            }
+        ]
+  },
+  "negative": [718],
+  "positive": [100, 231],
+  "limit": 10
+}

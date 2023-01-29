@@ -11,4 +11,9 @@ public class DropReplicaOperation extends AbstractShardOperation {
 		return peerId;
 	}
 
+	public DropReplicaOperation setPeerId(long peerId) {
+		this.peerId = peerId;
+		return this;
+	}
+
 }

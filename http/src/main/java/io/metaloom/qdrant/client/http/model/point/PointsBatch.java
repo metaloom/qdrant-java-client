@@ -13,7 +13,7 @@ import io.metaloom.qdrant.client.http.model.RestModel;
 public class PointsBatch implements RestModel {
 
 	@JsonProperty("ids")
-	private List<Long> ids;
+	private List<PointId> ids;
 
 	@JsonProperty("vectors")
 	private List<VectorData> vectors;
@@ -21,11 +21,11 @@ public class PointsBatch implements RestModel {
 	@JsonProperty("payloads")
 	private List<Payload> payloads;
 
-	public List<Long> getIds() {
+	public List<PointId> getIds() {
 		return ids;
 	}
 
-	public PointsBatch setIds(List<Long> ids) {
+	public PointsBatch setIds(List<PointId> ids) {
 		this.ids = ids;
 		return this;
 	}
@@ -56,7 +56,7 @@ public class PointsBatch implements RestModel {
 
 	@JsonIgnore
 	public PointsBatch setIds(long... ids) {
-		this.ids = toList(ids);
+		this.ids = PointId.list(ids);
 		return this;
 	}
 

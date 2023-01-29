@@ -13,7 +13,7 @@ import io.metaloom.qdrant.client.json.Json;
 public class PointStruct implements RestModel {
 
 	@JsonProperty("id")
-	private int id;
+	private PointId id;
 
 	@JsonProperty("vector")
 	private VectorData vector;
@@ -21,11 +21,11 @@ public class PointStruct implements RestModel {
 	@JsonProperty("payload")
 	private Payload payload;
 
-	public int getId() {
+	public PointId getId() {
 		return id;
 	}
 
-	public PointStruct setId(int id) {
+	public PointStruct setId(PointId id) {
 		this.id = id;
 		return this;
 	}
@@ -76,6 +76,12 @@ public class PointStruct implements RestModel {
 		return this;
 	}
 
+	@JsonIgnore
+	public PointStruct setId(long id) {
+		this.id = PointId.of(id);
+		return this;
+	}
+
 	public static PointStruct of(String vectorName, float... vectorComponent) {
 		PointStruct p = new PointStruct();
 		p.setVector(vectorName, vectorComponent);
@@ -88,4 +94,5 @@ public class PointStruct implements RestModel {
 		p.setVector(vectorComponent);
 		return p;
 	}
+
 }

@@ -30,7 +30,8 @@ public class ErrorResponse implements RestModel {
 		return result;
 	}
 
-	public void setResult(Object result) {
+	public ErrorResponse setResult(Object result) {
 		this.result = result;
+		return this;
 	}
 }

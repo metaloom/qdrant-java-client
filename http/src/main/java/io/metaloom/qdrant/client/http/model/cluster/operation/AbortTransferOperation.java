@@ -14,7 +14,17 @@ public class AbortTransferOperation extends AbstractShardOperation {
 		return toPeerId;
 	}
 
+	public AbortTransferOperation setToPeerId(long toPeerId) {
+		this.toPeerId = toPeerId;
+		return this;
+	}
+
 	public long getFromPeerId() {
 		return fromPeerId;
+	}
+
+	public AbortTransferOperation setFromPeerId(long fromPeerId) {
+		this.fromPeerId = fromPeerId;
+		return this;
 	}
 }

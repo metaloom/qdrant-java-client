@@ -1,10 +1,16 @@
 package io.metaloom.qdrant.client.http.method;
 
+import static io.metaloom.qdrant.client.util.QDrantClientUtil.assertPointId;
+import static io.metaloom.qdrant.client.util.QDrantClientUtil.assertUuid;
+
+import java.util.UUID;
+
 import io.metaloom.qdrant.client.http.QDrantClientRequest;
 import io.metaloom.qdrant.client.http.model.point.PointCountRequest;
 import io.metaloom.qdrant.client.http.model.point.PointCountResponse;
 import io.metaloom.qdrant.client.http.model.point.PointDeletePayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointGetResponse;
+import io.metaloom.qdrant.client.http.model.point.PointId;
 import io.metaloom.qdrant.client.http.model.point.PointOverwritePayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointSetPayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsClearPayloadRequest;
@@ -27,6 +33,20 @@ import io.metaloom.qdrant.client.http.model.point.UpdateResultResponse;
 public interface PointMethods {
 
 	QDrantClientRequest<PointGetResponse> getPoint(String collectionName, String pointId);
+
+	default QDrantClientRequest<PointGetResponse> getPoint(String collectionName, PointId pointId) {
+		assertPointId(pointId);
+		return getPoint(collectionName, pointId.toString());
+	}
+
+	default QDrantClientRequest<PointGetResponse> getPoint(String collectionName, long id) {
+		return getPoint(collectionName, String.valueOf(id));
+	}
+
+	default QDrantClientRequest<PointGetResponse> getPoint(String collectionName, UUID uuid) {
+		assertUuid(uuid);
+		return getPoint(collectionName, uuid.toString());
+	}
 
 	QDrantClientRequest<PointsGetResponse> getPoints(String collectionName, PointsGetRequest request);
 

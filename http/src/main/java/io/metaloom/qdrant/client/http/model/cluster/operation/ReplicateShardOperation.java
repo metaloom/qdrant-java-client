@@ -14,8 +14,18 @@ public class ReplicateShardOperation extends AbstractShardOperation {
 		return toPeerId;
 	}
 
+	public ReplicateShardOperation setToPeerId(long toPeerId) {
+		this.toPeerId = toPeerId;
+		return this;
+	}
+
 	public long getFromPeerId() {
 		return fromPeerId;
+	}
+
+	public ReplicateShardOperation setFromPeerId(long fromPeerId) {
+		this.fromPeerId = fromPeerId;
+		return this;
 	}
 
 }

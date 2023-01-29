@@ -78,7 +78,7 @@ public class PointMethodTest extends AbstractClientTest {
 
 	@Test
 	public void testGetPoint() throws HttpErrorException {
-		Record point = invoke(client.getPoint(TEST_COLLECTION_NAME, "1")).getResult();
+		Record point = invoke(client.getPoint(TEST_COLLECTION_NAME, 1L)).getResult();
 		assertEquals("first", point.getPayload().getJson().get("name").asText());
 	}
 
@@ -222,7 +222,7 @@ public class PointMethodTest extends AbstractClientTest {
 	@Test
 	public void testSearchPoints() throws HttpErrorException {
 		PointsSearchRequest request = new PointsSearchRequest();
-		request.setVector(NamedVector.of("default", NEAR_VECTOR_1));
+		request.setVector(NamedVector.of(VECTOR_NAME, NEAR_VECTOR_1));
 		request.setLimit(10);
 		request.setWithPayload(true);
 		request.setWithVector(true);
@@ -238,6 +238,8 @@ public class PointMethodTest extends AbstractClientTest {
 	@Test
 	public void testRecommendPoints() throws HttpErrorException {
 		PointsRecommendRequest request = new PointsRecommendRequest();
+		request.setPositive(1L);
+		request.setLimit(10);
 		invoke(client.recommendPoints(TEST_COLLECTION_NAME, request));
 	}
 

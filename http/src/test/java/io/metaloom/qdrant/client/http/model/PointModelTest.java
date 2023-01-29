@@ -1,6 +1,7 @@
 package io.metaloom.qdrant.client.http.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -17,9 +18,12 @@ import io.metaloom.qdrant.client.http.model.point.PointStruct;
 import io.metaloom.qdrant.client.http.model.point.PointsBatchUpsertRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsGetResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsListUpsertRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsRecommendRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchRequest;
 import io.metaloom.qdrant.client.http.model.point.UpdateResultResponse;
 import io.metaloom.qdrant.client.http.model.point.UpdateStatus;
+import io.metaloom.qdrant.client.http.model.point.VectorDataMap;
+import io.metaloom.qdrant.client.http.model.point.VectorDataPlain;
 import io.metaloom.qdrant.client.json.Json;
 
 public class PointModelTest extends AbstractModelTest {
@@ -61,18 +65,19 @@ public class PointModelTest extends AbstractModelTest {
 	@Test
 	public void testPointDeletePayloadRequestModel() {
 		PointDeletePayloadRequest req = load("point/point-delete-payload-request", PointDeletePayloadRequest.class);
+		assertNotNull(req);
 	}
 
 	@Test
 	public void testPointsUpsertBatchRequestModel() {
 		PointsBatchUpsertRequest req = load("point/points-batch-upsert-request", PointsBatchUpsertRequest.class);
-		assertEquals(2L, req.getBatch().getIds().get(1).longValue());
+		assertId(2, req.getBatch().getIds().get(1));
 	}
 
 	@Test
 	public void testPointsUpsertListRequestModel() {
 		PointsListUpsertRequest req = load("point/points-list-upsert-request", PointsListUpsertRequest.class);
-		assertEquals(3L, req.getPoints().get(2).getId());
+		assertId(3, req.getPoints().get(2).getId());
 
 		PointsListUpsertRequest req2 = new PointsListUpsertRequest();
 		req2.setPoints(PointStruct.of(0.42f));
@@ -82,23 +87,33 @@ public class PointModelTest extends AbstractModelTest {
 	@Test
 	public void testNamedPointsUpsertListRequestModel() {
 		PointsListUpsertRequest req = load("point/named-points-list-upsert-request", PointsListUpsertRequest.class);
-		assertEquals(2L, req.getPoints().get(1).getId());
-		String json = Json.parse(req);
-		System.out.println(json);
+		assertId(2, req.getPoints().get(1).getId());
+		Json.parse(req);
 	}
 
 	@Test
 	public void testPointGetResponseModel() {
 		PointGetResponse response = load("point/point-get-response", PointGetResponse.class);
-		assertEquals(42, response.getResult().getId().longValue());
+		assertId(42, response.getResult().getId());
 		assertTrue(response.getResult().getPayload().getJson().isEmpty());
-		assertEquals(1, response.getResult().getVector().size());
+		VectorDataPlain vectorData = (VectorDataPlain) response.getResult().getVector();
+		assertEquals(1, vectorData.getVector().size());
+	}
+
+	@Test
+	public void testPointGetResponseModel2() {
+		PointGetResponse response = load("point/point-get-response-2", PointGetResponse.class);
+		assertId(42, response.getResult().getId());
+		assertTrue("The payload should list a name property.", response.getResult().getPayload().getJson().has("name"));
+		VectorDataMap vectorData = (VectorDataMap) response.getResult().getVector();
+
+		assertEquals("There should be four values for the listed vector", 4, vectorData.get("test-points").size());
 	}
 
 	@Test
 	public void testPointsGetResponseModel() {
 		PointsGetResponse response = load("point/points-get-response", PointsGetResponse.class);
-		assertEquals(42, response.getResult().get(0).getId().longValue());
+		assertId(42, response.getResult().get(0).getId());
 	}
 
 	@Test
@@ -107,4 +122,15 @@ public class PointModelTest extends AbstractModelTest {
 		assertEquals(42, request.getParams().getHnswBeamSearchSize().longValue());
 		assertEquals(42.42f, request.getVector().getVector().get(1), 0f);
 	}
+
+	@Test
+	public void testPointsRecommendRequestModel() {
+		load("point/points-recommend-request", PointsRecommendRequest.class);
+	}
+
+	@Test
+	public void testPointsRecommendRequestModel2() {
+		load("point/points-recommend-request-2", PointsRecommendRequest.class);
+	}
+
 }

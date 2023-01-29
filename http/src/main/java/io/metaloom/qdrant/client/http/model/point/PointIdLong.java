@@ -13,4 +13,9 @@ public class PointIdLong implements PointId {
 		return this;
 	}
 
+	@Override
+	public String toString() {
+		return id == null ? "" : String.valueOf(id);
+	}
+
 }

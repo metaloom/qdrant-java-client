@@ -14,4 +14,9 @@ public abstract class AbstractShardOperation implements ShardOperation {
 		return shardId;
 	}
 
+	public AbstractShardOperation setShardId(int shardId) {
+		this.shardId = shardId;
+		return this;
+	}
+
 }

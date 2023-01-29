@@ -1,29 +1,30 @@
 package io.metaloom.qdrant.client.http.model.point;
 
-import static io.metaloom.qdrant.client.util.QDrantClientUtil.toList;
-
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.metaloom.qdrant.client.http.model.RestRequestModel;
 import io.metaloom.qdrant.client.http.model.collection.filter.Filter;
 
 public class PointsClearPayloadRequest implements RestRequestModel {
 
-	private List<Long> points;
+	private List<PointId> points;
 
 	private Filter filter;
 
-	public List<Long> getPoints() {
+	public List<PointId> getPoints() {
 		return points;
 	}
 
-	public PointsClearPayloadRequest setPoints(List<Long> points) {
+	public PointsClearPayloadRequest setPoints(List<PointId> points) {
 		this.points = points;
 		return this;
 	}
 
+	@JsonIgnore
 	public PointsClearPayloadRequest setPoints(long... points) {
-		this.points = toList(points);
+		this.points = PointId.list(points);
 		return this;
 	}
 

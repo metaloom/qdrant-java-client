@@ -16,6 +16,7 @@ import io.metaloom.qdrant.client.http.model.collection.filter.condition.Conditio
 import io.metaloom.qdrant.client.http.model.collection.filter.match.Match;
 import io.metaloom.qdrant.client.http.model.point.NamedVector;
 import io.metaloom.qdrant.client.http.model.point.Payload;
+import io.metaloom.qdrant.client.http.model.point.PointId;
 import io.metaloom.qdrant.client.http.model.point.Vector;
 import io.metaloom.qdrant.client.http.model.point.VectorData;
 import io.metaloom.qdrant.client.http.model.telemetry.CollectionTelemetry;
@@ -26,6 +27,8 @@ import io.metaloom.qdrant.client.json.serializer.MatchDeserializer;
 import io.metaloom.qdrant.client.json.serializer.NamedVectorDeserializer;
 import io.metaloom.qdrant.client.json.serializer.PayloadDeserializer;
 import io.metaloom.qdrant.client.json.serializer.PayloadSerializer;
+import io.metaloom.qdrant.client.json.serializer.PointIdDeserializer;
+import io.metaloom.qdrant.client.json.serializer.PointIdSerializer;
 import io.metaloom.qdrant.client.json.serializer.VectorDataDeserializer;
 import io.metaloom.qdrant.client.json.serializer.VectorDataSerializer;
 import io.metaloom.qdrant.client.json.serializer.VectorDeserializer;
@@ -45,20 +48,24 @@ public final class Json {
 			.setSerializationInclusion(Include.NON_NULL);
 
 		SimpleModule module = new SimpleModule();
+		module.addDeserializer(NamedVector.class, new NamedVectorDeserializer());
 		module.addDeserializer(Condition.class, new ConditionDeserializer());
 		module.addDeserializer(Match.class, new MatchDeserializer());
-		module.addDeserializer(Payload.class, new PayloadDeserializer());
-		module.addSerializer(Payload.class, new PayloadSerializer());
-		module.addDeserializer(NamedVector.class, new NamedVectorDeserializer());
 		module.addDeserializer(CollectionTelemetry.class, new CollectionTelemetryDeserializer());
 		module.addDeserializer(AliasOperation.class, new AliasOperationDeserializer());
 		module.addDeserializer(VectorsConfig.class, new VectorsConfigDeserializer());
+
+		module.addDeserializer(Payload.class, new PayloadDeserializer());
+		module.addSerializer(Payload.class, new PayloadSerializer());
 
 		module.addSerializer(Vector.class, new VectorSerializer());
 		module.addDeserializer(Vector.class, new VectorDeserializer());
 
 		module.addSerializer(VectorData.class, new VectorDataSerializer());
 		module.addDeserializer(VectorData.class, new VectorDataDeserializer());
+
+		module.addSerializer(PointId.class, new PointIdSerializer());
+		module.addDeserializer(PointId.class, new PointIdDeserializer());
 		mapper.registerModule(module);
 	}
 

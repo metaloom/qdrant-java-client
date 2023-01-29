@@ -1,7 +1,5 @@
 package io.metaloom.qdrant.client.http.model.point;
 
-import static io.metaloom.qdrant.client.util.QDrantClientUtil.toList;
-
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,7 +14,7 @@ public class PointSetPayloadRequest implements RestRequestModel {
 	private Payload payload;
 
 	@JsonProperty("points")
-	private List<Long> points;
+	private List<PointId> points;
 
 	@JsonProperty("filter")
 	private Filter filter;
@@ -30,18 +28,18 @@ public class PointSetPayloadRequest implements RestRequestModel {
 		return this;
 	}
 
-	public List<Long> getPoints() {
+	public List<PointId> getPoints() {
 		return points;
 	}
 
-	public PointSetPayloadRequest setPoints(List<Long> points) {
+	public PointSetPayloadRequest setPoints(List<PointId> points) {
 		this.points = points;
 		return this;
 	}
 
 	@JsonIgnore
 	public PointSetPayloadRequest setPoints(long... values) {
-		this.points = toList(values);
+		this.points = PointId.list(values);
 		return this;
 	}
 

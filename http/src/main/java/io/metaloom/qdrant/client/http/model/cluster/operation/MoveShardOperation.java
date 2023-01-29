@@ -13,9 +13,19 @@ public class MoveShardOperation extends AbstractShardOperation {
 	public long getToPeerId() {
 		return toPeerId;
 	}
+	
+	public MoveShardOperation setToPeerId(long toPeerId) {
+		this.toPeerId = toPeerId;
+		return this;
+	}
 
 	public long getFromPeerId() {
 		return fromPeerId;
+	}
+	
+	public MoveShardOperation setFromPeerId(long fromPeerId) {
+		this.fromPeerId = fromPeerId;
+		return this;
 	}
 
 }

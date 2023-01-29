@@ -1,0 +1,9 @@
+{
+  "result": {
+    "id": 42,
+    "payload": { "name": "first" },
+    "vector": { "test-points": [0.42, 0.33, 42.15, 68.72] }
+  },
+  "status": "ok",
+  "time": 0.000025977
+}

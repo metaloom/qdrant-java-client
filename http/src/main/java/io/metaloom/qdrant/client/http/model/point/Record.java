@@ -1,20 +1,25 @@
 package io.metaloom.qdrant.client.http.model.point;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.metaloom.qdrant.client.http.model.RestModel;
 
 public class Record implements RestModel {
 
-	private Long id;
-	private Payload payload;
-	private List<Float> vector;
+	@JsonProperty("id")
+	private PointId id;
 
-	public Long getId() {
+	@JsonProperty("payload")
+	private Payload payload;
+
+	@JsonProperty("vector")
+	private VectorData vector;
+
+	public PointId getId() {
 		return id;
 	}
-	
-	public Record setId(Long id) {
+
+	public Record setId(PointId id) {
 		this.id = id;
 		return this;
 	}
@@ -22,17 +27,17 @@ public class Record implements RestModel {
 	public Payload getPayload() {
 		return payload;
 	}
-	
+
 	public Record setPayload(Payload payload) {
 		this.payload = payload;
 		return this;
 	}
 
-	public List<Float> getVector() {
+	public VectorData getVector() {
 		return vector;
 	}
 
-	public Record setVector(List<Float> vector) {
+	public Record setVector(VectorData vector) {
 		this.vector = vector;
 		return this;
 	}

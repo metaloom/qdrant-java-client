@@ -1,10 +1,12 @@
 package io.metaloom.qdrant.client.http.model;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+import io.metaloom.qdrant.client.http.model.point.PointId;
 import io.metaloom.qdrant.client.json.Json;
 
 public abstract class AbstractModelTest {
@@ -26,4 +28,9 @@ public abstract class AbstractModelTest {
 		System.out.println(body);
 		return Json.parse(body, classOfT);
 	}
+
+	public static void assertId(long expectedId, PointId id) {
+		assertEquals(String.valueOf(expectedId), id.toString());
+	}
+
 }

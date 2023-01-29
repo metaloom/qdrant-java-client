@@ -1,29 +1,29 @@
 package io.metaloom.qdrant.client.http.model.collection.filter.condition;
 
-import static io.metaloom.qdrant.client.util.QDrantClientUtil.toList;
-
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.metaloom.qdrant.client.http.model.point.PointId;
+
 public class HasIdCondition implements Condition {
 
 	@JsonProperty("has_id")
-	private List<Long> ids;
+	private List<PointId> ids;
 
-	public List<Long> getIds() {
+	public List<PointId> getIds() {
 		return ids;
 	}
 
-	public HasIdCondition setIds(List<Long> ids) {
+	public HasIdCondition setIds(List<PointId> ids) {
 		this.ids = ids;
 		return this;
 	}
 
 	@JsonIgnore
 	public HasIdCondition setIds(long... ids) {
-		this.ids = toList(ids);
+		this.ids = PointId.list(ids);
 		return this;
 	}
 

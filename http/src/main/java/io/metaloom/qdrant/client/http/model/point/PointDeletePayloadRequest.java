@@ -58,7 +58,7 @@ public class PointDeletePayloadRequest implements RestRequestModel {
 
 	@JsonIgnore
 	public PointDeletePayloadRequest setPoints(long... ids) {
-		this.points = toList(ids).stream().map(PointId::of).collect(Collectors.toList());
+		this.points = PointId.list(ids);
 		return this;
 	}
 

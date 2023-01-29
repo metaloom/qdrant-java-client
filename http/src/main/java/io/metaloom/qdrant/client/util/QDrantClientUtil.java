@@ -2,6 +2,10 @@ package io.metaloom.qdrant.client.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
+import io.metaloom.qdrant.client.http.model.point.PointId;
 
 public final class QDrantClientUtil {
 
@@ -40,5 +44,13 @@ public final class QDrantClientUtil {
 			result.add(id);
 		}
 		return result;
+	}
+
+	public static void assertPointId(PointId pointId) {
+		Objects.requireNonNull(pointId, "The pointId must be specified");
+	}
+
+	public static void assertUuid(UUID uuid) {
+		Objects.requireNonNull(uuid, "The uuid must be specified");
 	}
 }
