@@ -1,6 +1,25 @@
-# Qdrant Java Client
+<h1 align="center">Qdrant Java Client </h3>
 
 This project contains a java client for the [Qdrant vector database](https://qdrant.tech/). The client supports HTTP and gRCP transport in either blocking or non-blocking fashion. For async operation a `Future` or RxJava3 based API can be used.
+
+<br />
+
+<p align="center">
+ <img src="https://img.shields.io/badge/status-testing-brightgreen.svg" alt="testing" />
+ <a href="https://github.com/metaloom/qdrant-java-client/actions">
+  <img src="https://github.com/metaloom/qdrant-java-client/actions/workflows/maven.yml/badge.svg"/>
+ </a>
+ <a href="https://www.apache.org/licenses/LICENSE-2.0">
+  <img src="https://img.shields.io/:license-apache-brightgreen.svg" alt="License" />
+ </a>
+  <a href="https://github.com/metaloom/qdrant-java-client/releases">
+  <img src="https://img.shields.io/github/v/release/metaloom/qdrant-java-client?sort=semver" alt="Latest release" />
+ </a>
+ <a href="https://sonarcloud.io/dashboard?id=metaloom_qdrant_java_client">
+  <img src="https://sonarcloud.io/api/project_badges/measure?project=metaloom_qdrant_java_client&metric=alert_status" alt="Quality Gate Status" />
+ </a>
+</p>
+
 
 ## Maven
 
@@ -27,7 +46,7 @@ NOTE: The http client currently (as of v0.11.7 of Qdrant) supports more methods 
 
 ## Notes / Status
 
-This client was build and tested for QDrant server version `v0.11.7`. Minimum required JRE is current LTS version **17**.
+This client was build and tested for Qdrant server version `v0.11.7`. Minimum required JRE is current LTS version **17**.
 
 **__This client is still in development and not yet stable / released.__**
 
