@@ -77,8 +77,7 @@ public class PointMethodTest extends AbstractClientTest {
 		p4.setPayload(json);
 		PointsListUpsertRequest pointsRequest = new PointsListUpsertRequest();
 		pointsRequest.setPoints(p1, p2, p3, p4);
-		invoke(client.upsertPoints(TEST_COLLECTION_NAME, pointsRequest, false));
-
+		invoke(client.upsertPoints(TEST_COLLECTION_NAME, pointsRequest, true));
 		assertThat(client).hasPoints(TEST_COLLECTION_NAME, 4);
 	}
 
