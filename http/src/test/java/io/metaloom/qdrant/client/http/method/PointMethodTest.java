@@ -2,6 +2,7 @@ package io.metaloom.qdrant.client.http.method;
 
 import static io.metaloom.qdrant.client.http.test.QDrantHttpClientAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -36,13 +37,18 @@ import io.metaloom.qdrant.client.http.model.point.PointsGetResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsListDeleteRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsListUpsertRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsRecommendBatchRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsRecommendBatchResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsRecommendRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsRecommendResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsScrollRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsScrollResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchBatchRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsSearchBatchResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsSearchResponse;
 import io.metaloom.qdrant.client.http.model.point.Record;
 import io.metaloom.qdrant.client.http.model.point.VectorDataMap;
+import io.metaloom.qdrant.client.http.model.point.VectorDataPlain;
 import io.metaloom.qdrant.client.json.Json;
 
 public class PointMethodTest extends AbstractClientTest {
@@ -97,16 +103,16 @@ public class PointMethodTest extends AbstractClientTest {
 	@Test
 	public void testUpsertPoints() throws HttpErrorException, JacksonException {
 		PointsListUpsertRequest listRequest = new PointsListUpsertRequest();
-		listRequest.setPoints(PointStruct.of(VECTOR_NAME, 42.51f, 51f, 0.14f, 516.1f));
+		listRequest.setPoints(PointStruct.of(VECTOR_NAME, 42.51f, 51f, 0.14f, 516.1f).setId(42L));
 		invoke(client.upsertPoints(TEST_COLLECTION_NAME, listRequest, true));
 
 		PointsBatchUpsertRequest batchRequest = new PointsBatchUpsertRequest();
 		PointsBatch batch = new PointsBatch();
 		batch.setIds(4L);
 		batch.setPayloads(Payload.of("{\"name\": \"fourth\"}"));
-		VectorDataMap vectorDataMap = new VectorDataMap();
-		vectorDataMap.put(VECTOR_NAME, Arrays.asList(42f, 66f, 1f, 0.42f));
-		batch.setVectors(vectorDataMap);
+		VectorDataPlain vectorDataPlain= new VectorDataPlain();
+		vectorDataPlain.setVector(Arrays.asList(42f, 66f, 1f, 0.42f));
+		batch.setVectors(vectorDataPlain);
 		batchRequest.setBatch(batch);
 		invoke(client.upsertPoints(TEST_COLLECTION_NAME, batchRequest, true));
 
@@ -226,27 +232,47 @@ public class PointMethodTest extends AbstractClientTest {
 		request.setLimit(10);
 		request.setWithPayload(true);
 		request.setWithVector(true);
-		invoke(client.searchPoints(TEST_COLLECTION_NAME, request));
+		PointsSearchResponse response = invoke(client.searchPoints(TEST_COLLECTION_NAME, request));
+		assertFalse("The response should contain a result", response.getResult().isEmpty());
 	}
 
 	@Test
 	public void testSearchBatchPoints() throws HttpErrorException {
-		PointsSearchBatchRequest request = new PointsSearchBatchRequest();
-		invoke(client.searchBatchPoints(TEST_COLLECTION_NAME, request));
+		PointsSearchRequest request = new PointsSearchRequest();
+		request.setVector(NamedVector.of(VECTOR_NAME, NEAR_VECTOR_1));
+		request.setLimit(10);
+		request.setWithPayload(true);
+		request.setWithVector(true);
+
+		PointsSearchBatchRequest batchRequest = new PointsSearchBatchRequest();
+		batchRequest.setSearches(Arrays.asList(request));
+		PointsSearchBatchResponse response = invoke(client.searchBatchPoints(TEST_COLLECTION_NAME, batchRequest));
+		assertEquals("There should be one result since we send a batch with one request.", 1, response.getResult().size());
+		assertFalse(response.getResult().get(0).isEmpty());
 	}
 
 	@Test
 	public void testRecommendPoints() throws HttpErrorException {
 		PointsRecommendRequest request = new PointsRecommendRequest();
 		request.setPositive(1L);
+		request.setUsing(VECTOR_NAME);
 		request.setLimit(10);
-		invoke(client.recommendPoints(TEST_COLLECTION_NAME, request));
+		PointsRecommendResponse response = invoke(client.recommendPoints(TEST_COLLECTION_NAME, request));
+		assertFalse("The response should contain recommended points", response.getResult().isEmpty());
 	}
 
 	@Test
 	public void testRecommendBatchPoints() throws HttpErrorException {
-		PointsRecommendBatchRequest request = new PointsRecommendBatchRequest();
-		invoke(client.recommendBatchPoints(TEST_COLLECTION_NAME, request));
+		PointsRecommendBatchRequest batchRequest = new PointsRecommendBatchRequest();
+		PointsRecommendRequest request = new PointsRecommendRequest();
+		request.setPositive(1L);
+		request.setUsing(VECTOR_NAME);
+		request.setLimit(10);
+		batchRequest.setSearches(Arrays.asList(request));
+
+		PointsRecommendBatchResponse response = invoke(client.recommendBatchPoints(TEST_COLLECTION_NAME, batchRequest));
+		assertEquals("There should be one result since we sent one batched request.", 1, response.getResult().size());
+		assertFalse("The response should contain recommended points", response.getResult().get(0).isEmpty());
 	}
 
 	@Test
