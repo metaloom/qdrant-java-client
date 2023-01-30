@@ -4,11 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 
 import io.metaloom.qdrant.client.http.model.collection.filter.condition.FieldCondition;
 import io.metaloom.qdrant.client.http.model.collection.filter.condition.HasIdCondition;
 import io.metaloom.qdrant.client.http.model.collection.filter.condition.IsEmptyCondition;
+import io.metaloom.qdrant.client.http.model.point.BatchVectorDataMap;
+import io.metaloom.qdrant.client.http.model.point.BatchVectorDataPlain;
 import io.metaloom.qdrant.client.http.model.point.PointCountRequest;
 import io.metaloom.qdrant.client.http.model.point.PointCountResponse;
 import io.metaloom.qdrant.client.http.model.point.PointDeletePayloadRequest;
@@ -69,12 +73,6 @@ public class PointModelTest extends AbstractModelTest {
 	}
 
 	@Test
-	public void testPointsUpsertBatchRequestModel() {
-		PointsBatchUpsertRequest req = load("point/points-batch-upsert-request", PointsBatchUpsertRequest.class);
-		assertId(2, req.getBatch().getIds().get(1));
-	}
-
-	@Test
 	public void testPointsUpsertListRequestModel() {
 		PointsListUpsertRequest req = load("point/points-list-upsert-request", PointsListUpsertRequest.class);
 		assertId(3, req.getPoints().get(2).getId());
@@ -92,10 +90,30 @@ public class PointModelTest extends AbstractModelTest {
 	}
 
 	@Test
+	public void testPointsUpsertBatchRequestModel() {
+		PointsBatchUpsertRequest req = load("point/points-batch-upsert-request", PointsBatchUpsertRequest.class);
+		assertId(2, req.getBatch().getIds().get(1));
+	}
+
+	@Test
+	public void testBatchVectorDataMap() {
+		BatchVectorDataMap vectorDataMap = new BatchVectorDataMap();
+		vectorDataMap.put("test", Arrays.asList(Arrays.asList(1.0f, 2.0f)));
+		assertEquals("{\"test\":[[1.0,2.0]]}", Json.parseCompact(vectorDataMap));
+	}
+
+	@Test
+	public void testBatchVectorPlain() {
+		BatchVectorDataPlain vectorDataPlain = new BatchVectorDataPlain();
+		vectorDataPlain.add(Arrays.asList(1.0f, 2.0f));
+		assertEquals("[[1.0,2.0]]", Json.parseCompact(vectorDataPlain));
+	}
+
+	@Test
 	public void testPointsUpsertBatchRequestWithNamedVector() {
 		PointsBatchUpsertRequest req = load("point/named-points-batch-upsert-request", PointsBatchUpsertRequest.class);
-		//req.getBatch().getVectors()
-		Json.parse(req);
+		// req.getBatch().getVectors()
+		String json = Json.parse(req);
 	}
 
 	@Test

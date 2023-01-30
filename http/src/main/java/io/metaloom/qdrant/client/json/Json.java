@@ -14,6 +14,7 @@ import io.metaloom.qdrant.client.http.model.collection.AliasOperation;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorsConfig;
 import io.metaloom.qdrant.client.http.model.collection.filter.condition.Condition;
 import io.metaloom.qdrant.client.http.model.collection.filter.match.Match;
+import io.metaloom.qdrant.client.http.model.point.BatchVectorData;
 import io.metaloom.qdrant.client.http.model.point.NamedVector;
 import io.metaloom.qdrant.client.http.model.point.Payload;
 import io.metaloom.qdrant.client.http.model.point.PointId;
@@ -21,6 +22,8 @@ import io.metaloom.qdrant.client.http.model.point.Vector;
 import io.metaloom.qdrant.client.http.model.point.VectorData;
 import io.metaloom.qdrant.client.http.model.telemetry.CollectionTelemetry;
 import io.metaloom.qdrant.client.json.serializer.AliasOperationDeserializer;
+import io.metaloom.qdrant.client.json.serializer.BatchVectorDataDeserializer;
+import io.metaloom.qdrant.client.json.serializer.BatchVectorDataSerializer;
 import io.metaloom.qdrant.client.json.serializer.CollectionTelemetryDeserializer;
 import io.metaloom.qdrant.client.json.serializer.ConditionDeserializer;
 import io.metaloom.qdrant.client.json.serializer.MatchDeserializer;
@@ -44,7 +47,6 @@ public final class Json {
 
 	static {
 		mapper = new ObjectMapper()
-			.enable(SerializationFeature.INDENT_OUTPUT)
 			.setSerializationInclusion(Include.NON_NULL);
 
 		SimpleModule module = new SimpleModule();
@@ -66,6 +68,9 @@ public final class Json {
 
 		module.addSerializer(PointId.class, new PointIdSerializer());
 		module.addDeserializer(PointId.class, new PointIdDeserializer());
+
+		module.addSerializer(BatchVectorData.class, new BatchVectorDataSerializer());
+		module.addDeserializer(BatchVectorData.class, new BatchVectorDataDeserializer());
 		mapper.registerModule(module);
 	}
 
@@ -81,6 +86,14 @@ public final class Json {
 	}
 
 	public static String parse(RestModel model) {
+		try {
+			return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(model);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException("Error while parsing model to JSON.", e);
+		}
+	}
+
+	public static String parseCompact(RestModel model) {
 		try {
 			return mapper.writeValueAsString(model);
 		} catch (JsonProcessingException e) {

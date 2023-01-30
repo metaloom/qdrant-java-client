@@ -19,7 +19,7 @@ public class VectorDeserializer extends JsonDeserializer<Vector> {
 	public Vector deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JacksonException {
 		ObjectCodec oc = jsonParser.getCodec();
 		JsonNode node = oc.readTree(jsonParser);
-		if (node.isArray()) {
+		if (node != null && node.isArray()) {
 			Vector vector = new Vector();
 			List<Float> components = new ArrayList<>();
 			for (int i = 0; i < node.size(); i++) {

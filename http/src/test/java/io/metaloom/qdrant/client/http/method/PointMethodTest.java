@@ -20,6 +20,8 @@ import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
 import io.metaloom.qdrant.client.http.model.collection.config.Distance;
 import io.metaloom.qdrant.client.http.model.collection.filter.Filter;
 import io.metaloom.qdrant.client.http.model.collection.filter.condition.HasIdCondition;
+import io.metaloom.qdrant.client.http.model.point.BatchVectorDataMap;
+import io.metaloom.qdrant.client.http.model.point.BatchVectorDataPlain;
 import io.metaloom.qdrant.client.http.model.point.NamedVector;
 import io.metaloom.qdrant.client.http.model.point.Payload;
 import io.metaloom.qdrant.client.http.model.point.PointCountRequest;
@@ -47,7 +49,6 @@ import io.metaloom.qdrant.client.http.model.point.PointsSearchBatchResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchResponse;
 import io.metaloom.qdrant.client.http.model.point.Record;
-import io.metaloom.qdrant.client.http.model.point.VectorDataBatchMap;
 import io.metaloom.qdrant.client.json.Json;
 
 public class PointMethodTest extends AbstractClientTest {
@@ -107,14 +108,36 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
-	public void testUpsertPointsViaBatch() throws HttpErrorException, JacksonException {
+	public void testUpsertPointsViaListBatch() throws HttpErrorException, JacksonException {
+		// Create unnamed collection
+		String collectionName = TEST_COLLECTION_NAME + "-unnamed";
+		CollectionCreateRequest collection = new CollectionCreateRequest();
+		collection.setVectors(4, Distance.EUCLID);
+		invoke(client.createCollection(collectionName, collection));
+
+		// Now invoke the request
 		PointsBatchUpsertRequest batchRequest = new PointsBatchUpsertRequest();
 		PointsBatch batch = new PointsBatch();
 		batch.setIds(4L);
 		batch.setPayloads(Payload.of("{\"name\": \"fourth\"}"));
-		VectorDataBatchMap vectorDataPlain = new VectorDataBatchMap();
-		vectorDataPlain.put(VECTOR_NAME, Arrays.asList(Arrays.asList(42f, 66f, 1f, 0.42f)));
+		BatchVectorDataPlain vectorDataPlain = new BatchVectorDataPlain();
+		vectorDataPlain.add(Arrays.asList(42f, 66f, 1f, 0.42f));
 		batch.setVectors(vectorDataPlain);
+		batchRequest.setBatch(batch);
+		invoke(client.upsertPoints(collectionName, batchRequest, true));
+
+		assertThat(client).hasPoints(collectionName, 1);
+	}
+
+	@Test
+	public void testUpsertPointsViaNamedBatch() throws Exception {
+		PointsBatchUpsertRequest batchRequest = new PointsBatchUpsertRequest();
+		PointsBatch batch = new PointsBatch();
+		batch.setIds(9L);
+		batch.setPayloads(Payload.of("{\"name\": \"fourth\"}"));
+		BatchVectorDataMap vectorDataMap = new BatchVectorDataMap();
+		vectorDataMap.put(VECTOR_NAME, Arrays.asList(Arrays.asList(41.5f, 56f, 1f, 0.42f)));
+		batch.setVectors(vectorDataMap);
 		batchRequest.setBatch(batch);
 		invoke(client.upsertPoints(TEST_COLLECTION_NAME, batchRequest, true));
 

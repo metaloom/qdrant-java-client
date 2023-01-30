@@ -14,8 +14,7 @@ public class PointsBatch implements RestModel {
 	private List<PointId> ids;
 
 	@JsonProperty("vectors")
-	// TODO use dedicated interface to map between list or map
-	private List<VectorData> vectors;
+	private BatchVectorData vectors;
 
 	@JsonProperty("payloads")
 	private List<Payload> payloads;
@@ -29,18 +28,12 @@ public class PointsBatch implements RestModel {
 		return this;
 	}
 
-	public List<VectorData> getVectors() {
+	public BatchVectorData getVectors() {
 		return vectors;
 	}
 
-	public PointsBatch setVectors(List<VectorData> vectors) {
+	public PointsBatch setVectors(BatchVectorData vectors) {
 		this.vectors = vectors;
-		return this;
-	}
-
-	@JsonIgnore
-	public PointsBatch setVectors(VectorData... vectors) {
-		this.vectors = Arrays.asList(vectors);
 		return this;
 	}
 
