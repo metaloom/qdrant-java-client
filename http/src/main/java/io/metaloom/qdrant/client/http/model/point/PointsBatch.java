@@ -14,6 +14,7 @@ public class PointsBatch implements RestModel {
 	private List<PointId> ids;
 
 	@JsonProperty("vectors")
+	// TODO use dedicated interface to map between list or map
 	private List<VectorData> vectors;
 
 	@JsonProperty("payloads")

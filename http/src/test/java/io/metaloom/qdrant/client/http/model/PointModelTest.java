@@ -92,6 +92,13 @@ public class PointModelTest extends AbstractModelTest {
 	}
 
 	@Test
+	public void testPointsUpsertBatchRequestWithNamedVector() {
+		PointsBatchUpsertRequest req = load("point/named-points-batch-upsert-request", PointsBatchUpsertRequest.class);
+		//req.getBatch().getVectors()
+		Json.parse(req);
+	}
+
+	@Test
 	public void testPointGetResponseModel() {
 		PointGetResponse response = load("point/point-get-response", PointGetResponse.class);
 		assertId(42, response.getResult().getId());

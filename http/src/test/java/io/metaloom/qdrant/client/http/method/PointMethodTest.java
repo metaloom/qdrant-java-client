@@ -47,7 +47,7 @@ import io.metaloom.qdrant.client.http.model.point.PointsSearchBatchResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchResponse;
 import io.metaloom.qdrant.client.http.model.point.Record;
-import io.metaloom.qdrant.client.http.model.point.VectorDataPlain;
+import io.metaloom.qdrant.client.http.model.point.VectorDataBatchMap;
 import io.metaloom.qdrant.client.json.Json;
 
 public class PointMethodTest extends AbstractClientTest {
@@ -100,17 +100,20 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
-	public void testUpsertPoints() throws HttpErrorException, JacksonException {
+	public void testUpsertPointViaList() throws HttpErrorException {
 		PointsListUpsertRequest listRequest = new PointsListUpsertRequest();
 		listRequest.setPoints(PointStruct.of(VECTOR_NAME, 42.51f, 51f, 0.14f, 516.1f).setId(42L));
 		invoke(client.upsertPoints(TEST_COLLECTION_NAME, listRequest, true));
+	}
 
+	@Test
+	public void testUpsertPointsViaBatch() throws HttpErrorException, JacksonException {
 		PointsBatchUpsertRequest batchRequest = new PointsBatchUpsertRequest();
 		PointsBatch batch = new PointsBatch();
 		batch.setIds(4L);
 		batch.setPayloads(Payload.of("{\"name\": \"fourth\"}"));
-		VectorDataPlain vectorDataPlain= new VectorDataPlain();
-		vectorDataPlain.setVector(Arrays.asList(42f, 66f, 1f, 0.42f));
+		VectorDataBatchMap vectorDataPlain = new VectorDataBatchMap();
+		vectorDataPlain.put(VECTOR_NAME, Arrays.asList(Arrays.asList(42f, 66f, 1f, 0.42f)));
 		batch.setVectors(vectorDataPlain);
 		batchRequest.setBatch(batch);
 		invoke(client.upsertPoints(TEST_COLLECTION_NAME, batchRequest, true));

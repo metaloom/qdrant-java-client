@@ -28,7 +28,7 @@ public class ClusterModelTest extends AbstractModelTest {
 	@Test
 	public void testCollectionClusterInfoResponseModel() {
 		CollectionClusterInfoResponse info = load("cluster/collection-cluster-info-response", CollectionClusterInfoResponse.class);
-		assertEquals(1, info.getResult().getPeerId());
+		assertEquals(1, info.getResult().getPeerId().intValue());
 		assertEquals(2, info.getResult().getShardCount());
 		assertEquals(0, info.getResult().getLocalShards().get(0).getShardId());
 		assertEquals(ReplicaState.ACTIVE, info.getResult().getLocalShards().get(0).getState());

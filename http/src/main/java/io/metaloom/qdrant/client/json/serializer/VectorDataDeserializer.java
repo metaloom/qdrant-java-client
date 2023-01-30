@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.metaloom.qdrant.client.http.model.point.VectorData;
+import io.metaloom.qdrant.client.http.model.point.VectorDataBatchMap;
 import io.metaloom.qdrant.client.http.model.point.VectorDataMap;
 import io.metaloom.qdrant.client.http.model.point.VectorDataPlain;
 
@@ -24,7 +25,11 @@ public class VectorDataDeserializer extends JsonDeserializer<VectorData> {
 		JsonNode node = oc.readTree(jsonParser);
 		ObjectMapper mapper = (ObjectMapper) jsonParser.getCodec();
 		if (node.isObject()) {
-			return mapper.convertValue(node, VectorDataMap.class);
+			if (node.get(0).isArray() && node.get(0).get(0).isArray()) {
+				return mapper.convertValue(node, VectorDataBatchMap.class);
+			} else {
+				return mapper.convertValue(node, VectorDataMap.class);
+			}
 		} else {
 			VectorDataPlain vector = new VectorDataPlain();
 			List<Float> vectorData = new ArrayList<>();
