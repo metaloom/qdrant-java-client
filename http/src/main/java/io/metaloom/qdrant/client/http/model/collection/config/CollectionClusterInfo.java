@@ -1,5 +1,6 @@
 package io.metaloom.qdrant.client.http.model.collection.config;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,7 +10,7 @@ import io.metaloom.qdrant.client.http.model.RestModel;
 public class CollectionClusterInfo implements RestModel {
 
 	@JsonProperty("peer_id")
-	private int peerId;
+	private BigInteger peerId;
 
 	@JsonProperty("shard_count")
 	private int shardCount;
@@ -23,11 +24,11 @@ public class CollectionClusterInfo implements RestModel {
 	@JsonProperty("shard_transfers")
 	private List<ShardTransferInfo> shardTransfers;
 
-	public int getPeerId() {
+	public BigInteger getPeerId() {
 		return peerId;
 	}
 
-	public CollectionClusterInfo setPeerId(int peerId) {
+	public CollectionClusterInfo setPeerId(BigInteger peerId) {
 		this.peerId = peerId;
 		return this;
 	}

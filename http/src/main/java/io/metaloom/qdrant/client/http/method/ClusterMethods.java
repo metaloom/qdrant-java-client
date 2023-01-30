@@ -10,10 +10,11 @@ public interface ClusterMethods {
 
 	QDrantClientRequest<ClusterStatusResponse> getClusterStatusInfo();
 
-	 QDrantClientRequest<GenericBooleanStatusResponse> removePeerFromCluster(String peerId, boolean force);
+	QDrantClientRequest<GenericBooleanStatusResponse> removePeerFromCluster(String peerId, boolean force);
 
 	QDrantClientRequest<CollectionClusterInfoResponse> getCollectionClusterInfo(String collectionName);
 
-	QDrantClientRequest<GenericBooleanStatusResponse> updateCollectionClusterSetup(String collectionName, CollectionUpdateClusterSetupRequest request);
+	QDrantClientRequest<GenericBooleanStatusResponse> updateCollectionClusterSetup(String collectionName,
+		CollectionUpdateClusterSetupRequest request);
 
 }

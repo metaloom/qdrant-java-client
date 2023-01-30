@@ -1,5 +1,6 @@
 package io.metaloom.qdrant.client.http;
 
+import static io.metaloom.qdrant.client.http.model.collection.config.Distance.EUCLID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -12,6 +13,8 @@ import io.metaloom.qdrant.client.http.model.AbstractResponse;
 import io.metaloom.qdrant.client.http.model.ErrorResponse;
 import io.metaloom.qdrant.client.http.model.GenericBooleanStatusResponse;
 import io.metaloom.qdrant.client.http.model.RestResponse;
+import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
+import io.metaloom.qdrant.client.http.model.collection.config.VectorParams;
 
 public abstract class AbstractClientTest extends AbstractContainerTest {
 
@@ -56,6 +59,12 @@ public abstract class AbstractClientTest extends AbstractContainerTest {
 			fail("Request failed with error " + error.getStatus().getError());
 			return null;
 		}
+	}
+
+	protected void createTestCollection() throws HttpErrorException {
+		CollectionCreateRequest request = new CollectionCreateRequest();
+		request.setVectors(VectorParams.of(4, EUCLID));
+		invoke(client.createCollection(TEST_COLLECTION_NAME, request));
 	}
 
 }
