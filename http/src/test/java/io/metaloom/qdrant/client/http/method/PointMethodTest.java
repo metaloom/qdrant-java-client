@@ -47,7 +47,6 @@ import io.metaloom.qdrant.client.http.model.point.PointsSearchBatchResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchResponse;
 import io.metaloom.qdrant.client.http.model.point.Record;
-import io.metaloom.qdrant.client.http.model.point.VectorDataMap;
 import io.metaloom.qdrant.client.http.model.point.VectorDataPlain;
 import io.metaloom.qdrant.client.json.Json;
 
