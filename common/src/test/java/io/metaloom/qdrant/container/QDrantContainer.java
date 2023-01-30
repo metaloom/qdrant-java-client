@@ -30,6 +30,7 @@ public class QDrantContainer extends GenericContainer<QDrantContainer> {
 			System.out.print(c.getUtf8String());
 		});
 
+		//withEnv("QDRANT__CLUSTER__ENABLED", "true");
 		withExposedPorts(HTTP_PORT, GRCP_PORT);
 		withStartupTimeout(Duration.ofSeconds(15L));
 		waitingFor(Wait.forHttp("/").forPort(HTTP_PORT));
