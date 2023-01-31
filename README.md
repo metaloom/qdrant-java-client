@@ -15,8 +15,8 @@ This project contains a java client for the [Qdrant vector database](https://qdr
   <a href="https://github.com/metaloom/qdrant-java-client/releases">
   <img src="https://img.shields.io/github/v/release/metaloom/qdrant-java-client?sort=semver" alt="Latest release" />
  </a>
- <a href="https://sonarcloud.io/dashboard?id=metaloom_qdrant_java_client">
-  <img src="https://sonarcloud.io/api/project_badges/measure?project=metaloom_qdrant_java_client&metric=alert_status" alt="Quality Gate Status" />
+ <a href="https://sonarcloud.io/dashboard?id=metaloom_qdrant-java-client">
+  <img src="https://sonarcloud.io/api/project_badges/measure?project=metaloom_qdrant-java-client&metric=alert_status" alt="Quality Gate Status" />
  </a>
 </p>
 
