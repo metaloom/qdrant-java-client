@@ -46,7 +46,7 @@ public class QDrantGRPCClientImpl extends AbstractQDrantGRPCClient {
 
 	@Override
 	public void close() {
-		if (channel == null) {
+		if (channel != null) {
 			channel.shutdown();
 		} else {
 			log.warn("gRPC channel has not been initialized.");
