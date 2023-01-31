@@ -13,7 +13,7 @@
 	</parent>
 
 	<packaging>pom</packaging>
-	<name>Qdrant Java Client :: parent</name>
+	<name>Qdrant Java Client</name>
 	<inceptionYear>2023</inceptionYear>
 
 	<modules>
