@@ -20,14 +20,14 @@
 	<modules>
 		<module>common</module>
 		<module>http</module>
-		<module>grcp</module>
+		<module>grpc</module>
 		<module>report</module>
 	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<okhttp.version>4.10.0</okhttp.version>
-		<grcp.version>1.52.1</grcp.version>
+		<grpc.version>1.52.1</grpc.version>
 		<sonar.version>3.9.1.2184</sonar.version>
 		<jacoco.version>0.8.7</jacoco.version>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>

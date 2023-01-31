@@ -7,18 +7,18 @@ import io.metaloom.qdrant.client.http.model.RestModel;
 public class ClusterConfigTelemetry implements RestModel {
 
 	@JsonProperty("grpc_timeout_ms")
-	private long grcpTimeoutMs;
+	private long grpcTimeoutMs;
 
 	private P2pConfigTelemetry p2p;
 
 	private ConsensusConfigTelemetry consensus;
 
-	public long getGrcpTimeoutMs() {
-		return grcpTimeoutMs;
+	public long getGrpcTimeoutMs() {
+		return grpcTimeoutMs;
 	}
 
-	public ClusterConfigTelemetry setGrcpTimeoutMs(long grcpTimeoutMs) {
-		this.grcpTimeoutMs = grcpTimeoutMs;
+	public ClusterConfigTelemetry setGrpcTimeoutMs(long grpcTimeoutMs) {
+		this.grpcTimeoutMs = grpcTimeoutMs;
 		return this;
 	}
 

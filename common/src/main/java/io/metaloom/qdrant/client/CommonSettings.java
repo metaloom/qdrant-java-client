@@ -5,7 +5,7 @@ import java.time.Duration;
 public interface CommonSettings {
 
 	/**
-	 * Return the configured gRCP port for the client connection.
+	 * Return the configured gRPC port for the client connection.
 	 * 
 	 * @return
 	 */

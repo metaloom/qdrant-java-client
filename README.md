@@ -1,6 +1,6 @@
 <h1 align="center">Qdrant Java Client </h3>
 
-This project contains a java client for the [Qdrant vector database](https://qdrant.tech/). The client supports HTTP and gRCP transport in either blocking or non-blocking fashion. For async operation a `Future` or RxJava3 based API can be used.
+This project contains a java client for the [Qdrant vector database](https://qdrant.tech/). The client supports HTTP and gRPC transport in either blocking or non-blocking fashion. For async operation a `Future` or RxJava3 based API can be used.
 
 <br />
 
@@ -26,7 +26,7 @@ This project contains a java client for the [Qdrant vector database](https://qdr
 ```xml
 <dependency>
 	<groupId>io.metaloom.qdrant</groupId>
-	<artifactId>qdrant-java-grcp-client</artifactId>
+	<artifactId>qdrant-java-grpc-client</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 </dependency>
 ```
@@ -41,7 +41,7 @@ or for the HTTP client
 </dependency>
 ```
 
-NOTE: The http client currently (as of v0.11.7 of Qdrant) supports more methods compared to the gRCP client.
+NOTE: The http client currently (as of v0.11.7 of Qdrant) supports more methods compared to the gRPC client.
 
 
 ## Notes / Status
@@ -50,12 +50,12 @@ This client was build and tested for Qdrant server version `v0.11.7`. Minimum re
 
 **__This client is still in development and not yet stable / released.__**
 
-## Usage - GRCP
+## Usage - gRPC
 
 ```java
-QDrantGRCPClient client = QDrantGRCPClient.builder()
+QDrantGRPCClient client = QDrantGRPCClient.builder()
 		.setHostname("localhost")
-		.setPort(qdrant.grcpPort())
+		.setPort(qdrant.grpcPort())
 		.build();
 
 VectorParams params = VectorParams.newBuilder()

@@ -14,7 +14,7 @@ public class QDrantContainer extends GenericContainer<QDrantContainer> {
 
 	public static final int HTTP_PORT = 6333;
 
-	public static final int GRCP_PORT = 6334;
+	public static final int GRPC_PORT = 6334;
 
 	public QDrantContainer() {
 		super("qdrant/qdrant:" + DEFAULT_VERSION);
@@ -31,13 +31,13 @@ public class QDrantContainer extends GenericContainer<QDrantContainer> {
 		});
 
 		//withEnv("QDRANT__CLUSTER__ENABLED", "true");
-		withExposedPorts(HTTP_PORT, GRCP_PORT);
+		withExposedPorts(HTTP_PORT, GRPC_PORT);
 		withStartupTimeout(Duration.ofSeconds(15L));
 		waitingFor(Wait.forHttp("/").forPort(HTTP_PORT));
 	}
 
-	public int grcpPort() {
-		return getMappedPort(GRCP_PORT);
+	public int grpcPort() {
+		return getMappedPort(GRPC_PORT);
 	}
 
 	public int httpPort() {
