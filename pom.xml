@@ -14,12 +14,14 @@
 
 	<packaging>pom</packaging>
 	<name>Qdrant Java Client</name>
+	<description>Java clients for REST / gRPC connections to the Qdrant vector database.</description>
 	<inceptionYear>2023</inceptionYear>
 
 	<modules>
 		<module>common</module>
 		<module>http</module>
 		<module>grcp</module>
+		<module>report</module>
 	</modules>
 
 	<properties>
@@ -28,6 +30,7 @@
 		<grcp.version>1.52.1</grcp.version>
 		<sonar.version>3.9.1.2184</sonar.version>
 		<jacoco.version>0.8.7</jacoco.version>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
 	<licenses>
