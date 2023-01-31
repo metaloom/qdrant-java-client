@@ -11,6 +11,8 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<name>Qdrant Java Client :: http</name>
+
 	<dependencies>
 		<!-- HTTP -->
 		<dependency>

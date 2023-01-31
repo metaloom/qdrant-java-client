@@ -10,6 +10,8 @@
 		<artifactId>qdrant-java-client</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	
+	<name>Qdrant Java Client :: grpc</name>
 
 	<dependencies>
 

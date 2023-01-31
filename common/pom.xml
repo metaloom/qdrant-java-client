@@ -11,6 +11,8 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<name>Qdrant Java Client :: common</name>
+
 	<dependencies>
 		<!-- Logging -->
 		<dependency>
@@ -25,6 +27,7 @@
 		</dependency>
 	</dependencies>
 
+
 	<build>
 		<plugins>
 			<plugin>
@@ -38,7 +41,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 
