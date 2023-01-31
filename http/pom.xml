@@ -4,6 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>qdrant-java-http-client</artifactId>
+	<packaging>jar</packaging>
 
 	<parent>
 		<groupId>io.metaloom.qdrant</groupId>
