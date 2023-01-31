@@ -14,23 +14,33 @@
 
 	<packaging>pom</packaging>
 	<name>Qdrant Java Client</name>
-	<description>Java clients for REST / gRPC connections to the Qdrant vector database.</description>
+	<description>Java clients for REST / gRPC connections to the Qdrant vector
+		database.</description>
 	<inceptionYear>2023</inceptionYear>
 
 	<modules>
 		<module>common</module>
 		<module>http</module>
 		<module>grpc</module>
+		<!--
 		<module>report</module>
+		-->
 	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<okhttp.version>4.10.0</okhttp.version>
 		<grpc.version>1.52.1</grpc.version>
-		<sonar.version>3.9.1.2184</sonar.version>
 		<jacoco.version>0.8.7</jacoco.version>
-		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<!-- Sonar -->
+		<sonar.version>3.9.1.2184</sonar.version>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+		<sonar.language>java</sonar.language>
+		<!--
+		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		-->
 	</properties>
 
 	<licenses>
@@ -85,6 +95,10 @@
 						<groupId>org.jacoco</groupId>
 						<artifactId>jacoco-maven-plugin</artifactId>
 						<version>${jacoco.version}</version>
+						<configuration>
+							<destFile>${sonar.jacoco.reportPath}</destFile>
+							<append>true</append>
+						</configuration>
 						<executions>
 							<execution>
 								<id>prepare-agent</id>
