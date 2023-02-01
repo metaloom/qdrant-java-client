@@ -9,20 +9,23 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import io.metaloom.qdrant.client.http.AbstractClientTest;
+import io.metaloom.qdrant.client.http.AbstractHTTPClientTest;
 import io.metaloom.qdrant.client.http.impl.HttpErrorException;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorParams;
 import io.metaloom.qdrant.client.http.model.service.LockOptionResponse;
+import io.metaloom.qdrant.client.testcases.ServiceClientTestcases;
 
-public class ServiceMethodTest extends AbstractClientTest {
+public class ServiceHttpClientTest extends AbstractHTTPClientTest implements ServiceClientTestcases {
 
 	@Test
+	@Override
 	public void testCollectTelemetryData() throws HttpErrorException {
 		invoke(client.collectTelemetry(true));
 	}
 
 	@Test
+	@Override
 	public void testLockOptions() throws HttpErrorException {
 		// Check initial status
 		LockOptionResponse before = client.getLockOptions().sync();

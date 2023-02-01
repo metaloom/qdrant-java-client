@@ -3,7 +3,6 @@ package io.metaloom.qdrant.client.http.method;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,18 +11,19 @@ import java.nio.file.StandardCopyOption;
 
 import org.junit.Test;
 
-import io.metaloom.qdrant.client.http.AbstractClientTest;
+import io.metaloom.qdrant.client.http.AbstractHTTPClientTest;
 import io.metaloom.qdrant.client.http.QDrantBinaryResponse;
-import io.metaloom.qdrant.client.http.impl.HttpErrorException;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
 import io.metaloom.qdrant.client.http.model.collection.config.Distance;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorParams;
 import io.metaloom.qdrant.client.http.model.snapshot.SnapshotDescription;
+import io.metaloom.qdrant.client.testcases.SnapshotClientTestcases;
 
-public class SnapshotMethodTest extends AbstractClientTest {
+public class SnapshotHttpClientTest extends AbstractHTTPClientTest implements SnapshotClientTestcases {
 
 	@Test
-	public void testDownloadSnapshot() throws HttpErrorException, IOException, InterruptedException {
+	@Override
+	public void testDownloadSnapshot() throws Exception {
 		// 1. Create Collection
 		CollectionCreateRequest request = new CollectionCreateRequest();
 		request.setVectors(VectorParams.of(4,Distance.EUCLID));

@@ -7,7 +7,7 @@ import io.metaloom.qdrant.client.http.model.service.ServiceTelemetryResponse;
 public interface ServiceMethods {
 
 	/**
-	 * Collect telemetry data including app info, system info, collections info, cluster info, configs and statistics
+	 * Collect telemetry data including app info, system info, collections info, cluster info, configs and statistics.
 	 *
 	 * @param anonymize
 	 *            If true, anonymize result
@@ -16,7 +16,7 @@ public interface ServiceMethods {
 	QDrantClientRequest<ServiceTelemetryResponse> collectTelemetry(boolean anonymize);
 
 	/**
-	 * Set lock options. If write is locked, all write operations and collection creation are forbidden. Returns previous lock options
+	 * Set lock options. If write is locked, all write operations and collection creation are forbidden. Returns previous lock options.
 	 * 
 	 * @param errorMessage
 	 * @param lockFlag

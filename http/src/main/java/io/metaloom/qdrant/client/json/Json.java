@@ -43,6 +43,8 @@ import io.metaloom.qdrant.client.json.serializer.VectorsConfigDeserializer;
  */
 public final class Json {
 
+	private static final String PARSE_ERROR = "Error while parsing model to JSON.";
+
 	public static ObjectMapper mapper;
 
 	static {
@@ -77,7 +79,7 @@ public final class Json {
 	private Json() {
 	}
 
-	public static JsonNode toJson(String content) throws JsonMappingException, JsonProcessingException {
+	public static JsonNode toJson(String content) throws JsonProcessingException {
 		JsonNode json = mapper.readTree(content);
 		if (json == null) {
 			return null;
@@ -89,7 +91,7 @@ public final class Json {
 		try {
 			return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(model);
 		} catch (JsonProcessingException e) {
-			throw new RuntimeException("Error while parsing model to JSON.", e);
+			throw new RuntimeException(PARSE_ERROR, e);
 		}
 	}
 
@@ -97,7 +99,7 @@ public final class Json {
 		try {
 			return mapper.writeValueAsString(model);
 		} catch (JsonProcessingException e) {
-			throw new RuntimeException("Error while parsing model to JSON.", e);
+			throw new RuntimeException(PARSE_ERROR, e);
 		}
 	}
 
@@ -105,7 +107,7 @@ public final class Json {
 		try {
 			return mapper.readValue(json, modelClass);
 		} catch (JacksonException e) {
-			throw new RuntimeException("Error while parsing model to JSON.", e);
+			throw new RuntimeException(PARSE_ERROR, e);
 		}
 	}
 

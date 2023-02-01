@@ -9,7 +9,7 @@ import io.metaloom.qdrant.client.http.method.PointMethods;
 import io.metaloom.qdrant.client.http.method.ServiceMethods;
 import io.metaloom.qdrant.client.http.method.SnapshotMethods;
 
-public interface QDrantHttpClient extends CollectionMethods, SnapshotMethods, ServiceMethods, PointMethods, ClusterMethods, ClientSettings {
+public interface QDrantHttpClient extends CollectionMethods, SnapshotMethods, ServiceMethods, PointMethods, ClusterMethods, ClientSettings, AutoCloseable {
 
 	static QDrantHttpClientImpl.Builder builder() {
 		return QDrantHttpClientImpl.builder();

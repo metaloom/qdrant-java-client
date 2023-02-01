@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import io.metaloom.qdrant.client.ClientSettings;
-import io.metaloom.qdrant.client.QDrantClientUtil;
+import io.metaloom.qdrant.client.util.QDrantClientUtil;
 import io.reactivex.rxjava3.core.Maybe;
 
 public class GrpcClientRequest<T> {
@@ -20,15 +20,15 @@ public class GrpcClientRequest<T> {
 		this.async = asyncSupplier;
 	}
 
-	public T blocking() {
+	public T sync() {
 		return blocking.get();
 	}
 
-	public ListenableFuture<T> future() {
+	public ListenableFuture<T> async() {
 		return async.get();
 	}
 
 	public Maybe<T> rx() {
-		return QDrantClientUtil.toMaybe(future(), settings);
+		return QDrantClientUtil.toMaybe(async(), settings);
 	}
 }

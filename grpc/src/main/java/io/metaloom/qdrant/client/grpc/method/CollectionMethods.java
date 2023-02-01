@@ -21,6 +21,7 @@ import io.metaloom.qdrant.client.grpc.proto.Collections.ListCollectionsResponse;
 import io.metaloom.qdrant.client.grpc.proto.Collections.OptimizersConfigDiff;
 import io.metaloom.qdrant.client.grpc.proto.Collections.UpdateCollection;
 import io.metaloom.qdrant.client.grpc.proto.Collections.VectorParams;
+import io.metaloom.qdrant.client.grpc.proto.Collections.VectorParamsMap;
 import io.metaloom.qdrant.client.grpc.proto.Collections.VectorsConfig;
 import io.metaloom.qdrant.client.grpc.proto.Collections.WalConfigDiff;
 
@@ -67,7 +68,13 @@ public interface CollectionMethods extends ClientSettings {
 	 * @return
 	 */
 	default GrpcClientRequest<CollectionOperationResponse> createCollection(String collectionName, VectorParams params) {
-		return createCollection(collectionName, params, null, null, null, null, null, null, null, null);
+		VectorsConfig config = VectorsConfig.newBuilder().setParams(params).build();
+		return createCollection(collectionName, config, null, null, null, null, null, null, null, null);
+	}
+
+	default GrpcClientRequest<CollectionOperationResponse> createCollection(String collectionName, VectorParamsMap paramsMap) {
+		VectorsConfig config = VectorsConfig.newBuilder().setParamsMap(paramsMap).build();
+		return createCollection(collectionName, config, null, null, null, null, null, null, null, null);
 	}
 
 	/**
@@ -75,8 +82,8 @@ public interface CollectionMethods extends ClientSettings {
 	 * 
 	 * @param collectionName
 	 *            Name of the new collection
-	 * @param params
-	 *            Vector parameters for the new collection (e.g. dimension, method of distance computation)
+	 * @param config
+	 *            Vector configuration for the new collection which contains vector params (e.g. dimension, method of distance computation)
 	 * @param shardNumber
 	 *            Number of shards in collection. Default is 1 for standalone, otherwise equal to the number of nodes Minimum is 1
 	 * @param replicationFactor
@@ -98,14 +105,10 @@ public interface CollectionMethods extends ClientSettings {
 	 * 
 	 * @return
 	 */
-	default GrpcClientRequest<CollectionOperationResponse> createCollection(String collectionName, VectorParams params, Integer shardNumber,
+	default GrpcClientRequest<CollectionOperationResponse> createCollection(String collectionName, VectorsConfig config, Integer shardNumber,
 		Integer replicationFactor, Integer writeConsistencyFactor, Boolean onDiskPayload, HnswConfigDiff hnswConfig, WalConfigDiff walConfig,
 		OptimizersConfigDiff optimizersConfig, Integer timeout) {
 		Objects.requireNonNull(collectionName, "A collection name must be specified");
-
-		VectorsConfig config = VectorsConfig.newBuilder()
-			.setParams(params)
-			.build();
 
 		CreateCollection.Builder request = CreateCollection.newBuilder()
 			.setCollectionName(collectionName)

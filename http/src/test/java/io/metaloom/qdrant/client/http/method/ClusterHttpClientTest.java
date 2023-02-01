@@ -5,18 +5,21 @@ import java.math.BigInteger;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import io.metaloom.qdrant.client.http.AbstractClientTest;
+import io.metaloom.qdrant.client.http.AbstractHTTPClientTest;
 import io.metaloom.qdrant.client.http.impl.HttpErrorException;
 import io.metaloom.qdrant.client.http.model.cluster.CollectionUpdateClusterSetupRequest;
+import io.metaloom.qdrant.client.testcases.ClusterClientTestcases;
 
-public class ClusterMethodTest extends AbstractClientTest {
+public class ClusterHttpClientTest extends AbstractHTTPClientTest implements ClusterClientTestcases {
 
 	@Test
+	@Override
 	public void testGetClusterStatusInfo() throws HttpErrorException {
 		invoke(client.getClusterStatusInfo());
 	}
 
 	@Test
+	@Override
 	@Ignore("Clustering not implemented for test environment")
 	public void testRemovePeerFromCluster() throws HttpErrorException {
 		createTestCollection();
@@ -25,12 +28,14 @@ public class ClusterMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testCollectionClusterInfo() throws HttpErrorException {
 		createTestCollection();
 		invoke(client.getCollectionClusterInfo(TEST_COLLECTION_NAME));
 	}
 
 	@Test
+	@Override
 	@Ignore("Clustering not implemented for test environment")
 	public void testUpdateCollectionClusterSetup() throws HttpErrorException {
 		CollectionUpdateClusterSetupRequest request = new CollectionUpdateClusterSetupRequest();

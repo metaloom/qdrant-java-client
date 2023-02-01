@@ -32,46 +32,171 @@ import io.metaloom.qdrant.client.http.model.point.UpdateResultResponse;
 
 public interface PointMethods {
 
+	/**
+	 * Retrieve full information of single point by id.
+	 * 
+	 * @param collectionName
+	 * @param pointId
+	 * @return
+	 */
 	QDrantClientRequest<PointGetResponse> getPoint(String collectionName, String pointId);
 
+	/**
+	 * Retrieve full information of single point by id.
+	 * 
+	 * @param collectionName
+	 * @param pointId
+	 * @return
+	 */
 	default QDrantClientRequest<PointGetResponse> getPoint(String collectionName, PointId pointId) {
 		assertPointId(pointId);
 		return getPoint(collectionName, pointId.toString());
 	}
 
+	/**
+	 * Retrieve full information of single point by id.
+	 * 
+	 * @param collectionName
+	 * @param id
+	 * @return
+	 */
 	default QDrantClientRequest<PointGetResponse> getPoint(String collectionName, long id) {
 		return getPoint(collectionName, String.valueOf(id));
 	}
 
+	/**
+	 * Retrieve full information of single point by id.
+	 * 
+	 * @param collectionName
+	 * @param uuid
+	 * @return
+	 */
 	default QDrantClientRequest<PointGetResponse> getPoint(String collectionName, UUID uuid) {
 		assertUuid(uuid);
 		return getPoint(collectionName, uuid.toString());
 	}
 
+	/**
+	 * Retrieve multiple points by specified IDs.
+	 *
+	 * @param collectionName
+	 * @param request
+	 * @return
+	 */
 	QDrantClientRequest<PointsGetResponse> getPoints(String collectionName, PointsGetRequest request);
 
+	/**
+	 * Perform insert + updates on points. If point with given ID already exists - it will be overwritten.
+	 * 
+	 * @param collectionName
+	 * @param request
+	 * @param wait
+	 * @return
+	 */
 	QDrantClientRequest<UpdateResultResponse> upsertPoints(String collectionName, PointsUpsertRequest request, boolean wait);
 
+	/**
+	 * Delete points.
+	 * 
+	 * @param collectionName
+	 * @param request
+	 * @param wait
+	 * @return
+	 */
 	QDrantClientRequest<UpdateResultResponse> deletePoints(String collectionName, PointsDeleteRequest request, boolean wait);
 
+	/**
+	 * Set payload values for points. This will merge the points payload and add new properties or update existing ones.
+	 * 
+	 * @param collectionName
+	 * @param request
+	 * @param wait
+	 * @return
+	 */
 	QDrantClientRequest<UpdateResultResponse> setPointPayload(String collectionName, PointSetPayloadRequest request, boolean wait);
 
+	/**
+	 * Replace full payload of points with new one. This will overwrite the whole given payload with the new one. Existing properties will be remove.
+	 * 
+	 * @param collectionName
+	 * @param request
+	 * @param wait
+	 * @return
+	 */
 	QDrantClientRequest<UpdateResultResponse> overwritePayload(String collectionName, PointOverwritePayloadRequest request, boolean wait);
 
+	/**
+	 * Delete specified key payload for points. This will only delete the specified properties from the found payloads.
+	 * 
+	 * @param collectionName
+	 * @param request
+	 * @param wait
+	 * @return
+	 */
 	QDrantClientRequest<UpdateResultResponse> deletePayload(String collectionName, PointDeletePayloadRequest request, boolean wait);
 
+	/**
+	 * Remove all payload for specified points. Removes the whole payload from all selected points.
+	 * 
+	 * @param collectionName
+	 * @param request
+	 * @param wait
+	 * @return
+	 */
 	QDrantClientRequest<UpdateResultResponse> clearPayload(String collectionName, PointsClearPayloadRequest request, boolean wait);
 
+	/**
+	 * Scroll request - paginate over all points which matches given filtering condition.
+	 * 
+	 * @param collectionName
+	 * @param request
+	 * @return
+	 */
 	QDrantClientRequest<PointsScrollResponse> scrollPoints(String collectionName, PointsScrollRequest request);
 
+	/**
+	 * Retrieve closest points based on vector similarity and given filtering conditions.
+	 * 
+	 * @param collectionName
+	 * @param request
+	 * @return
+	 */
 	QDrantClientRequest<PointsSearchResponse> searchPoints(String collectionName, PointsSearchRequest request);
 
+	/**
+	 * Retrieve by batch the closest points based on vector similarity and given filtering conditions.
+	 * 
+	 * @param collectionName
+	 * @param request
+	 * @return
+	 */
 	QDrantClientRequest<PointsSearchBatchResponse> searchBatchPoints(String collectionName, PointsSearchBatchRequest request);
 
+	/**
+	 * Look for the points which are closer to stored positive examples and at the same time further to negative examples.
+	 * 
+	 * @param collectionName
+	 * @param request
+	 * @return
+	 */
 	QDrantClientRequest<PointsRecommendResponse> recommendPoints(String collectionName, PointsRecommendRequest request);
 
+	/**
+	 * Look for the points which are closer to stored positive examples and at the same time further to negative examples.
+	 * 
+	 * @param collectionName
+	 * @param request
+	 * @return
+	 */
 	QDrantClientRequest<PointsRecommendBatchResponse> recommendBatchPoints(String collectionName, PointsRecommendBatchRequest request);
 
+	/**
+	 * Count points which matches given filtering condition.
+	 * 
+	 * @param collectionName
+	 * @param request
+	 * @return
+	 */
 	QDrantClientRequest<PointCountResponse> countPoints(String collectionName, PointCountRequest request);
 
 }

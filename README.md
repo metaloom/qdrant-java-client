@@ -15,7 +15,7 @@ This project contains a java client for the [Qdrant vector database](https://qdr
  <a href="https://sonarcloud.io/component_measures/metric/security_rating/list?id=metaloom_qdrant-java-client">
   <img src="https://sonarcloud.io/api/project_badges/measure?project=metaloom_qdrant-java-client&metric=vulnerabilities" alt="SonarCloud Vulnerabilities" />
  </a>
- <a href="https://sonarcloud.io/component_measures/metric/coverage/list?id=metaloom_qdrant-java-client">
+ <a href="https://sonarcloud.io/code?id=metaloom_qdrant-java-client">
   <img src="https://sonarcloud.io/api/project_badges/measure?project=metaloom_qdrant-java-client&metric=coverage" alt="Code Coverage">
  </a>
  <a href="https://www.apache.org/licenses/LICENSE-2.0">

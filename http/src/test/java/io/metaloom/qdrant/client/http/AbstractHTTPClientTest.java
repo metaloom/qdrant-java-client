@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.junit.After;
 import org.junit.Before;
 
 import io.metaloom.qdrant.client.AbstractContainerTest;
@@ -16,7 +17,7 @@ import io.metaloom.qdrant.client.http.model.RestResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorParams;
 
-public abstract class AbstractClientTest extends AbstractContainerTest {
+public abstract class AbstractHTTPClientTest extends AbstractContainerTest {
 
 	public static final String TEST_COLLECTION_NAME = "the-test-collection";
 
@@ -29,6 +30,13 @@ public abstract class AbstractClientTest extends AbstractContainerTest {
 			.setHostname("localhost")
 			.setPort(qdrant.httpPort())
 			.build();
+	}
+
+	@After
+	public void closeClient() {
+		if (client != null) {
+			client.close();
+		}
 	}
 
 	/**

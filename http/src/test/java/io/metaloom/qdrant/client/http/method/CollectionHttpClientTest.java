@@ -7,15 +7,16 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import io.metaloom.qdrant.client.http.AbstractClientTest;
+import io.metaloom.qdrant.client.http.AbstractHTTPClientTest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionListResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionStatus;
 import io.metaloom.qdrant.client.http.model.collection.config.NamedVectorParams;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorParams;
+import io.metaloom.qdrant.client.testcases.CollectionClientTestcases;
 
-public class CollectionMethodTest extends AbstractClientTest {
+public class CollectionHttpClientTest extends AbstractHTTPClientTest implements CollectionClientTestcases {
 
 	@Test
 	public void testCreateCollectionWithNamedVectorParams() throws Exception {

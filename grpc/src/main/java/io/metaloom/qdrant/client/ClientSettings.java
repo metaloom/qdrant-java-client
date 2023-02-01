@@ -1,6 +1,5 @@
 package io.metaloom.qdrant.client;
 
-import java.time.Duration;
 import java.util.function.Supplier;
 
 import com.google.common.util.concurrent.ListenableFuture;

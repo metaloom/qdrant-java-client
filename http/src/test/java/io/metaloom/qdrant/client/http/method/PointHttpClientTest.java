@@ -14,7 +14,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import io.metaloom.qdrant.client.http.AbstractClientTest;
+import io.metaloom.qdrant.client.http.AbstractHTTPClientTest;
 import io.metaloom.qdrant.client.http.impl.HttpErrorException;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
 import io.metaloom.qdrant.client.http.model.collection.config.Distance;
@@ -50,8 +50,9 @@ import io.metaloom.qdrant.client.http.model.point.PointsSearchRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchResponse;
 import io.metaloom.qdrant.client.http.model.point.Record;
 import io.metaloom.qdrant.client.json.Json;
+import io.metaloom.qdrant.client.testcases.PointClientTestcases;
 
-public class PointMethodTest extends AbstractClientTest {
+public class PointHttpClientTest extends AbstractHTTPClientTest implements PointClientTestcases {
 
 	public static String VECTOR_NAME = "test-points";
 	public static float[] VECTOR_1 = { 0.42f, 0.33f, 42.15f, 68.72f };
@@ -82,12 +83,14 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testGetPoint() throws HttpErrorException {
 		Record point = invoke(client.getPoint(TEST_COLLECTION_NAME, 1L)).getResult();
 		assertEquals("first", point.getPayload().getJson().get("name").asText());
 	}
 
 	@Test
+	@Override
 	public void testGetPoints() throws HttpErrorException {
 		PointsGetRequest request = new PointsGetRequest();
 		request.setWithVector(true);
@@ -100,6 +103,7 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testUpsertPointViaList() throws HttpErrorException {
 		PointsListUpsertRequest listRequest = new PointsListUpsertRequest();
 		listRequest.setPoints(PointStruct.of(VECTOR_NAME, 42.51f, 51f, 0.14f, 516.1f).setId(42L));
@@ -107,6 +111,7 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testUpsertPointsViaListBatch() throws HttpErrorException, JacksonException {
 		// Create unnamed collection
 		String collectionName = TEST_COLLECTION_NAME + "-unnamed";
@@ -129,6 +134,7 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testUpsertPointsViaNamedBatch() throws Exception {
 		PointsBatchUpsertRequest batchRequest = new PointsBatchUpsertRequest();
 		PointsBatch batch = new PointsBatch();
@@ -144,6 +150,7 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testDeletePoints() throws HttpErrorException {
 		assertThat(client).hasPoints(TEST_COLLECTION_NAME, 4);
 
@@ -161,6 +168,7 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testSetPointPayload() throws Exception {
 		// 1. Set the payload
 		PointSetPayloadRequest request = new PointSetPayloadRequest();
@@ -181,6 +189,7 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testOverwritePointPayload() throws Exception {
 		// 1. Overwrite the payload
 		PointOverwritePayloadRequest request = new PointOverwritePayloadRequest();
@@ -200,6 +209,7 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testDeletePointPayload() throws Exception {
 		// 1. Add an extra property
 		PointSetPayloadRequest request = new PointSetPayloadRequest();
@@ -223,6 +233,7 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testClearPointPayload() throws Exception {
 		// 1. Clear the payload from the point
 		PointsClearPayloadRequest request = new PointsClearPayloadRequest();
@@ -239,6 +250,7 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testScrollPoints() throws HttpErrorException {
 		PointsScrollRequest request = new PointsScrollRequest();
 		// Set page size to 1
@@ -250,6 +262,7 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testSearchPoints() throws HttpErrorException {
 		PointsSearchRequest request = new PointsSearchRequest();
 		request.setVector(NamedVector.of(VECTOR_NAME, NEAR_VECTOR_1));
@@ -261,6 +274,7 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testSearchBatchPoints() throws HttpErrorException {
 		PointsSearchRequest request = new PointsSearchRequest();
 		request.setVector(NamedVector.of(VECTOR_NAME, NEAR_VECTOR_1));
@@ -276,6 +290,7 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testRecommendPoints() throws HttpErrorException {
 		PointsRecommendRequest request = new PointsRecommendRequest();
 		request.setPositive(1L);
@@ -286,6 +301,7 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testRecommendBatchPoints() throws HttpErrorException {
 		PointsRecommendBatchRequest batchRequest = new PointsRecommendBatchRequest();
 		PointsRecommendRequest request = new PointsRecommendRequest();
@@ -300,6 +316,7 @@ public class PointMethodTest extends AbstractClientTest {
 	}
 
 	@Test
+	@Override
 	public void testCountPoints() throws HttpErrorException {
 		PointCountRequest request = new PointCountRequest();
 		request.setExact(true);

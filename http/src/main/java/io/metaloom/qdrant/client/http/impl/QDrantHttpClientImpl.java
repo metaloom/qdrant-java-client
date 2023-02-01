@@ -266,9 +266,8 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	public QDrantClientRequest<UpdateResultResponse> deletePayload(String collectionName, PointDeletePayloadRequest request, boolean wait) {
 		assertCollectionName(collectionName);
 		Objects.requireNonNull(request.getKeys(), "Keys must be specified");
-		QDrantClientRequest<UpdateResultResponse> req = postRequest("collections/" + collectionName + "/points/payload/delete", request,
+		return postRequest("collections/" + collectionName + "/points/payload/delete", request,
 			UpdateResultResponse.class);
-		return req;
 	}
 
 	@Override
@@ -290,9 +289,8 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 		assertCollectionName(collectionName);
 		Objects.requireNonNull(request.getVector(), "A vector must be specified to run the search");
 		Objects.requireNonNull(request.getLimit(), "A limit must be specified");
-		QDrantClientRequest<PointsSearchResponse> req = postRequest("collections/" + collectionName + "/points/search", request,
+		return postRequest("collections/" + collectionName + "/points/search", request,
 			PointsSearchResponse.class);
-		return req;
 	}
 
 	@Override

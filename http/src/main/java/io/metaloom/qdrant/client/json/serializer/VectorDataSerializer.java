@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 import io.metaloom.qdrant.client.http.model.point.VectorData;
-import io.metaloom.qdrant.client.http.model.point.BatchVectorDataMap;
 import io.metaloom.qdrant.client.http.model.point.VectorDataMap;
 import io.metaloom.qdrant.client.http.model.point.VectorDataPlain;
 
