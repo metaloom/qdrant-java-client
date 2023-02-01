@@ -26,6 +26,19 @@ import io.metaloom.qdrant.client.grpc.proto.Points.WithVectorsSelector;
 public interface SearchMethods extends ClientSettings {
 
 	/**
+	 * Retrieve closest points based on vector similarity.
+	 * 
+	 * @param collectionName
+	 * @param vector
+	 * @param limit
+	 * @param scoreThreshold
+	 * @return
+	 */
+	default GrpcClientRequest<SearchResponse> searchPoints(String collectionName, float[] vector, long limit, Float scoreThreshold) {
+		return searchPoints(collectionName, vector, null, null, limit, null, null, null, scoreThreshold);
+	}
+
+	/**
 	 * Retrieve closest points based on vector similarity and given filtering conditions.
 	 * 
 	 * @param collectionName
@@ -124,6 +137,19 @@ public interface SearchMethods extends ClientSettings {
 	 */
 	default GrpcClientRequest<RecommendResponse> recommendPoints(String collectionName, List<PointId> positives, int limit) {
 		return recommendPoints(collectionName, positives, null, null, null, limit, null, null, null, null, null, null);
+	}
+
+	/**
+	 * Look for the points which are closer to stored positive examples.
+	 * 
+	 * @param collectionName
+	 * @param positives
+	 * @param limit
+	 * @param using
+	 * @return
+	 */
+	default GrpcClientRequest<RecommendResponse> recommendPoints(String collectionName, List<PointId> positives, int limit, String using) {
+		return recommendPoints(collectionName, positives, null, null, null, limit, null, null, null, null, using, null);
 	}
 
 	/**

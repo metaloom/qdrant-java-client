@@ -1,5 +1,7 @@
 package io.metaloom.qdrant.client.grpc;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -70,6 +72,14 @@ public final class ModelHelper {
 
 	public static PointStruct point(long id, float[] vectorData, Map<String, Value> payload) {
 		return toPointStruct(pointId(id), vectorData, payload);
+	}
+
+	public static List<PointId> pointIds(long... ids) {
+		List<PointId> list = new ArrayList<>();
+		for (long id : ids) {
+			list.add(pointId(id));
+		}
+		return list;
 	}
 
 	public static PointStruct toPointStruct(PointId id, float[] vectorData, Map<String, Value> payload) {
