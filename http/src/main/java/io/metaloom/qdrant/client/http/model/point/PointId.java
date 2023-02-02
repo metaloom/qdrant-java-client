@@ -1,6 +1,6 @@
 package io.metaloom.qdrant.client.http.model.point;
 
-import static io.metaloom.qdrant.client.util.QDrantClientUtil.toList;
+import static io.metaloom.qdrant.client.util.VectorUtil.toList;
 
 import java.util.Arrays;
 import java.util.List;

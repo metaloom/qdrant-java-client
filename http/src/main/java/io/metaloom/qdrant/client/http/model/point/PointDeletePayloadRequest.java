@@ -1,10 +1,7 @@
 package io.metaloom.qdrant.client.http.model.point;
 
-import static io.metaloom.qdrant.client.util.QDrantClientUtil.toList;
-
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -10,8 +10,11 @@ import io.metaloom.qdrant.client.grpc.proto.JsonWithInt;
 import io.metaloom.qdrant.client.grpc.proto.JsonWithInt.Value;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointId;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointStruct;
+import io.metaloom.qdrant.client.grpc.proto.Points.PointStruct.Builder;
 import io.metaloom.qdrant.client.grpc.proto.Points.Vector;
 import io.metaloom.qdrant.client.grpc.proto.Points.Vectors;
+import io.metaloom.qdrant.client.grpc.proto.Points.WithPayloadSelector;
+import io.metaloom.qdrant.client.grpc.proto.Points.WithVectorsSelector;
 
 public final class ModelHelper {
 
@@ -83,11 +86,22 @@ public final class ModelHelper {
 	}
 
 	public static PointStruct toPointStruct(PointId id, float[] vectorData, Map<String, Value> payload) {
+		Objects.requireNonNull(id, "A pointId must be provided.");
 		Vector vector = ModelHelper.toVector(vectorData);
-		return PointStruct.newBuilder()
-			.putAllPayload(payload)
+		Builder builder = PointStruct.newBuilder()
 			.setId(id)
-			.setVectors(Vectors.newBuilder().setVector(vector))
-			.build();
+			.setVectors(Vectors.newBuilder().setVector(vector));
+		if (payload != null) {
+			builder.putAllPayload(payload);
+		}
+		return builder.build();
+	}
+
+	public static WithPayloadSelector withPayload() {
+		return WithPayloadSelector.newBuilder().setEnable(true).build();
+	}
+
+	public static WithVectorsSelector withVector() {
+		return WithVectorsSelector.newBuilder().setEnable(true).build();
 	}
 }

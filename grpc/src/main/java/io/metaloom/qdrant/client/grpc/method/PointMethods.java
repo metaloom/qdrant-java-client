@@ -227,6 +227,8 @@ public interface PointMethods extends ClientSettings {
 			pointsSelector.setPoints(pointsList);
 		}
 
+		request.setPoints(pointsSelector.build());
+
 		return request(
 			() -> pointsStub(this).clearPayload(request.build()),
 			() -> pointsAsyncStub(this).clearPayload(request.build()));
@@ -298,10 +300,14 @@ public interface PointMethods extends ClientSettings {
 			.addAllIds(Arrays.asList(ids))
 			.build();
 
-		PointsSelector pointsSelector = PointsSelector.newBuilder()
-			.setPoints(pointList)
-			.setFilter(filter)
-			.build();
+		PointsSelector.Builder pointsSelectorBuilder = PointsSelector.newBuilder()
+			.setPoints(pointList);
+
+		if (filter != null) {
+			pointsSelectorBuilder.setFilter(filter);
+		}
+
+		PointsSelector pointsSelector = pointsSelectorBuilder.build();
 
 		SetPayloadPoints request = SetPayloadPoints.newBuilder()
 			.setCollectionName(collectionName)
@@ -341,10 +347,14 @@ public interface PointMethods extends ClientSettings {
 			.addAllIds(Arrays.asList(ids))
 			.build();
 
-		PointsSelector pointsSelector = PointsSelector.newBuilder()
-			.setPoints(pointList)
-			.setFilter(filter)
-			.build();
+		PointsSelector.Builder pointsSelectorBuilder = PointsSelector.newBuilder()
+			.setPoints(pointList);
+
+		if (filter != null) {
+			pointsSelectorBuilder.setFilter(filter);
+		}
+
+		PointsSelector pointsSelector = pointsSelectorBuilder.build();
 
 		SetPayloadPoints request = SetPayloadPoints.newBuilder()
 			.setCollectionName(collectionName)

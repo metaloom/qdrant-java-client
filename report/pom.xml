@@ -17,6 +17,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>qdrant-java-client-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>qdrant-java-http-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>

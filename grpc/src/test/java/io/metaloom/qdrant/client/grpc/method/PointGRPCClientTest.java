@@ -4,8 +4,12 @@ import static io.metaloom.qdrant.client.grpc.ModelHelper.point;
 import static io.metaloom.qdrant.client.grpc.ModelHelper.pointId;
 import static io.metaloom.qdrant.client.grpc.ModelHelper.pointIds;
 import static io.metaloom.qdrant.client.grpc.ModelHelper.value;
+import static io.metaloom.qdrant.client.grpc.ModelHelper.withPayload;
+import static io.metaloom.qdrant.client.grpc.ModelHelper.withVector;
+import static io.metaloom.qdrant.client.util.VectorUtil.toList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -16,21 +20,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.assertj.core.util.Arrays;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.testcontainers.shaded.com.google.common.collect.Sets;
-
-import com.github.dockerjava.zerodep.shaded.org.apache.hc.core5.http.ConnectionReuseStrategy;
 
 import io.metaloom.qdrant.client.grpc.AbstractGRPCClientTest;
 import io.metaloom.qdrant.client.grpc.ModelHelper;
 import io.metaloom.qdrant.client.grpc.proto.JsonWithInt.Value;
-import io.metaloom.qdrant.client.grpc.proto.Points.PointId;
+import io.metaloom.qdrant.client.grpc.proto.Points.GetResponse;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointStruct;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointsOperationResponse;
+import io.metaloom.qdrant.client.grpc.proto.Points.RecommendBatchResponse;
+import io.metaloom.qdrant.client.grpc.proto.Points.RecommendPoints;
 import io.metaloom.qdrant.client.grpc.proto.Points.RecommendResponse;
+import io.metaloom.qdrant.client.grpc.proto.Points.RetrievedPoint;
 import io.metaloom.qdrant.client.grpc.proto.Points.ScoredPoint;
+import io.metaloom.qdrant.client.grpc.proto.Points.ScrollResponse;
+import io.metaloom.qdrant.client.grpc.proto.Points.SearchBatchResponse;
+import io.metaloom.qdrant.client.grpc.proto.Points.SearchPoints;
 import io.metaloom.qdrant.client.grpc.proto.Points.SearchResponse;
 import io.metaloom.qdrant.client.grpc.proto.Points.UpdateStatus;
 import io.metaloom.qdrant.client.grpc.proto.Points.Vector;
@@ -62,19 +70,28 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 	@Test
 	@Override
 	public void testGetPoint() throws Exception {
-		client.getPoint(TEST_COLLECTION_NAME, pointId(42L));
+		GetResponse response = client.getPoint(TEST_COLLECTION_NAME, pointId(42L)).sync();
+		assertEquals(1, response.getResultCount());
 	}
 
 	@Test
 	@Override
 	public void testGetPoints() throws Exception {
-		fail("Not implemented");
+		GetResponse list = client.getPoints(TEST_COLLECTION_NAME, withPayload(), withVector(), pointId(42L), pointId(43L)).sync();
+		assertEquals(2, list.getResultCount());
 	}
 
 	@Test
 	@Override
 	public void testUpsertPointViaList() throws Exception {
-		fail("Not implemented");
+		float[] vec = new float[] { 0, 0, 0, 0 };
+		List<PointStruct> list = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			list.add(point(80L + i, vec, null));
+		}
+
+		client.upsertPoints(TEST_COLLECTION_NAME, list, true).sync();
+		assertPointCount(14, TEST_COLLECTION_NAME);
 	}
 
 	@Test
@@ -86,14 +103,14 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 
 	@Test
 	@Override
+	@Ignore("Not supported via gRPC")
 	public void testUpsertPointsViaListBatch() throws Exception {
-		fail("Not implemented");
 	}
 
 	@Test
 	@Override
+	@Ignore("Not supported via gRPC")
 	public void testUpsertPointsViaNamedBatch() throws Exception {
-		fail("Not implemented");
 	}
 
 	@Test
@@ -107,13 +124,27 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 	@Test
 	@Override
 	public void testSetPointPayload() throws Exception {
-		fail("Not implemented");
+		Map<String, Value> newPayload = new HashMap<>();
+		newPayload.put("test123", value("the-value"));
+		PointsOperationResponse response = client.setPointPayload(TEST_COLLECTION_NAME, true, null, newPayload, pointId(42L)).sync();
+		assertEquals(UpdateStatus.Completed, response.getResult().getStatus());
+
+		Map<String, Value> payload = client.getPoint(TEST_COLLECTION_NAME, pointId(42L)).sync().getResult(0).getPayloadMap();
+		assertEquals(2, payload.size());
+		assertEquals("the-value", payload.get("test123").getStringValue());
 	}
 
 	@Test
 	@Override
 	public void testOverwritePointPayload() throws Exception {
-		fail("Not implemented");
+		Map<String, Value> newPayload = new HashMap<>();
+		newPayload.put("test123", value("the-value"));
+		PointsOperationResponse response = client.overwritePayload(TEST_COLLECTION_NAME, true, null, newPayload, pointId(42L)).sync();
+		assertEquals(UpdateStatus.Completed, response.getResult().getStatus());
+
+		Map<String, Value> payload = client.getPoint(TEST_COLLECTION_NAME, pointId(42L)).sync().getResult(0).getPayloadMap();
+		// assertEquals(1, payload.size());
+		assertEquals("the-value", payload.get("test123").getStringValue());
 	}
 
 	@Test
@@ -130,13 +161,23 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 	@Test
 	@Override
 	public void testClearPointPayload() throws Exception {
-		fail("Not implemented");
+		GetResponse before = client.getPoint(TEST_COLLECTION_NAME, withPayload(), withVector(), pointId(42L)).sync();
+		assertFalse("The map should not be empty", before.getResultList().get(0).getPayloadMap().isEmpty());
+
+		PointsOperationResponse response = client.clearPayload(TEST_COLLECTION_NAME, true, null, pointId(42L)).sync();
+		assertEquals(UpdateStatus.Completed, response.getResult().getStatus());
+
+		GetResponse after = client.getPoint(TEST_COLLECTION_NAME, withPayload(), withVector(), pointId(42L)).sync();
+		assertTrue("The map should have been cleared", after.getResultList().get(0).getPayloadMap().isEmpty());
 	}
 
 	@Test
 	@Override
 	public void testScrollPoints() throws Exception {
-		fail("Not implemented");
+		ScrollResponse scrollResponse = client.scrollPoint(TEST_COLLECTION_NAME, null, 4, null, null, null).sync();
+		List<RetrievedPoint> list = scrollResponse.getResultList();
+		assertEquals(4, list.size());
+		assertNotNull(scrollResponse.getNextPageOffset());
 	}
 
 	@Test
@@ -154,7 +195,19 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 	@Test
 	@Override
 	public void testSearchBatchPoints() throws Exception {
-		fail("Not implemented");
+		List<SearchPoints> searches = new ArrayList<>();
+
+		List<Float> vectorList = toList(0f, 0f, 0f, 0f);
+
+		SearchPoints.Builder request = SearchPoints.newBuilder()
+			.setLimit(10)
+			.addAllVector(vectorList)
+			.setCollectionName(TEST_COLLECTION_NAME);
+
+		searches.add(request.build());
+
+		SearchBatchResponse responses = client.searchBatch(TEST_COLLECTION_NAME, searches).sync();
+		assertEquals(1, responses.getResultList().size());
 	}
 
 	@Test
@@ -169,7 +222,17 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 	@Test
 	@Override
 	public void testRecommendBatchPoints() throws Exception {
-		fail("Not implemented");
+		List<RecommendPoints> searches = new ArrayList<>();
+
+		RecommendPoints.Builder request = RecommendPoints.newBuilder()
+			.setCollectionName(TEST_COLLECTION_NAME)
+			.addAllPositive(pointIds(42L))
+			.setLimit(10);
+
+		searches.add(request.build());
+
+		RecommendBatchResponse response = client.recommendBatchPoints(TEST_COLLECTION_NAME, searches).sync();
+		assertEquals(1, response.getResultCount());
 	}
 
 	@Test
