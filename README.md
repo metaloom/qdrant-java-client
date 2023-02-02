@@ -57,8 +57,6 @@ NOTE: The http client currently (as of v0.11.7 of Qdrant) supports more methods 
 
 This client was build and tested for Qdrant server version `v0.11.7`. Minimum required JRE is current LTS version **17**.
 
-**__This client is still in development and not yet stable / released.__**
-
 ## Usage - gRPC
 
 ```java
