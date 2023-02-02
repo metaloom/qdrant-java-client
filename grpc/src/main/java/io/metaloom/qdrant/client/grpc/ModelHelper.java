@@ -27,7 +27,7 @@ public final class ModelHelper {
 	 * @param vector
 	 * @return
 	 */
-	public static Vector toVector(float[] vector) {
+	public static Vector vector(float[] vector) {
 		Vector.Builder builder = Vector.newBuilder();
 		for (int i = 0; i < vector.length; i++) {
 			builder.addData(vector[i]);
@@ -87,7 +87,7 @@ public final class ModelHelper {
 
 	public static PointStruct toPointStruct(PointId id, float[] vectorData, Map<String, Value> payload) {
 		Objects.requireNonNull(id, "A pointId must be provided.");
-		Vector vector = ModelHelper.toVector(vectorData);
+		Vector vector = ModelHelper.vector(vectorData);
 		Builder builder = PointStruct.newBuilder()
 			.setId(id)
 			.setVectors(Vectors.newBuilder().setVector(vector));

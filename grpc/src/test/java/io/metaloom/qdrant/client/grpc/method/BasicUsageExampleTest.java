@@ -3,6 +3,10 @@ package io.metaloom.qdrant.client.grpc.method;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Test;
 
 import io.metaloom.qdrant.client.AbstractContainerTest;
@@ -10,9 +14,9 @@ import io.metaloom.qdrant.client.grpc.ModelHelper;
 import io.metaloom.qdrant.client.grpc.QDrantGRPCClient;
 import io.metaloom.qdrant.client.grpc.proto.Collections.Distance;
 import io.metaloom.qdrant.client.grpc.proto.Collections.VectorParams;
+import io.metaloom.qdrant.client.grpc.proto.JsonWithInt.Value;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointStruct;
-import io.metaloom.qdrant.client.grpc.proto.Points.Vector;
-import io.metaloom.qdrant.client.grpc.proto.Points.Vectors;
+import io.metaloom.qdrant.client.grpc.proto.Points.ScoredPoint;
 
 public class BasicUsageExampleTest extends AbstractContainerTest {
 
@@ -41,16 +45,21 @@ public class BasicUsageExampleTest extends AbstractContainerTest {
 
 			// Insert a new vector
 			for (int i = 0; i < 10; i++) {
-				Vector vector = ModelHelper.toVector(new float[] { 0.43f + i, 0.1f, 0.61f, 1.45f });
-				PointStruct point = PointStruct.newBuilder()
-					.putPayload("color", ModelHelper.value("blue"))
-					.setId(ModelHelper.pointId(42L + i))
-					.setVectors(Vectors.newBuilder().setVector(vector))
-					.build();
-				System.out.println(client.upsertPoint("test1", point, true).sync().getResult().getStatus());
+				float[] vector = new float[] { 0.43f + i, 0.1f, 0.61f, 1.45f - i };
+				Map<String, Value> payload = new HashMap<>();
+				payload.put("color", ModelHelper.value("blue"));
+				PointStruct point = ModelHelper.point(42L + i, vector, payload);
+				System.out.println("[" + point.getId().getNum() + "] => " + client.upsertPoint("test1", point, true).sync().getResult().getStatus());
 			}
 
 			assertEquals(10, client.countPoints("test1", null, true).sync().getResult().getCount());
+
+			// Now run KNN search
+			float[] searchVector = new float[] { 0.43f, 0.09f, 0.41f, 1.35f };
+			List<ScoredPoint> searchResults = client.searchPoints("test1", searchVector, 2, null).sync().getResultList();
+			for (ScoredPoint result : searchResults) {
+				System.out.println("Found: [" + result.getId().getNum() + "] " + result.getScore());
+			}
 		}
 	}
 }

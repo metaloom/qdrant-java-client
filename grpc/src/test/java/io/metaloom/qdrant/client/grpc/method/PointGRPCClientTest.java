@@ -240,7 +240,7 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 	public void testCountPoints() throws Exception {
 		// Insert a new vector
 		for (int i = 0; i < 10; i++) {
-			Vector vector = ModelHelper.toVector(new float[] { 0.43f + i, 0.1f, 0.61f, 1.45f });
+			Vector vector = ModelHelper.vector(new float[] { 0.43f + i, 0.1f, 0.61f, 1.45f });
 			PointStruct point = PointStruct.newBuilder()
 				.putPayload("color", ModelHelper.value("blue"))
 				.setId(ModelHelper.pointId(42L + i))
