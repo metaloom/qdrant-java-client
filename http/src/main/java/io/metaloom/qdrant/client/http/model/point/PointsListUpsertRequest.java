@@ -1,5 +1,6 @@
 package io.metaloom.qdrant.client.http.model.point;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,6 +24,15 @@ public class PointsListUpsertRequest implements PointsUpsertRequest {
 	@JsonIgnore
 	public PointsListUpsertRequest setPoints(PointStruct... points) {
 		this.points = Arrays.asList(points);
+		return this;
+	}
+
+	@JsonIgnore
+	public PointsListUpsertRequest addPoint(PointStruct point) {
+		if (this.points == null) {
+			this.points = new ArrayList<>();
+		}
+		this.points.add(point);
 		return this;
 	}
 

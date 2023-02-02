@@ -13,7 +13,6 @@ public interface SnapshotMethods {
 	/**
 	 * Get list of snapshots for a collection
 	 * 
-	 * 
 	 * @param collectionName
 	 * @return
 	 */

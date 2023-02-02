@@ -352,7 +352,8 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	@Override
 	public QDrantClientRequest<GenericBooleanStatusResponse> recoverSnapshot(String collectionName, SnapshotRecoverRequest request) {
 		assertCollectionName(collectionName);
-		return putRequest("collections/" + collectionName + "snapshots/recover", request, GenericBooleanStatusResponse.class);
+		Objects.requireNonNull(request, "A recovery request must be provided");
+		return putRequest("collections/" + collectionName + "/snapshots/recover", request, GenericBooleanStatusResponse.class);
 	}
 
 	@Override
