@@ -10,13 +10,13 @@ import java.util.Map;
 import org.junit.Test;
 
 import io.metaloom.qdrant.client.AbstractContainerTest;
-import io.metaloom.qdrant.client.grpc.ModelHelper;
 import io.metaloom.qdrant.client.grpc.QDrantGRPCClient;
 import io.metaloom.qdrant.client.grpc.proto.Collections.Distance;
 import io.metaloom.qdrant.client.grpc.proto.Collections.VectorParams;
 import io.metaloom.qdrant.client.grpc.proto.JsonWithInt.Value;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointStruct;
 import io.metaloom.qdrant.client.grpc.proto.Points.ScoredPoint;
+import io.metaloom.qdrant.client.util.ModelHelper;
 
 public class BasicUsageExampleTest extends AbstractContainerTest {
 

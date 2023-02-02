@@ -1,4 +1,4 @@
-package io.metaloom.qdrant.client.grpc;
+package io.metaloom.qdrant.client.util;
 
 import java.util.ArrayList;
 import java.util.List;

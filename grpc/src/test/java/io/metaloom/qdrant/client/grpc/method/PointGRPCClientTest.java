@@ -1,11 +1,11 @@
 package io.metaloom.qdrant.client.grpc.method;
 
-import static io.metaloom.qdrant.client.grpc.ModelHelper.point;
-import static io.metaloom.qdrant.client.grpc.ModelHelper.pointId;
-import static io.metaloom.qdrant.client.grpc.ModelHelper.pointIds;
-import static io.metaloom.qdrant.client.grpc.ModelHelper.value;
-import static io.metaloom.qdrant.client.grpc.ModelHelper.withPayload;
-import static io.metaloom.qdrant.client.grpc.ModelHelper.withVector;
+import static io.metaloom.qdrant.client.util.ModelHelper.point;
+import static io.metaloom.qdrant.client.util.ModelHelper.pointId;
+import static io.metaloom.qdrant.client.util.ModelHelper.pointIds;
+import static io.metaloom.qdrant.client.util.ModelHelper.value;
+import static io.metaloom.qdrant.client.util.ModelHelper.withPayload;
+import static io.metaloom.qdrant.client.util.ModelHelper.withVector;
 import static io.metaloom.qdrant.client.util.VectorUtil.toList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -25,7 +25,6 @@ import org.junit.Test;
 import org.testcontainers.shaded.com.google.common.collect.Sets;
 
 import io.metaloom.qdrant.client.grpc.AbstractGRPCClientTest;
-import io.metaloom.qdrant.client.grpc.ModelHelper;
 import io.metaloom.qdrant.client.grpc.proto.JsonWithInt.Value;
 import io.metaloom.qdrant.client.grpc.proto.Points.GetResponse;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointStruct;
@@ -43,6 +42,7 @@ import io.metaloom.qdrant.client.grpc.proto.Points.UpdateStatus;
 import io.metaloom.qdrant.client.grpc.proto.Points.Vector;
 import io.metaloom.qdrant.client.grpc.proto.Points.Vectors;
 import io.metaloom.qdrant.client.testcases.PointClientTestcases;
+import io.metaloom.qdrant.client.util.ModelHelper;
 
 public class PointGRPCClientTest extends AbstractGRPCClientTest implements PointClientTestcases {
 
