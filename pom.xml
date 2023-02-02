@@ -14,7 +14,8 @@
 
 	<packaging>pom</packaging>
 	<name>Qdrant Java Client</name>
-	<description>Java client for REST / gRPC connections to the Qdrant vector database.</description>
+	<description>Java client for REST / gRPC connections to the Qdrant vector
+		database.</description>
 	<inceptionYear>2023</inceptionYear>
 
 	<modules>
@@ -31,7 +32,8 @@
 		<!-- Sonar -->
 		<jacoco.version>0.8.8</jacoco.version>
 		<sonar.version>3.9.1.2184</sonar.version>
-		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.coverage.jacoco.xmlReportPaths>
+			${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
 	<licenses>
@@ -147,10 +149,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
