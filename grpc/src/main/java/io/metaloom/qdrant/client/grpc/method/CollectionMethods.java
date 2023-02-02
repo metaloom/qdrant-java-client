@@ -1,7 +1,7 @@
 package io.metaloom.qdrant.client.grpc.method;
 
-import static io.metaloom.qdrant.client.grpc.GrpcUtil.collectionsAsyncStub;
-import static io.metaloom.qdrant.client.grpc.GrpcUtil.collectionsStub;
+import static io.metaloom.qdrant.client.grpc.InternalGrpcUtil.collectionsAsyncStub;
+import static io.metaloom.qdrant.client.grpc.InternalGrpcUtil.collectionsStub;
 
 import java.util.List;
 import java.util.Objects;

@@ -55,28 +55,34 @@ public final class ModelHelper {
 		return PointId.newBuilder().setNum(id).build();
 	}
 
+	/**
+	 * Construct a {@link PointId} from the provided uuid.
+	 * 
+	 * @param uuid
+	 * @return
+	 */
 	public static PointId pointId(UUID uuid) {
 		Objects.requireNonNull(uuid, "The provided uuid must not be null");
 		return PointId.newBuilder().setUuid(uuid.toString()).build();
 	}
 
+	/**
+	 * Construct a {@link PointId} from the provided uuid string.
+	 * 
+	 * @param uuid
+	 * @return
+	 */
 	public static PointId pointId(String uuid) {
 		Objects.requireNonNull(uuid, "The provided uuid must not be null");
 		return PointId.newBuilder().setUuid(UUID.fromString(uuid).toString()).build();
 	}
 
-	public static PointStruct point(String uuid, float[] vectorData, Map<String, Value> payload) {
-		return toPointStruct(pointId(uuid), vectorData, payload);
-	}
-
-	public static PointStruct point(UUID uuid, float[] vectorData, Map<String, Value> payload) {
-		return toPointStruct(pointId(uuid), vectorData, payload);
-	}
-
-	public static PointStruct point(long id, float[] vectorData, Map<String, Value> payload) {
-		return toPointStruct(pointId(id), vectorData, payload);
-	}
-
+	/**
+	 * Create a list of {@link PointId}d
+	 * 
+	 * @param ids
+	 * @return
+	 */
 	public static List<PointId> pointIds(long... ids) {
 		List<PointId> list = new ArrayList<>();
 		for (long id : ids) {
@@ -85,7 +91,27 @@ public final class ModelHelper {
 		return list;
 	}
 
-	public static PointStruct toPointStruct(PointId id, float[] vectorData, Map<String, Value> payload) {
+	public static PointStruct point(String uuid, float[] vectorData, Map<String, Value> payload) {
+		return point(pointId(uuid), vectorData, payload);
+	}
+
+	public static PointStruct point(UUID uuid, float[] vectorData, Map<String, Value> payload) {
+		return point(pointId(uuid), vectorData, payload);
+	}
+
+	public static PointStruct point(long id, float[] vectorData, Map<String, Value> payload) {
+		return point(pointId(id), vectorData, payload);
+	}
+
+	/**
+	 * Construct a new {@link PointStruct} using the provided data.
+	 * 
+	 * @param id
+	 * @param vectorData
+	 * @param payload
+	 * @return
+	 */
+	public static PointStruct point(PointId id, float[] vectorData, Map<String, Value> payload) {
 		Objects.requireNonNull(id, "A pointId must be provided.");
 		Vector vector = ModelHelper.vector(vectorData);
 		Builder builder = PointStruct.newBuilder()

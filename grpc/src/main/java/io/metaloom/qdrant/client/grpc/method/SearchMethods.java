@@ -1,7 +1,7 @@
 package io.metaloom.qdrant.client.grpc.method;
 
-import static io.metaloom.qdrant.client.grpc.GrpcUtil.pointsAsyncStub;
-import static io.metaloom.qdrant.client.grpc.GrpcUtil.pointsStub;
+import static io.metaloom.qdrant.client.grpc.InternalGrpcUtil.pointsAsyncStub;
+import static io.metaloom.qdrant.client.grpc.InternalGrpcUtil.pointsStub;
 
 import java.util.ArrayList;
 import java.util.List;

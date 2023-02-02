@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.metaloom.qdrant</groupId>
 	<artifactId>qdrant-java-client</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.9.0-SNAPSHOT</version>
 
 	<parent>
 		<groupId>io.metaloom</groupId>
@@ -14,8 +14,7 @@
 
 	<packaging>pom</packaging>
 	<name>Qdrant Java Client</name>
-	<description>Java clients for REST / gRPC connections to the Qdrant vector
-		database.</description>
+	<description>Java client for REST / gRPC connections to the Qdrant vector database.</description>
 	<inceptionYear>2023</inceptionYear>
 
 	<modules>

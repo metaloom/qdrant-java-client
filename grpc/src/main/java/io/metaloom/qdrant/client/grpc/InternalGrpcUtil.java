@@ -9,7 +9,10 @@ import io.metaloom.qdrant.client.grpc.proto.QdrantGrpc;
 import io.metaloom.qdrant.client.grpc.proto.RaftGrpc;
 import io.metaloom.qdrant.client.grpc.proto.SnapshotsGrpc;
 
-public final class GrpcUtil {
+public final class InternalGrpcUtil {
+
+	private InternalGrpcUtil() {
+	}
 
 	public static CollectionsGrpc.CollectionsBlockingStub collectionsStub(ClientSettings client) {
 		return CollectionsGrpc.newBlockingStub(client.channel());

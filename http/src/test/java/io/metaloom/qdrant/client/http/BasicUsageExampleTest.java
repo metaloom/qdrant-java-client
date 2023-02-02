@@ -14,9 +14,11 @@ public class BasicUsageExampleTest extends AbstractContainerTest {
 	@Test
 	public void testExample() throws Exception {
 
+		int port = qdrant.httpPort();
+
 		try (QDrantHttpClient client = QDrantHttpClient.builder()
 			.setHostname("localhost")
-			.setPort(qdrant.httpPort())
+			.setPort(port)
 			.build()) {
 
 			// Create a collection

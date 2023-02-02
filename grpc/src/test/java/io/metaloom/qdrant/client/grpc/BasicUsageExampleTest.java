@@ -1,7 +1,4 @@
-package io.metaloom.qdrant.client.grpc.method;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+package io.metaloom.qdrant.client.grpc;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +7,6 @@ import java.util.Map;
 import org.junit.Test;
 
 import io.metaloom.qdrant.client.AbstractContainerTest;
-import io.metaloom.qdrant.client.grpc.QDrantGRPCClient;
 import io.metaloom.qdrant.client.grpc.proto.Collections.Distance;
 import io.metaloom.qdrant.client.grpc.proto.Collections.VectorParams;
 import io.metaloom.qdrant.client.grpc.proto.JsonWithInt.Value;
@@ -30,29 +26,37 @@ public class BasicUsageExampleTest extends AbstractContainerTest {
 			.setPort(port)
 			.build()) {
 
+			// Define the collection to store vectors
 			VectorParams params = VectorParams.newBuilder()
 				.setSize(4)
 				.setDistance(Distance.Euclid)
 				.build();
 
-			// Create new collections
-			assertTrue(client.createCollection("test1", params).sync().getResult());
-			assertTrue(client.createCollection("test2", params).async().get().getResult());
-			assertTrue(client.createCollection("test3", params).rx().blockingGet().getResult());
+			// Create new collections - blocking
+			client.createCollection("test1", params).sync();
+			// .. or via Future API
+			client.createCollection("test2", params).async().get();
+			// .. or via RxJava API
+			client.createCollection("test3", params).rx().blockingGet();
 
-			// Count vectors
-			assertEquals(0, client.countPoints("test1", null, true).sync().getResult().getCount());
-
-			// Insert a new vector
+			// Insert a new vectors
 			for (int i = 0; i < 10; i++) {
+
+				// Vector of the point
 				float[] vector = new float[] { 0.43f + i, 0.1f, 0.61f, 1.45f - i };
+
+				// Payload of the point
 				Map<String, Value> payload = new HashMap<>();
 				payload.put("color", ModelHelper.value("blue"));
+
+				// Now construct the point
 				PointStruct point = ModelHelper.point(42L + i, vector, payload);
-				System.out.println("[" + point.getId().getNum() + "] => " + client.upsertPoint("test1", point, true).sync().getResult().getStatus());
+				// .. and insert it
+				client.upsertPoint("test1", point, true).sync();
 			}
 
-			assertEquals(10, client.countPoints("test1", null, true).sync().getResult().getCount());
+			// Count points
+			long nPoints = client.countPoints("test1", null, true).sync().getResult().getCount();
 
 			// Now run KNN search
 			float[] searchVector = new float[] { 0.43f, 0.09f, 0.41f, 1.35f };
@@ -60,6 +64,9 @@ public class BasicUsageExampleTest extends AbstractContainerTest {
 			for (ScoredPoint result : searchResults) {
 				System.out.println("Found: [" + result.getId().getNum() + "] " + result.getScore());
 			}
+
+			// Invoke backup via Snapshot API
+			client.createSnapshot("test1").sync();
 		}
 	}
 }
