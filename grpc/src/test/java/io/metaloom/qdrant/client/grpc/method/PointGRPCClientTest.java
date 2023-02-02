@@ -11,7 +11,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -129,7 +128,7 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 		PointsOperationResponse response = client.setPointPayload(TEST_COLLECTION_NAME, true, null, newPayload, pointId(42L)).sync();
 		assertEquals(UpdateStatus.Completed, response.getResult().getStatus());
 
-		Map<String, Value> payload = client.getPoint(TEST_COLLECTION_NAME, pointId(42L)).sync().getResult(0).getPayloadMap();
+		Map<String, Value> payload = client.getPoint(TEST_COLLECTION_NAME, true, false, pointId(42L)).sync().getResult(0).getPayloadMap();
 		assertEquals(2, payload.size());
 		assertEquals("the-value", payload.get("test123").getStringValue());
 	}
@@ -142,7 +141,7 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 		PointsOperationResponse response = client.overwritePayload(TEST_COLLECTION_NAME, true, null, newPayload, pointId(42L)).sync();
 		assertEquals(UpdateStatus.Completed, response.getResult().getStatus());
 
-		Map<String, Value> payload = client.getPoint(TEST_COLLECTION_NAME, pointId(42L)).sync().getResult(0).getPayloadMap();
+		Map<String, Value> payload = client.getPoint(TEST_COLLECTION_NAME, true, false, pointId(42L)).sync().getResult(0).getPayloadMap();
 		// assertEquals(1, payload.size());
 		assertEquals("the-value", payload.get("test123").getStringValue());
 	}
@@ -150,12 +149,26 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 	@Test
 	@Override
 	public void testDeletePointPayload() throws Exception {
-		fail("insert another payload key");
-		HashSet<String> keys = Sets.newHashSet("colors");
-		PointsOperationResponse response = client.deletePayload(TEST_COLLECTION_NAME, true, keys, null, pointId(42L)).sync();
+		final String extraKey = "test123";
+
+		Map<String, Value> newPayload = new HashMap<>();
+		newPayload.put(extraKey, value("the-value"));
+		PointsOperationResponse response = client.setPointPayload(TEST_COLLECTION_NAME, true, null, newPayload, pointId(42L)).sync();
 		assertEquals(UpdateStatus.Completed, response.getResult().getStatus());
-		assertTrue("There should not be any payload values",
-			client.getPoint(TEST_COLLECTION_NAME, pointId(42)).sync().getResult(0).getPayloadMap().isEmpty());
+
+		Map<String, Value> before = client.getPoint(TEST_COLLECTION_NAME, true, false, pointId(42L)).sync().getResult(0).getPayloadMap();
+		assertEquals("There should be two props now.", 2, before.keySet().size());
+
+		// Now delete the extra payload prop
+		HashSet<String> keys = Sets.newHashSet(extraKey);
+		PointsOperationResponse response2 = client.deletePayload(TEST_COLLECTION_NAME, true, keys, null, pointId(42L)).sync();
+		assertEquals(UpdateStatus.Completed, response2.getResult().getStatus());
+		
+		// And assert the operation
+		Map<String, Value> after = client.getPoint(TEST_COLLECTION_NAME, true, false, pointId(42)).sync().getResult(0).getPayloadMap();
+		assertEquals("There should only be one remaining prop",1, after.size()); 
+		assertFalse("The prop should have been deleted", after.containsKey(extraKey));
+		assertTrue("The prop should be still there", after.containsKey("color"));
 	}
 
 	@Test
@@ -243,12 +256,12 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 			Vector vector = ModelHelper.vector(new float[] { 0.43f + i, 0.1f, 0.61f, 1.45f });
 			PointStruct point = PointStruct.newBuilder()
 				.putPayload("color", ModelHelper.value("blue"))
-				.setId(ModelHelper.pointId(42L + i))
+				.setId(ModelHelper.pointId(82L + i))
 				.setVectors(Vectors.newBuilder().setVector(vector))
 				.build();
 			assertEquals(UpdateStatus.Completed, client.upsertPoint(TEST_COLLECTION_NAME, point, true).sync().getResult().getStatus());
 		}
-		assertPointCount(4 + 10, TEST_COLLECTION_NAME);
+		assertPointCount(14, TEST_COLLECTION_NAME);
 	}
 
 }

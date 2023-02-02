@@ -17,9 +17,9 @@ public class PointIdDeserializer extends JsonDeserializer<PointId> {
 		ObjectCodec oc = jsonParser.getCodec();
 		JsonNode node = oc.readTree(jsonParser);
 		if (node.isNumber()) {
-			return PointId.of(node.longValue());
+			return PointId.id(node.longValue());
 		} else {
-			return PointId.of(node.textValue());
+			return PointId.id(node.textValue());
 		}
 	}
 

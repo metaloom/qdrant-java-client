@@ -78,7 +78,7 @@ public class PointStruct implements RestModel {
 
 	@JsonIgnore
 	public PointStruct setId(long id) {
-		this.id = PointId.of(id);
+		this.id = PointId.id(id);
 		return this;
 	}
 

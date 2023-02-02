@@ -48,6 +48,21 @@ public interface PointMethods extends ClientSettings {
 	 * Retrieve full information of single point by id.
 	 * 
 	 * @param collectionName
+	 * @param withPayload
+	 * @param withVector
+	 * @param pointId
+	 * @return
+	 */
+	default GrpcClientRequest<GetResponse> getPoint(String collectionName, boolean withPayload, boolean withVector, PointId pointId) {
+		WithPayloadSelector withPayloadSelector = WithPayloadSelector.newBuilder().setEnable(withPayload).build();
+		WithVectorsSelector withVectorSelector = WithVectorsSelector.newBuilder().setEnable(withVector).build();
+		return getPoint(collectionName, withPayloadSelector, withVectorSelector, pointId);
+	}
+
+	/**
+	 * Retrieve full information of single point by id.
+	 * 
+	 * @param collectionName
 	 * @param withPayloadSelector
 	 * @param withVectorsSelector
 	 * @param pointId

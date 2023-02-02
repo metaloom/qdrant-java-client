@@ -11,35 +11,35 @@ import io.metaloom.qdrant.client.http.model.RestModel;
 
 public interface PointId extends RestModel {
 
-	public static PointId of(String uuidStr) {
+	public static PointId id(String uuidStr) {
 		// TODO parse uuid / simple / hyphenated / urn
 		UUID uuid = UUID.fromString(uuidStr);
 		return new PointIdUUID().setId(uuid);
 	}
 
-	public static PointId of(long id) {
+	public static PointId id(long id) {
 		return new PointIdLong().setId(id);
 	}
 
-	public static PointId of(UUID uuid) {
+	public static PointId id(UUID uuid) {
 		return new PointIdUUID().setId(uuid);
 	}
 
 	public static List<PointId> list(String... uuid) {
 		return Arrays.asList(uuid).stream()
-			.map(PointId::of)
+			.map(PointId::id)
 			.collect(Collectors.toList());
 	}
 
 	public static List<PointId> list(UUID... uuid) {
 		return Arrays.asList(uuid).stream()
-			.map(PointId::of)
+			.map(PointId::id)
 			.collect(Collectors.toList());
 	}
 
 	public static List<PointId> list(long... ids) {
 		return toList(ids).stream()
-			.map(PointId::of)
+			.map(PointId::id)
 			.collect(Collectors.toList());
 	}
 
