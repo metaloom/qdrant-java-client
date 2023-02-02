@@ -108,6 +108,7 @@ public class SnapshotHttpClientTest extends AbstractHTTPClientTest implements Sn
 	public void testListStorageSnapshot() throws Exception {
 		invoke(client.createStorageSnapshot());
 		createCollection(TEST_COLLECTION_NAME);
+		// The snapshot filename is named via seconds. We need to pass some time to allow for creation of another file
 		sleep(2000);
 		invoke(client.createStorageSnapshot());
 		List<SnapshotDescription> snapshots = invoke(client.listStorageSnapshots()).getResult();

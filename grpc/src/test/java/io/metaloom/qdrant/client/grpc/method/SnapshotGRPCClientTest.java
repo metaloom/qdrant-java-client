@@ -23,6 +23,8 @@ public class SnapshotGRPCClientTest extends AbstractGRPCClientTest implements Sn
 		createCollection(TEST_COLLECTION_NAME);
 		client.createSnapshot(TEST_COLLECTION_NAME).sync();
 		assertEquals(1, client.listSnapshots(TEST_COLLECTION_NAME).sync().getSnapshotDescriptionsCount());
+		// The snapshot filename is named via seconds. We need to pass some time to allow for creation of another file
+		sleep(2000);
 		client.createSnapshot(TEST_COLLECTION_NAME).sync();
 		assertEquals(2, client.listSnapshots(TEST_COLLECTION_NAME).sync().getSnapshotDescriptionsCount());
 	}

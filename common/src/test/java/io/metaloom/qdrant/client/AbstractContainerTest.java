@@ -9,4 +9,12 @@ public abstract class AbstractContainerTest {
 	@Rule
 	public QDrantContainer qdrant = new QDrantContainer();
 
+	protected void sleep(int i) {
+		try {
+			Thread.sleep(i);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

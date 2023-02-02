@@ -76,15 +76,6 @@ public abstract class AbstractHTTPClientTest extends AbstractContainerTest {
 		}
 	}
 
-	protected void sleep(int i) {
-		try {
-			Thread.sleep(i);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-	}
-
 	protected void createTestCollection() throws HttpErrorException {
 		CollectionCreateRequest request = new CollectionCreateRequest();
 		request.setVectors(VectorParams.of(4, EUCLID));
