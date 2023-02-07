@@ -3,7 +3,6 @@ package io.metaloom.qdrant.client.json;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -50,6 +49,7 @@ public final class Json {
 	static {
 		mapper = new ObjectMapper()
 			.setSerializationInclusion(Include.NON_NULL);
+			//.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 
 		SimpleModule module = new SimpleModule();
 		module.addDeserializer(NamedVector.class, new NamedVectorDeserializer());

@@ -1,5 +1,7 @@
 package io.metaloom.qdrant.client.http.model.collection;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.metaloom.qdrant.client.http.model.RestModel;
@@ -28,7 +30,7 @@ public class CollectionInfo implements RestModel {
 	private CollectionConfig config;
 
 	@JsonProperty("payload_schema")
-	private PayloadIndexInfo payloadSchema;
+	private Map<String, PayloadIndexInfo> payloadSchema;
 
 	public CollectionStatus getStatus() {
 		return status;
@@ -75,11 +77,11 @@ public class CollectionInfo implements RestModel {
 		return this;
 	}
 
-	public PayloadIndexInfo getPayloadSchema() {
+	public Map<String, PayloadIndexInfo> getPayloadSchema() {
 		return payloadSchema;
 	}
 
-	public CollectionInfo setPayloadSchema(PayloadIndexInfo payloadSchema) {
+	public CollectionInfo setPayloadSchema(Map<String, PayloadIndexInfo> payloadSchema) {
 		this.payloadSchema = payloadSchema;
 		return this;
 	}
