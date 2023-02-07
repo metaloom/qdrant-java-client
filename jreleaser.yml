@@ -1,12 +1,13 @@
 project:
   name: qdrant-java-client
-  version: 0.9.0
+  version: 0.10.0
   versionPattern: SEMVER
 
   description: Qdrant Java Client
   longDescription: |
     Java client for REST / gRPC connections to the Qdrant vector database
-  website: https://github.com/metaloom/qdrant-java-client
+  links:
+    homepage: https://github.com/metaloom/qdrant-java-client
   authors:
     - Johannes Schüth
   license: Apache-2.0

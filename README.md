@@ -36,7 +36,7 @@ This project contains a java client for the [Qdrant vector database](https://qdr
 <dependency>
 	<groupId>io.metaloom.qdrant</groupId>
 	<artifactId>qdrant-java-grpc-client</artifactId>
-	<version>0.9.0</version>
+	<version>0.10.0</version>
 </dependency>
 ```
 
@@ -46,7 +46,7 @@ or for the HTTP client
 <dependency>
 	<groupId>io.metaloom.qdrant</groupId>
 	<artifactId>qdrant-java-http-client</artifactId>
-	<version>0.9.0</version>
+	<version>0.10.0</version>
 </dependency>
 ```
 
@@ -149,7 +149,7 @@ try (QDrantHttpClient client = QDrantHttpClient.builder()
 ## Release Process
 
 ```bash
-# Update maven version to next release
+# Update maven version to next release + Update jreleaser.yml version
 mvn versions:set -DgenerateBackupPoms=false
 
 # Now run tests locally or via GitHub actions
