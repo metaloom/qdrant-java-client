@@ -4,7 +4,7 @@ import static io.metaloom.qdrant.client.grpc.InternalGrpcUtil.assertCollectionNa
 import static io.metaloom.qdrant.client.grpc.InternalGrpcUtil.collectionsAsyncStub;
 import static io.metaloom.qdrant.client.grpc.InternalGrpcUtil.collectionsStub;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.Objects;
 
 import io.metaloom.qdrant.client.ClientSettings;
@@ -171,17 +171,17 @@ public interface CollectionMethods extends ClientSettings {
 	/**
 	 * Update aliases of the collections.
 	 * 
-	 * @param actions
-	 *            Alias update operations (create,delete,rename)
 	 * @param timeout
 	 *            Wait for operation commit timeout in seconds. If timeout is reached - request will return with service error.
+	 * @param actions
+	 *            Alias update operations (create,delete,rename)
 	 * @return
 	 */
-	default GrpcClientRequest<CollectionOperationResponse> updateCollectionAliases(List<? extends AliasOperations> actions, Integer timeout) {
+	default GrpcClientRequest<CollectionOperationResponse> updateCollectionAliases(Integer timeout, AliasOperations... actions) {
 		Objects.requireNonNull(actions, "Actions for the update operation must be specified.");
 
 		ChangeAliases.Builder request = ChangeAliases.newBuilder()
-			.addAllActions(actions);
+			.addAllActions(Arrays.asList(actions));
 
 		if (timeout != null) {
 			request.setTimeout(timeout);

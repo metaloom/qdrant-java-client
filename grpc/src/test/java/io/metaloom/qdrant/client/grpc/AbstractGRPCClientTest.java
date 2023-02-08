@@ -11,12 +11,16 @@ import com.google.protobuf.GeneratedMessageV3;
 
 import io.metaloom.qdrant.client.AbstractContainerTest;
 import io.metaloom.qdrant.client.grpc.method.GrpcClientRequest;
+import io.metaloom.qdrant.client.grpc.proto.Collections.AliasOperations;
+import io.metaloom.qdrant.client.grpc.proto.Collections.CreateAlias;
 import io.metaloom.qdrant.client.grpc.proto.Collections.Distance;
 import io.metaloom.qdrant.client.grpc.proto.Collections.VectorParams;
 
 public abstract class AbstractGRPCClientTest extends AbstractContainerTest {
 
 	public static final String TEST_COLLECTION_NAME = "the-test-collection";
+
+	public static final String TEST_ALIAS_NAME = "new-alias-name";
 
 	protected QDrantGRPCClient client;
 
@@ -43,6 +47,16 @@ public abstract class AbstractGRPCClientTest extends AbstractContainerTest {
 
 		// Create new collections
 		assertTrue(client.createCollection(collectionName, params).sync().getResult());
+	}
+
+	protected void createAlias(String collectionName, String aliasName) {
+		CreateAlias alias = CreateAlias.newBuilder()
+			.setCollectionName(collectionName)
+			.setAliasName(aliasName)
+			.build();
+		AliasOperations newAliasAction = AliasOperations.newBuilder()
+			.setCreateAlias(alias).build();
+		assertTrue(client.updateCollectionAliases(1000, newAliasAction).sync().getResult());
 	}
 
 	protected <T extends GeneratedMessageV3> T invoke(GrpcClientRequest<T> request) throws Exception {

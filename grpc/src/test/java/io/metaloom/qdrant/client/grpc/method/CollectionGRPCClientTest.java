@@ -4,9 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.junit.Test;
 
 import io.metaloom.qdrant.client.grpc.AbstractGRPCClientTest;
+import io.metaloom.qdrant.client.grpc.proto.Collections.AliasDescription;
 import io.metaloom.qdrant.client.grpc.proto.Collections.CollectionDescription;
 import io.metaloom.qdrant.client.grpc.proto.Collections.Distance;
 import io.metaloom.qdrant.client.grpc.proto.Collections.GetCollectionInfoResponse;
@@ -66,13 +69,27 @@ public class CollectionGRPCClientTest extends AbstractGRPCClientTest implements 
 		createCollection(TEST_COLLECTION_NAME);
 		assertEquals(1, client.listCollections().sync().getCollectionsCount());
 	}
-	
+
 	@Test
 	@Override
 	public void testListCollectionAliases() throws Exception {
 		createCollection(TEST_COLLECTION_NAME);
-		client.listCollectionAliases(TEST_COLLECTION_NAME).sync();
-		
+		assertEquals(0, client.listCollectionAliases(TEST_COLLECTION_NAME).sync().getAliasesCount());
+		createAlias(TEST_COLLECTION_NAME, TEST_ALIAS_NAME);
+		List<AliasDescription> aliases = client.listCollectionAliases(TEST_COLLECTION_NAME).sync().getAliasesList();
+		assertEquals(TEST_ALIAS_NAME, aliases.get(0).getAliasName());
+		assertEquals(TEST_COLLECTION_NAME, aliases.get(0).getCollectionName());
+	}
+
+	@Test
+	@Override
+	public void testUpdateCollectionAliases() throws Exception {
+		createCollection(TEST_COLLECTION_NAME);
+		createAlias(TEST_COLLECTION_NAME, TEST_ALIAS_NAME);
+		List<AliasDescription> aliases = client.listCollectionAliases(TEST_COLLECTION_NAME).sync().getAliasesList();
+		assertEquals(1, aliases.size());
+		assertEquals(TEST_ALIAS_NAME, aliases.get(0).getAliasName());
+		assertEquals(TEST_COLLECTION_NAME, aliases.get(0).getCollectionName());
 	}
 
 	@Test
