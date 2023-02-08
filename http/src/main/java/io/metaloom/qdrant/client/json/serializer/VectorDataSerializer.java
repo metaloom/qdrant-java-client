@@ -35,12 +35,6 @@ public class VectorDataSerializer extends JsonSerializer<VectorData> {
 				gen.writeNumber(f);
 			}
 			gen.writeEndArray();
-//			double[] doubleArray = new double[vector.size()];
-//			int i = 0;
-//			for (float f : vectorData.getVector()) {
-//				doubleArray[i++] = f;
-//			}
-//			gen.writeArray(doubleArray, 0, vector.size());
 		} else {
 			throw new RuntimeException("Enountered unknown vector data type. Got: " + value.getClass().getSimpleName());
 		}

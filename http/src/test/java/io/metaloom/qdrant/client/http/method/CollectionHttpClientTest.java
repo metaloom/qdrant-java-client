@@ -7,11 +7,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import io.metaloom.qdrant.client.http.AbstractHTTPClientTest;
 import io.metaloom.qdrant.client.http.model.collection.AliasDescription;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
+import io.metaloom.qdrant.client.http.model.collection.CollectionDescription;
 import io.metaloom.qdrant.client.http.model.collection.CollectionListResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionStatus;
@@ -39,6 +41,17 @@ public class CollectionHttpClientTest extends AbstractHTTPClientTest implements 
 		CollectionCreateRequest request = new CollectionCreateRequest();
 		request.setVectors(VectorParams.of(4, EUCLID));
 		invoke(client.createCollection(TEST_COLLECTION_NAME, request));
+	}
+
+	@Test
+	@Ignore
+	public void testCreateMultipleCollections() throws Exception {
+		CollectionCreateRequest request = new CollectionCreateRequest();
+		request.setVectors(VectorParams.of(4, EUCLID));
+		for (int i = 0; i < 10; i++) {
+			invoke(client.createCollection(TEST_COLLECTION_NAME, request));
+		}
+		assertEquals("There should still be only one collection", 1, invoke(client.listCollections()).getResult().getCollections().size());
 	}
 
 	@Test
