@@ -60,6 +60,17 @@ public class SnapshotHttpClientTest extends AbstractHTTPClientTest implements Sn
 
 	@Test
 	@Override
+	public void testDeleteCollectionSnapshot() throws Exception {
+		createCollection(TEST_COLLECTION_NAME);
+		SnapshotDescription response = createCollectionSnapshot(TEST_COLLECTION_NAME);
+		assertEquals("There should be one snapshots", 1, invoke(client.listCollectionSnapshots(TEST_COLLECTION_NAME)).getResult().size());
+		String snapshotName = response.getName();
+		assertSuccess(client.deleteCollectionSnapshot(TEST_COLLECTION_NAME, snapshotName).sync());
+		assertEquals("There should be no snapshots", 0, invoke(client.listCollectionSnapshots(TEST_COLLECTION_NAME)).getResult().size());
+	}
+
+	@Test
+	@Override
 	public void testCreateCollectionSnapshot() throws Exception {
 		createCollection(TEST_COLLECTION_NAME);
 		SnapshotDescription response = createCollectionSnapshot(TEST_COLLECTION_NAME);

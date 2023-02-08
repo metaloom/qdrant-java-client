@@ -17,4 +17,5 @@ public interface QDrantGRPCClient extends CollectionMethods, PointMethods, Snaps
 	 * Close the prepared transport channel.
 	 */
 	void close();
+
 }

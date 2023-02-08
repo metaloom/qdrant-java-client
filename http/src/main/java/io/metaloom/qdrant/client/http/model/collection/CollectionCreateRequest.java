@@ -1,5 +1,6 @@
 package io.metaloom.qdrant.client.http.model.collection;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.metaloom.qdrant.client.http.model.RestRequestModel;
@@ -36,6 +37,9 @@ public class CollectionCreateRequest implements RestRequestModel {
 	@JsonProperty("optimizers_config")
 	private OptimizersConfigDiff optimizersConfig;
 
+	@JsonProperty("init_from")
+	private InitFrom initFrom;
+
 	public VectorsConfig getVectors() {
 		return vectors;
 	}
@@ -45,6 +49,7 @@ public class CollectionCreateRequest implements RestRequestModel {
 		return this;
 	}
 
+	@JsonIgnore
 	public CollectionCreateRequest setVectors(int size, Distance distance) {
 		return setVectors(new VectorParams().setSize(size).setDistance(distance));
 	}
@@ -58,6 +63,7 @@ public class CollectionCreateRequest implements RestRequestModel {
 	 * @param distance
 	 * @return parameters object to which more configurations can be added
 	 */
+	@JsonIgnore
 	public NamedVectorParams setVectors(String name, int size, Distance distance) {
 		NamedVectorParams params = NamedVectorParams.of(name, size, distance);
 		setVectors(params);
@@ -115,6 +121,15 @@ public class CollectionCreateRequest implements RestRequestModel {
 
 	public CollectionCreateRequest setOptimizersConfig(OptimizersConfigDiff optimizersConfig) {
 		this.optimizersConfig = optimizersConfig;
+		return this;
+	}
+
+	public InitFrom getInitFrom() {
+		return initFrom;
+	}
+
+	public CollectionCreateRequest setInitFrom(InitFrom initFrom) {
+		this.initFrom = initFrom;
 		return this;
 	}
 

@@ -1,5 +1,7 @@
 package io.metaloom.qdrant.client.grpc;
 
+import java.util.Objects;
+
 import io.metaloom.qdrant.client.ClientSettings;
 import io.metaloom.qdrant.client.grpc.proto.CollectionsGrpc;
 import io.metaloom.qdrant.client.grpc.proto.CollectionsInternalGrpc;
@@ -68,6 +70,10 @@ public final class InternalGrpcUtil {
 
 	public static QdrantGrpc.QdrantFutureStub qdrantAsyncStub(ClientSettings client) {
 		return QdrantGrpc.newFutureStub(client.channel());
+	}
+
+	public static void assertCollectionName(String collectionName) {
+		Objects.requireNonNull(collectionName, "A collection name must be specified");
 	}
 
 }

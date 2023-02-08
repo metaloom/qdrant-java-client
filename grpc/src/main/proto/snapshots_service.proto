@@ -29,7 +29,7 @@ service Snapshots {
    */
   rpc ListFull (ListFullSnapshotsRequest) returns (ListSnapshotsResponse) {}
   /*
-  List full storage snapshots
+  Delete storage snapshots
    */
   rpc DeleteFull (DeleteFullSnapshotRequest) returns (DeleteSnapshotResponse) {}
 

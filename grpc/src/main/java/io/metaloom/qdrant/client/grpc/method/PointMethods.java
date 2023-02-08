@@ -1,5 +1,6 @@
 package io.metaloom.qdrant.client.grpc.method;
 
+import static io.metaloom.qdrant.client.grpc.InternalGrpcUtil.assertCollectionName;
 import static io.metaloom.qdrant.client.grpc.InternalGrpcUtil.pointsAsyncStub;
 import static io.metaloom.qdrant.client.grpc.InternalGrpcUtil.pointsStub;
 
@@ -70,7 +71,7 @@ public interface PointMethods extends ClientSettings {
 	 */
 	default GrpcClientRequest<GetResponse> getPoint(String collectionName, WithPayloadSelector withPayloadSelector,
 		WithVectorsSelector withVectorsSelector, PointId pointId) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 
 		GetPoints.Builder request = GetPoints.newBuilder()
 			.setCollectionName(collectionName)
@@ -100,7 +101,7 @@ public interface PointMethods extends ClientSettings {
 	 */
 	default GrpcClientRequest<GetResponse> getPoints(String collectionName, WithPayloadSelector withPayloadSelector,
 		WithVectorsSelector withVectorsSelector, PointId... ids) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 
 		return getPoints(collectionName, withPayloadSelector, withVectorsSelector, Arrays.asList(ids));
 	}
@@ -117,7 +118,7 @@ public interface PointMethods extends ClientSettings {
 	default GrpcClientRequest<GetResponse> getPoints(String collectionName, WithPayloadSelector withPayloadSelector,
 		WithVectorsSelector withVectorsSelector,
 		List<PointId> ids) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 		Objects.requireNonNull(ids, "Point Ids must be specified");
 
 		GetPoints.Builder request = GetPoints.newBuilder()
@@ -157,7 +158,7 @@ public interface PointMethods extends ClientSettings {
 	default GrpcClientRequest<ScrollResponse> scrollPoint(String collectionName, PointId offset, Integer limit, Filter filter,
 		WithPayloadSelector withPayloadSelector,
 		WithVectorsSelector withVectorSelector) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 
 		ScrollPoints.Builder request = ScrollPoints.newBuilder()
 			.setCollectionName(collectionName);
@@ -194,7 +195,7 @@ public interface PointMethods extends ClientSettings {
 	 * @return
 	 */
 	default GrpcClientRequest<CountResponse> countPoints(String collectionName, Filter filter, boolean exact) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 
 		CountPoints.Builder request = CountPoints.newBuilder()
 			.setCollectionName(collectionName)
@@ -223,7 +224,7 @@ public interface PointMethods extends ClientSettings {
 	 * @return
 	 */
 	default GrpcClientRequest<PointsOperationResponse> clearPayload(String collectionName, boolean wait, Filter filter, PointId... ids) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 
 		ClearPayloadPoints.Builder request = ClearPayloadPoints.newBuilder()
 			.setCollectionName(collectionName)
@@ -266,7 +267,7 @@ public interface PointMethods extends ClientSettings {
 	 */
 	default GrpcClientRequest<PointsOperationResponse> deletePayload(String collectionName, boolean wait, Set<String> keys, Filter filter,
 		PointId... ids) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 		Objects.requireNonNull(keys, "A set of keys has to be specified");
 
 		DeletePayloadPoints.Builder request = DeletePayloadPoints.newBuilder()
@@ -311,7 +312,7 @@ public interface PointMethods extends ClientSettings {
 	default GrpcClientRequest<PointsOperationResponse> overwritePayload(String collectionName, boolean wait, Filter filter,
 		Map<String, Value> payload,
 		PointId... ids) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 		Objects.requireNonNull(payload, "A payload must be specified");
 
 		PointsIdsList pointList = PointsIdsList.newBuilder()
@@ -358,7 +359,7 @@ public interface PointMethods extends ClientSettings {
 	default GrpcClientRequest<PointsOperationResponse> setPointPayload(String collectionName, boolean wait, Filter filter,
 		Map<String, Value> payload,
 		PointId... ids) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 		Objects.requireNonNull(payload, "A payload must be specified");
 
 		PointsIdsList pointList = PointsIdsList.newBuilder()
@@ -397,7 +398,7 @@ public interface PointMethods extends ClientSettings {
 	 * @return
 	 */
 	default GrpcClientRequest<PointsOperationResponse> deletePoints(String collectionName, boolean wait, PointId... ids) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 
 		PointsIdsList pointList = PointsIdsList.newBuilder()
 			.addAllIds(Arrays.asList(ids))
@@ -428,7 +429,7 @@ public interface PointMethods extends ClientSettings {
 	 * @return
 	 */
 	default GrpcClientRequest<PointsOperationResponse> upsertPoint(String collectionName, PointStruct point, boolean wait) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 		Objects.requireNonNull(point, "The batch of points has to be specified");
 		return upsertPoints(collectionName, Arrays.asList(point), wait);
 	}
@@ -445,7 +446,7 @@ public interface PointMethods extends ClientSettings {
 	 * @return
 	 */
 	default GrpcClientRequest<PointsOperationResponse> upsertPoints(String collectionName, List<? extends PointStruct> points, boolean wait) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 		Objects.requireNonNull(points, "The batch of points has to be specified");
 
 		UpsertPoints.Builder request = UpsertPoints.newBuilder()

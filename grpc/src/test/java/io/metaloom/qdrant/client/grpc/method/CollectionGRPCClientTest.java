@@ -66,6 +66,14 @@ public class CollectionGRPCClientTest extends AbstractGRPCClientTest implements 
 		createCollection(TEST_COLLECTION_NAME);
 		assertEquals(1, client.listCollections().sync().getCollectionsCount());
 	}
+	
+	@Test
+	@Override
+	public void testListCollectionAliases() throws Exception {
+		createCollection(TEST_COLLECTION_NAME);
+		client.listCollectionAliases(TEST_COLLECTION_NAME).sync();
+		
+	}
 
 	@Test
 	@Override

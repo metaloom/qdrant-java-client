@@ -12,6 +12,8 @@ public interface SnapshotClientTestcases {
 
 	void testCreateStorageSnapshot() throws Exception;
 
+	void testDeleteCollectionSnapshot() throws Exception;
+
 	void testListStorageSnapshot() throws Exception;
 
 	void testDownloadStorageSnapshot() throws Exception;

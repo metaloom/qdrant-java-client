@@ -29,6 +29,7 @@ import io.metaloom.qdrant.client.http.model.collection.CollectionListResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionUpdateAliasesRequest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionUpdateRequest;
+import io.metaloom.qdrant.client.http.model.collection.CollectionsAliasesListResponse;
 import io.metaloom.qdrant.client.http.model.point.PointCountRequest;
 import io.metaloom.qdrant.client.http.model.point.PointCountResponse;
 import io.metaloom.qdrant.client.http.model.point.PointDeletePayloadRequest;
@@ -350,6 +351,12 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	}
 
 	@Override
+	public QDrantClientRequest<GenericBooleanStatusResponse> deleteCollectionSnapshot(String collectionName, String snapshotName) {
+		assertCollectionName(collectionName);
+		return deleteRequest("collections/" + collectionName + "/snapshots/" + snapshotName, GenericBooleanStatusResponse.class);
+	}
+
+	@Override
 	public QDrantClientRequest<GenericBooleanStatusResponse> recoverSnapshot(String collectionName, SnapshotRecoverRequest request) {
 		assertCollectionName(collectionName);
 		Objects.requireNonNull(request, "A recovery request must be provided");
@@ -435,6 +442,11 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 		int timeout) {
 		QDrantClientRequest<GenericBooleanStatusResponse> req = postRequest("collections/aliases", request, GenericBooleanStatusResponse.class);
 		return req.addTimeout(timeout);
+	}
+
+	public QDrantClientRequest<CollectionsAliasesListResponse> listCollectionAliases(String collectionName) {
+		assertCollectionName(collectionName);
+		return getRequest("collections/" + collectionName + "/aliases", CollectionsAliasesListResponse.class);
 	}
 
 	public QDrantClientRequest<CollectionIndexFieldResponse> createCollectionIndexField(String collectionName,

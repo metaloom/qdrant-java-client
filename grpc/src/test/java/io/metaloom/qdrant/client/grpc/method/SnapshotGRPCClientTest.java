@@ -42,6 +42,17 @@ public class SnapshotGRPCClientTest extends AbstractGRPCClientTest implements Sn
 
 	@Test
 	@Override
+	public void testDeleteCollectionSnapshot() throws Exception {
+		createCollection(TEST_COLLECTION_NAME);
+
+		SnapshotDescription snapshot = client.createSnapshot(TEST_COLLECTION_NAME).sync().getSnapshotDescription();
+		client.deleteCollectionSnapshot(TEST_COLLECTION_NAME, snapshot.getName()).sync();
+		List<SnapshotDescription> list = client.listSnapshots(TEST_COLLECTION_NAME).sync().getSnapshotDescriptionsList();
+		assertEquals("The snapshot should have been deleted", 0, list.size());
+	}
+
+	@Test
+	@Override
 	@Ignore("Not supported for gRPC")
 	public void testDownloadCollectionSnapshot() throws Exception {
 

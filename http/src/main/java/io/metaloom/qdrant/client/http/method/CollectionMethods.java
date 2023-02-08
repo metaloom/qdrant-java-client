@@ -9,6 +9,7 @@ import io.metaloom.qdrant.client.http.model.collection.CollectionListResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionUpdateAliasesRequest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionUpdateRequest;
+import io.metaloom.qdrant.client.http.model.collection.CollectionsAliasesListResponse;
 
 /**
  * API methods which are used to interact with collections.
@@ -68,6 +69,14 @@ public interface CollectionMethods {
 	 */
 	QDrantClientRequest<GenericBooleanStatusResponse> updateCollectionAliases(String collectionName, CollectionUpdateAliasesRequest request,
 		int timeout);
+
+	/**
+	 * Get list of all aliases for a collection.
+	 * 
+	 * @param collectionName
+	 * @return
+	 */
+	QDrantClientRequest<CollectionsAliasesListResponse> listCollectionAliases(String collectionName);
 
 	/**
 	 * Create index for field in collection.

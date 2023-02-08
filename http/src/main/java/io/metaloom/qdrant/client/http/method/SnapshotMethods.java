@@ -61,6 +61,15 @@ public interface SnapshotMethods {
 	QDrantClientRequest<SnapshotCreateResponse> createStorageSnapshot();
 
 	/**
+	 * Delete snapshot for a collection.
+	 *
+	 * @param collectionName
+	 * @param snapshotName
+	 * @return
+	 */
+	QDrantClientRequest<GenericBooleanStatusResponse> deleteCollectionSnapshot(String collectionName, String snapshotName);
+
+	/**
 	 * Download specified snapshot of the whole storage as a file.
 	 * 
 	 * @param snapshotName

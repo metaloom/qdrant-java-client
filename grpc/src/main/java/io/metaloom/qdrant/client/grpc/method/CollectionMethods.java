@@ -1,5 +1,6 @@
 package io.metaloom.qdrant.client.grpc.method;
 
+import static io.metaloom.qdrant.client.grpc.InternalGrpcUtil.assertCollectionName;
 import static io.metaloom.qdrant.client.grpc.InternalGrpcUtil.collectionsAsyncStub;
 import static io.metaloom.qdrant.client.grpc.InternalGrpcUtil.collectionsStub;
 
@@ -16,6 +17,8 @@ import io.metaloom.qdrant.client.grpc.proto.Collections.DeleteCollection;
 import io.metaloom.qdrant.client.grpc.proto.Collections.GetCollectionInfoRequest;
 import io.metaloom.qdrant.client.grpc.proto.Collections.GetCollectionInfoResponse;
 import io.metaloom.qdrant.client.grpc.proto.Collections.HnswConfigDiff;
+import io.metaloom.qdrant.client.grpc.proto.Collections.ListAliasesResponse;
+import io.metaloom.qdrant.client.grpc.proto.Collections.ListCollectionAliasesRequest;
 import io.metaloom.qdrant.client.grpc.proto.Collections.ListCollectionsRequest;
 import io.metaloom.qdrant.client.grpc.proto.Collections.ListCollectionsResponse;
 import io.metaloom.qdrant.client.grpc.proto.Collections.OptimizersConfigDiff;
@@ -47,7 +50,7 @@ public interface CollectionMethods extends ClientSettings {
 	 * @return
 	 */
 	default GrpcClientRequest<GetCollectionInfoResponse> loadCollections(String collectionName) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 
 		GetCollectionInfoRequest request = GetCollectionInfoRequest.newBuilder()
 			.setCollectionName(collectionName)
@@ -108,7 +111,7 @@ public interface CollectionMethods extends ClientSettings {
 	default GrpcClientRequest<CollectionOperationResponse> createCollection(String collectionName, VectorsConfig config, Integer shardNumber,
 		Integer replicationFactor, Integer writeConsistencyFactor, Boolean onDiskPayload, HnswConfigDiff hnswConfig, WalConfigDiff walConfig,
 		OptimizersConfigDiff optimizersConfig, Integer timeout) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 
 		CreateCollection.Builder request = CreateCollection.newBuilder()
 			.setCollectionName(collectionName)
@@ -151,7 +154,7 @@ public interface CollectionMethods extends ClientSettings {
 	 * @return
 	 */
 	default GrpcClientRequest<CollectionOperationResponse> deleteCollection(String collectionName, Integer timeout) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 
 		DeleteCollection.Builder request = DeleteCollection.newBuilder()
 			.setCollectionName(collectionName);
@@ -190,6 +193,23 @@ public interface CollectionMethods extends ClientSettings {
 	}
 
 	/**
+	 * Get list of all aliases for a collection.
+	 * 
+	 * @param collectionName
+	 * @return
+	 */
+	default GrpcClientRequest<ListAliasesResponse> listCollectionAliases(String collectionName) {
+		assertCollectionName(collectionName);
+
+		ListCollectionAliasesRequest.Builder request = ListCollectionAliasesRequest.newBuilder()
+			.setCollectionName(collectionName);
+
+		return request(
+			() -> collectionsStub(this).listCollectionAliases(request.build()),
+			() -> collectionsAsyncStub(this).listCollectionAliases(request.build()));
+	}
+
+	/**
 	 * Update parameters of the existing collection
 	 * 
 	 * @param collectionName
@@ -218,7 +238,7 @@ public interface CollectionMethods extends ClientSettings {
 	 */
 	default GrpcClientRequest<CollectionOperationResponse> updateCollection(String collectionName, CollectionParamsDiff paramConfig,
 		OptimizersConfigDiff optimizerConfig, Integer timeout) {
-		Objects.requireNonNull(collectionName, "A collection name must be specified");
+		assertCollectionName(collectionName);
 
 		UpdateCollection.Builder request = UpdateCollection.newBuilder()
 			.setCollectionName(collectionName);

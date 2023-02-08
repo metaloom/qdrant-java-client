@@ -5,13 +5,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.junit.Test;
 
 import io.metaloom.qdrant.client.http.AbstractHTTPClientTest;
+import io.metaloom.qdrant.client.http.model.collection.AliasDescription;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionListResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionStatus;
+import io.metaloom.qdrant.client.http.model.collection.CollectionUpdateAliasesRequest;
 import io.metaloom.qdrant.client.http.model.collection.config.NamedVectorParams;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorParams;
 import io.metaloom.qdrant.client.testcases.CollectionClientTestcases;
@@ -19,6 +23,7 @@ import io.metaloom.qdrant.client.testcases.CollectionClientTestcases;
 public class CollectionHttpClientTest extends AbstractHTTPClientTest implements CollectionClientTestcases {
 
 	@Test
+	@Override
 	public void testCreateCollectionWithNamedVectorParams() throws Exception {
 		CollectionCreateRequest request = new CollectionCreateRequest();
 		NamedVectorParams params = new NamedVectorParams();
@@ -29,6 +34,7 @@ public class CollectionHttpClientTest extends AbstractHTTPClientTest implements 
 	}
 
 	@Test
+	@Override
 	public void testCreateCollectionWithUnnamedVectorParams() throws Exception {
 		CollectionCreateRequest request = new CollectionCreateRequest();
 		request.setVectors(VectorParams.of(4, EUCLID));
@@ -36,6 +42,7 @@ public class CollectionHttpClientTest extends AbstractHTTPClientTest implements 
 	}
 
 	@Test
+	@Override
 	public void testListCollections() throws Exception {
 		// Assert initial status
 		CollectionListResponse response = invoke(client.listCollections());
@@ -49,6 +56,31 @@ public class CollectionHttpClientTest extends AbstractHTTPClientTest implements 
 	}
 
 	@Test
+	@Override
+	public void testListCollectionAliases() throws Exception {
+		createCollection();
+		assertTrue(invoke(client.listCollectionAliases(TEST_COLLECTION_NAME)).getResult().getAliases().isEmpty());
+		CollectionUpdateAliasesRequest request = new CollectionUpdateAliasesRequest();
+		request.addCreateAlias(TEST_COLLECTION_NAME, "new-alias");
+		invoke(client.updateCollectionAliases(TEST_COLLECTION_NAME, request, 1000));
+
+		List<AliasDescription> list = invoke(client.listCollectionAliases(TEST_COLLECTION_NAME)).getResult().getAliases();
+		assertEquals("Got one alias", 1, list.size());
+		assertEquals("new-alias", list.get(0).getAliasName());
+	}
+
+	@Test
+	@Override
+	public void testUpdateCollectionAliases() throws Exception {
+		createCollection();
+
+		CollectionUpdateAliasesRequest request = new CollectionUpdateAliasesRequest();
+		request.addCreateAlias(TEST_COLLECTION_NAME, "new-alias");
+		invoke(client.updateCollectionAliases(TEST_COLLECTION_NAME, request, 1000));
+	}
+
+	@Test
+	@Override
 	public void testGetCollectionInfo() throws Exception {
 		createCollection();
 
@@ -60,6 +92,7 @@ public class CollectionHttpClientTest extends AbstractHTTPClientTest implements 
 	}
 
 	@Test
+	@Override
 	public void testDeleteCollection() throws Exception {
 		createCollection();
 		assertFalse("There should be at least one collection", invoke(client.listCollections()).getResult().getCollections().isEmpty());
