@@ -1,7 +1,8 @@
 syntax = "proto3";
-option java_package = "io.metaloom.qdrant.client.grpc.proto";
 
 package qdrant;
+
+option java_package = "io.metaloom.qdrant.client.grpc.proto";
 
 import "google/protobuf/empty.proto";
 

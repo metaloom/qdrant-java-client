@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 option java_package = "io.metaloom.qdrant.client.grpc.proto";
 
 import "collections.proto";

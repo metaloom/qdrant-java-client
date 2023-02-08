@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.metaloom.qdrant</groupId>
 	<artifactId>qdrant-java-client</artifactId>
-	<version>0.10.0</version>
+	<version>0.11.0-SNAPSHOT</version>
 
 	<parent>
 		<groupId>io.metaloom</groupId>

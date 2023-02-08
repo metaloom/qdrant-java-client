@@ -1,9 +1,10 @@
 // Fork of the google.protobuf.Value with explicit support for integer values
 
 syntax = "proto3";
-option java_package = "io.metaloom.qdrant.client.grpc.proto";
 
 package qdrant;
+
+option java_package = "io.metaloom.qdrant.client.grpc.proto";
 
 // `Struct` represents a structured data value, consisting of fields
 // which map to dynamically typed values. In some languages, `Struct`

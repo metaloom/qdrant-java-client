@@ -36,7 +36,7 @@ This project contains a java client for the [Qdrant vector database](https://qdr
 <dependency>
 	<groupId>io.metaloom.qdrant</groupId>
 	<artifactId>qdrant-java-grpc-client</artifactId>
-	<version>0.10.0</version>
+	<version>0.11.0</version>
 </dependency>
 ```
 
@@ -46,16 +46,16 @@ or for the HTTP client
 <dependency>
 	<groupId>io.metaloom.qdrant</groupId>
 	<artifactId>qdrant-java-http-client</artifactId>
-	<version>0.10.0</version>
+	<version>0.11.0</version>
 </dependency>
 ```
 
-NOTE: The http client currently (as of v0.11.7 of Qdrant) supports more methods compared to the gRPC client.
+NOTE: The http client currently (as of v1.0.1 of Qdrant) supports more methods compared to the gRPC client.
 
 
 ## Notes / Status
 
-This client was build and tested for Qdrant server version `v0.11.7`. Minimum required JRE is current LTS version **17**.
+This client was build and tested for Qdrant server version `v1.0.1`. Minimum required JRE is current LTS version **17**.
 
 ## Usage - gRPC
 

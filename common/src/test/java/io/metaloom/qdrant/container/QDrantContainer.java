@@ -10,7 +10,7 @@ import org.testcontainers.containers.wait.strategy.Wait;
  */
 public class QDrantContainer extends GenericContainer<QDrantContainer> {
 
-	public static final String DEFAULT_VERSION = "v0.11.7";
+	public static final String DEFAULT_VERSION = "v1.0.1";
 
 	public static final int HTTP_PORT = 6333;
 
@@ -30,7 +30,7 @@ public class QDrantContainer extends GenericContainer<QDrantContainer> {
 			System.out.print(c.getUtf8String());
 		});
 
-		//withEnv("QDRANT__CLUSTER__ENABLED", "true");
+		// withEnv("QDRANT__CLUSTER__ENABLED", "true");
 		withExposedPorts(HTTP_PORT, GRPC_PORT);
 		withStartupTimeout(Duration.ofSeconds(15L));
 		waitingFor(Wait.forHttp("/").forPort(HTTP_PORT));

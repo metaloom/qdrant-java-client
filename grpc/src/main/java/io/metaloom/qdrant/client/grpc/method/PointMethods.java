@@ -274,15 +274,18 @@ public interface PointMethods extends ClientSettings {
 			.addAllKeys(keys)
 			.setWait(wait);
 
-		if (ids.length > 0) {
-			request.addAllPoints(Arrays.asList(ids));
-		}
-
+		boolean setSelector = false;
+		PointsSelector.Builder selector = PointsSelector.newBuilder();
 		if (filter != null) {
-			PointsSelector selector = PointsSelector.newBuilder()
-				.setFilter(filter)
-				.build();
-			request.setPointsSelector(selector);
+			selector.setFilter(filter);
+			setSelector = true;
+		}
+		if (ids.length > 0) {
+			selector.setPoints(PointsIdsList.newBuilder().addAllIds(Arrays.asList(ids)).build());
+			setSelector = true;
+		}
+		if (setSelector) {
+			request.setPointsSelector(selector.build());
 		}
 
 		return request(

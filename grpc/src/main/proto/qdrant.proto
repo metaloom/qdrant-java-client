@@ -1,5 +1,4 @@
 syntax = "proto3";
-option java_package = "io.metaloom.qdrant.client.grpc.proto";
 
 import "collections_service.proto";
 import "collections_internal_service.proto";
@@ -9,6 +8,8 @@ import "raft_service.proto";
 import "snapshots_service.proto";
 
 package qdrant;
+
+option java_package = "io.metaloom.qdrant.client.grpc.proto";
 
 service Qdrant {
   rpc HealthCheck (HealthCheckRequest) returns (HealthCheckReply) {}
