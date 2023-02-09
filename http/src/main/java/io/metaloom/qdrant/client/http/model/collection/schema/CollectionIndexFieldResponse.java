@@ -1,4 +1,4 @@
-package io.metaloom.qdrant.client.http.model.collection;
+package io.metaloom.qdrant.client.http.model.collection.schema;
 
 import io.metaloom.qdrant.client.http.model.AbstractResponse;
 import io.metaloom.qdrant.client.http.model.point.UpdateResult;

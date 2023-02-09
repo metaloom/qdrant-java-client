@@ -18,4 +18,17 @@ public class PointIdLong implements PointId {
 		return id == null ? "" : String.valueOf(id);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj != null && obj instanceof PointIdLong) {
+			PointIdLong p = (PointIdLong) obj;
+			if (id == null) {
+				return p.getId() == null;
+			} else {
+				return id == p.getId();
+			}
+		}
+		// TODO Auto-generated method stub
+		return super.equals(obj);
+	}
 }

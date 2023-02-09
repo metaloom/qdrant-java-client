@@ -21,7 +21,7 @@ public class ServiceHttpClientTest extends AbstractHTTPClientTest implements Ser
 	@Test
 	@Override
 	public void testCollectTelemetryData() throws HttpErrorException {
-		invoke(client.collectTelemetry(true));
+		invoke(client.collectTelemetry().addAnonymize(true));
 	}
 
 	@Test

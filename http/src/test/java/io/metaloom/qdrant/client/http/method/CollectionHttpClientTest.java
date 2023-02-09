@@ -13,7 +13,6 @@ import org.junit.Test;
 import io.metaloom.qdrant.client.http.AbstractHTTPClientTest;
 import io.metaloom.qdrant.client.http.model.collection.AliasDescription;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
-import io.metaloom.qdrant.client.http.model.collection.CollectionDescription;
 import io.metaloom.qdrant.client.http.model.collection.CollectionListResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionStatus;

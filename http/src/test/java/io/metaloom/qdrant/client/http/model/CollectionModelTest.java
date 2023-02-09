@@ -1,6 +1,8 @@
 package io.metaloom.qdrant.client.http.model;
 
+import static io.metaloom.qdrant.client.http.model.collection.config.Distance.EUCLID;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
@@ -10,9 +12,8 @@ import io.metaloom.qdrant.client.http.model.collection.CreateAliasOperation;
 import io.metaloom.qdrant.client.http.model.collection.config.NamedVectorParams;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorParams;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorsConfig;
+import io.metaloom.qdrant.client.http.model.collection.schema.CollectionCreateIndexFieldRequest;
 import io.metaloom.qdrant.client.json.Json;
-
-import static io.metaloom.qdrant.client.http.model.collection.config.Distance.EUCLID;
 
 public class CollectionModelTest extends AbstractModelTest {
 
@@ -46,9 +47,26 @@ public class CollectionModelTest extends AbstractModelTest {
 		request.setVectors(params);
 
 		String json = Json.parse(request);
-		System.out.println(json);
 		CollectionCreateRequest deserializedRequest = Json.parse(json, CollectionCreateRequest.class);
 		VectorsConfig vectorsConfig = deserializedRequest.getVectors();
-		System.out.println(vectorsConfig);
+		assertNotNull(vectorsConfig);
+	}
+
+	@Test
+	public void testCreateKeywordIndexFieldSchemaRequest() {
+		CollectionCreateIndexFieldRequest request = load("collection/collection-create-keyword-index-field-request",
+			CollectionCreateIndexFieldRequest.class);
+		String json = Json.parse(request);
+		System.out.println(json);
+		Json.parse(json, CollectionCreateIndexFieldRequest.class);
+	}
+
+	@Test
+	public void testCreateFullTextIndexFieldSchemaRequest() {
+		CollectionCreateIndexFieldRequest request = load("collection/collection-create-full-text-index-field-request",
+			CollectionCreateIndexFieldRequest.class);
+		String json = Json.parse(request);
+		System.out.println(json);
+		Json.parse(json, CollectionCreateIndexFieldRequest.class);
 	}
 }

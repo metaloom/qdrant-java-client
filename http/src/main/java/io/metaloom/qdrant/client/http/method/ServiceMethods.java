@@ -9,11 +9,9 @@ public interface ServiceMethods {
 	/**
 	 * Collect telemetry data including app info, system info, collections info, cluster info, configs and statistics.
 	 *
-	 * @param anonymize
-	 *            If true, anonymize result
 	 * @return
 	 */
-	QDrantClientRequest<ServiceTelemetryResponse> collectTelemetry(boolean anonymize);
+	QDrantClientRequest<ServiceTelemetryResponse> collectTelemetry();
 
 	/**
 	 * Set lock options. If write is locked, all write operations and collection creation are forbidden. Returns previous lock options.

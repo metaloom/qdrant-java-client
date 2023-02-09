@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import io.metaloom.qdrant.client.http.model.RestModel;
@@ -13,6 +12,7 @@ import io.metaloom.qdrant.client.http.model.collection.AliasOperation;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorsConfig;
 import io.metaloom.qdrant.client.http.model.collection.filter.condition.Condition;
 import io.metaloom.qdrant.client.http.model.collection.filter.match.Match;
+import io.metaloom.qdrant.client.http.model.collection.schema.PayloadFieldSchema;
 import io.metaloom.qdrant.client.http.model.point.BatchVectorData;
 import io.metaloom.qdrant.client.http.model.point.NamedVector;
 import io.metaloom.qdrant.client.http.model.point.Payload;
@@ -28,6 +28,8 @@ import io.metaloom.qdrant.client.json.serializer.ConditionDeserializer;
 import io.metaloom.qdrant.client.json.serializer.MatchDeserializer;
 import io.metaloom.qdrant.client.json.serializer.NamedVectorDeserializer;
 import io.metaloom.qdrant.client.json.serializer.PayloadDeserializer;
+import io.metaloom.qdrant.client.json.serializer.PayloadFieldSchemaDeserializer;
+import io.metaloom.qdrant.client.json.serializer.PayloadFieldSchemaSerializer;
 import io.metaloom.qdrant.client.json.serializer.PayloadSerializer;
 import io.metaloom.qdrant.client.json.serializer.PointIdDeserializer;
 import io.metaloom.qdrant.client.json.serializer.PointIdSerializer;
@@ -49,7 +51,6 @@ public final class Json {
 	static {
 		mapper = new ObjectMapper()
 			.setSerializationInclusion(Include.NON_NULL);
-			//.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 
 		SimpleModule module = new SimpleModule();
 		module.addDeserializer(NamedVector.class, new NamedVectorDeserializer());
@@ -73,6 +74,9 @@ public final class Json {
 
 		module.addSerializer(BatchVectorData.class, new BatchVectorDataSerializer());
 		module.addDeserializer(BatchVectorData.class, new BatchVectorDataDeserializer());
+
+		module.addSerializer(PayloadFieldSchema.class, new PayloadFieldSchemaSerializer());
+		module.addDeserializer(PayloadFieldSchema.class, new PayloadFieldSchemaDeserializer());
 		mapper.registerModule(module);
 	}
 

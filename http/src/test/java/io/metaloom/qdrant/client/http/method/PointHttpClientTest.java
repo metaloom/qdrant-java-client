@@ -19,7 +19,11 @@ import io.metaloom.qdrant.client.http.impl.HttpErrorException;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
 import io.metaloom.qdrant.client.http.model.collection.config.Distance;
 import io.metaloom.qdrant.client.http.model.collection.filter.Filter;
+import io.metaloom.qdrant.client.http.model.collection.filter.condition.FieldCondition;
 import io.metaloom.qdrant.client.http.model.collection.filter.condition.HasIdCondition;
+import io.metaloom.qdrant.client.http.model.collection.filter.match.MatchText;
+import io.metaloom.qdrant.client.http.model.collection.schema.CollectionCreateIndexFieldRequest;
+import io.metaloom.qdrant.client.http.model.collection.schema.PayloadIndexSchemaType;
 import io.metaloom.qdrant.client.http.model.point.BatchVectorDataMap;
 import io.metaloom.qdrant.client.http.model.point.BatchVectorDataPlain;
 import io.metaloom.qdrant.client.http.model.point.NamedVector;
@@ -27,6 +31,7 @@ import io.metaloom.qdrant.client.http.model.point.Payload;
 import io.metaloom.qdrant.client.http.model.point.PointCountRequest;
 import io.metaloom.qdrant.client.http.model.point.PointCountResponse;
 import io.metaloom.qdrant.client.http.model.point.PointDeletePayloadRequest;
+import io.metaloom.qdrant.client.http.model.point.PointId;
 import io.metaloom.qdrant.client.http.model.point.PointOverwritePayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointSetPayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointStruct;
@@ -65,6 +70,7 @@ public class PointHttpClientTest extends AbstractHTTPClientTest implements Point
 
 		PointStruct p2 = PointStruct.of(VECTOR_NAME, VECTOR_2).setId(2);
 		PointStruct p3 = PointStruct.of(VECTOR_NAME, VECTOR_3).setId(3);
+		p3.setPayload("{\"name\": \"third\"}");
 		PointStruct p4 = PointStruct.of(VECTOR_NAME, VECTOR_4).setId(4);
 
 		JsonNode json = Json.toJson("{ \"color\": \"red\"}");
@@ -252,6 +258,46 @@ public class PointHttpClientTest extends AbstractHTTPClientTest implements Point
 		assertEquals(1, resp.getResult().getPoints().size());
 		Long nextOffset = resp.getResult().getNextPageOffset();
 		assertEquals(2L, nextOffset.longValue());
+	}
+
+	@Test
+	public void testScrollPointsWithFilter() throws HttpErrorException {
+		PointsScrollRequest request = new PointsScrollRequest();
+
+		FieldCondition fieldCondition = new FieldCondition();
+		fieldCondition.setKey("name");
+		fieldCondition.setMatch(new MatchText().setText("third"));
+		request.setFilter(new Filter().setMust(fieldCondition));
+		request.setLimit(4);
+		PointsScrollResponse resp = invoke(client.scrollPoints(TEST_COLLECTION_NAME, request));
+
+		// Now assert that we only found the third point
+		assertEquals(1, resp.getResult().getPoints().size());
+		assertNull(resp.getResult().getNextPageOffset());
+		assertEquals(PointId.id(3L), resp.getResult().getPoints().get(0).getId());
+	}
+
+	@Test
+	public void testScrollPointsWithFilterOnIndexField() throws HttpErrorException {
+		// Index the 'name' field
+		CollectionCreateIndexFieldRequest indexRequest = new CollectionCreateIndexFieldRequest();
+		indexRequest.setFieldName("name");
+		indexRequest.setFieldSchema(PayloadIndexSchemaType.TEXT);
+		invoke(client.createCollectionIndexField(TEST_COLLECTION_NAME, indexRequest, true));
+
+		// Search for the field
+		PointsScrollRequest request = new PointsScrollRequest();
+		FieldCondition fieldCondition = new FieldCondition();
+		fieldCondition.setKey("name");
+		fieldCondition.setMatch(new MatchText().setText("third"));
+		request.setFilter(new Filter().setMust(fieldCondition));
+		request.setLimit(4);
+		PointsScrollResponse resp = invoke(client.scrollPoints(TEST_COLLECTION_NAME, request));
+
+		// Now assert that we only found the third point
+		assertEquals(1, resp.getResult().getPoints().size());
+		assertNull(resp.getResult().getNextPageOffset());
+		assertEquals(PointId.id(3L), resp.getResult().getPoints().get(0).getId());
 	}
 
 	@Test

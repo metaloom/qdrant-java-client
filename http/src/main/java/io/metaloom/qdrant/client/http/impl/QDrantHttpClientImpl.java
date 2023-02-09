@@ -22,14 +22,14 @@ import io.metaloom.qdrant.client.http.model.RestRequestModel;
 import io.metaloom.qdrant.client.http.model.RestResponse;
 import io.metaloom.qdrant.client.http.model.cluster.ClusterStatusResponse;
 import io.metaloom.qdrant.client.http.model.cluster.CollectionUpdateClusterSetupRequest;
-import io.metaloom.qdrant.client.http.model.collection.CollectionCreateIndexFieldRequest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
-import io.metaloom.qdrant.client.http.model.collection.CollectionIndexFieldResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionListResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionUpdateAliasesRequest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionUpdateRequest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionsAliasesListResponse;
+import io.metaloom.qdrant.client.http.model.collection.schema.CollectionCreateIndexFieldRequest;
+import io.metaloom.qdrant.client.http.model.collection.schema.CollectionIndexFieldResponse;
 import io.metaloom.qdrant.client.http.model.point.PointCountRequest;
 import io.metaloom.qdrant.client.http.model.point.PointCountResponse;
 import io.metaloom.qdrant.client.http.model.point.PointDeletePayloadRequest;
@@ -395,9 +395,8 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	// Service
 
 	@Override
-	public QDrantClientRequest<ServiceTelemetryResponse> collectTelemetry(boolean anonymize) {
-		QDrantClientRequest<ServiceTelemetryResponse> req = getRequest("telemetry", ServiceTelemetryResponse.class);
-		return req.addAnonymize(anonymize);
+	public QDrantClientRequest<ServiceTelemetryResponse> collectTelemetry() {
+		return getRequest("telemetry", ServiceTelemetryResponse.class);
 	}
 
 	@Override

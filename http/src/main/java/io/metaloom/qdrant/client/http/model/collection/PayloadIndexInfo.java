@@ -3,30 +3,32 @@ package io.metaloom.qdrant.client.http.model.collection;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.metaloom.qdrant.client.http.model.RestModel;
+import io.metaloom.qdrant.client.http.model.collection.schema.FullTextIndexFieldSchema;
+import io.metaloom.qdrant.client.http.model.collection.schema.PayloadIndexSchemaType;
 
 public class PayloadIndexInfo implements RestModel {
 
 	@JsonProperty("data_type")
-	private PayloadSchemaType dataType;
+	private PayloadIndexSchemaType dataType;
 
-	private PayloadSchemaParams params;
+	private FullTextIndexFieldSchema params;
 
 	private int points;
 
-	public PayloadSchemaType getDataType() {
+	public PayloadIndexSchemaType getDataType() {
 		return dataType;
 	}
 
-	public PayloadIndexInfo setDataType(PayloadSchemaType dataType) {
+	public PayloadIndexInfo setDataType(PayloadIndexSchemaType dataType) {
 		this.dataType = dataType;
 		return this;
 	}
 
-	public PayloadSchemaParams getParams() {
+	public FullTextIndexFieldSchema getParams() {
 		return params;
 	}
 
-	public PayloadIndexInfo setParams(PayloadSchemaParams params) {
+	public PayloadIndexInfo setParams(FullTextIndexFieldSchema params) {
 		this.params = params;
 		return this;
 	}

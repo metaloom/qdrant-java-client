@@ -14,6 +14,8 @@ import io.metaloom.qdrant.client.http.QDrantHttpClient;
 import io.metaloom.qdrant.client.http.model.RestModel;
 import io.metaloom.qdrant.client.http.model.RestRequestModel;
 import io.metaloom.qdrant.client.http.model.RestResponse;
+import io.metaloom.qdrant.client.http.model.query.ReadConsistencyType;
+import io.metaloom.qdrant.client.http.model.query.WriteOrdering;
 import io.metaloom.qdrant.client.json.Json;
 import io.reactivex.rxjava3.core.Single;
 import okhttp3.Call;
@@ -104,6 +106,21 @@ public class QDrantClientRequestImpl<T extends RestResponse> implements QDrantCl
 	@Override
 	public QDrantClientRequest<T> addAnonymize(boolean anonymize) {
 		return addQueryParameter("anonymize", String.valueOf(anonymize));
+	}
+
+	@Override
+	public QDrantClientRequest<T> addWriteOrdering(WriteOrdering ordering) {
+		return addQueryParameter("ordering", ordering.getName());
+	}
+
+	@Override
+	public QDrantClientRequest<T> addConsistency(ReadConsistencyType type) {
+		return addQueryParameter("consistency", type.getName());
+	}
+
+	@Override
+	public QDrantClientRequest<T> addConsistency(int nRequests) {
+		return addQueryParameter("consistency", String.valueOf(nRequests));
 	}
 
 	@Override

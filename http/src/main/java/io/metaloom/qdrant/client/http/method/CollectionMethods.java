@@ -2,14 +2,14 @@ package io.metaloom.qdrant.client.http.method;
 
 import io.metaloom.qdrant.client.http.QDrantClientRequest;
 import io.metaloom.qdrant.client.http.model.GenericBooleanStatusResponse;
-import io.metaloom.qdrant.client.http.model.collection.CollectionCreateIndexFieldRequest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
-import io.metaloom.qdrant.client.http.model.collection.CollectionIndexFieldResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionListResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionUpdateAliasesRequest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionUpdateRequest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionsAliasesListResponse;
+import io.metaloom.qdrant.client.http.model.collection.schema.CollectionCreateIndexFieldRequest;
+import io.metaloom.qdrant.client.http.model.collection.schema.CollectionIndexFieldResponse;
 
 /**
  * API methods which are used to interact with collections.

@@ -6,6 +6,8 @@ import io.metaloom.qdrant.client.http.impl.HttpErrorException;
 import io.metaloom.qdrant.client.http.impl.QDrantClientRequestImpl;
 import io.metaloom.qdrant.client.http.model.RestRequestModel;
 import io.metaloom.qdrant.client.http.model.RestResponse;
+import io.metaloom.qdrant.client.http.model.query.ReadConsistencyType;
+import io.metaloom.qdrant.client.http.model.query.WriteOrdering;
 import io.reactivex.rxjava3.core.Single;
 import okhttp3.OkHttpClient;
 
@@ -82,6 +84,30 @@ public interface QDrantClientRequest<T extends RestResponse> {
 	 * @return
 	 */
 	QDrantClientRequest<T> addAnonymize(boolean anonymize);
+
+	/**
+	 * Define read consistency guarantees for the operation.
+	 * 
+	 * @param type
+	 * @return
+	 */
+	QDrantClientRequest<T> addConsistency(ReadConsistencyType type);
+
+	/**
+	 * Define read consistency guarantees for the operation.
+	 * 
+	 * @param nRequests
+	 * @return
+	 */
+	QDrantClientRequest<T> addConsistency(int nRequests);
+
+	/**
+	 * Define ordering guarantees for the operation.
+	 *
+	 * @param ordering
+	 * @return
+	 */
+	QDrantClientRequest<T> addWriteOrdering(WriteOrdering ordering);
 
 	/**
 	 * Add the force query parameter to the request.

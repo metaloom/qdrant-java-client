@@ -1,4 +1,4 @@
-package io.metaloom.qdrant.client.http.model.collection;
+package io.metaloom.qdrant.client.http.model.collection.schema;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,7 +9,7 @@ public class CollectionCreateIndexFieldRequest implements RestRequestModel {
 	@JsonProperty("field_name")
 	private String fieldName;
 
-	@JsonProperty("field_name")
+	@JsonProperty("field_schema")
 	private PayloadFieldSchema fieldSchema;
 
 	public String getFieldName() {

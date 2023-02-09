@@ -112,8 +112,7 @@ public class PointModelTest extends AbstractModelTest {
 	@Test
 	public void testPointsUpsertBatchRequestWithNamedVector() {
 		PointsBatchUpsertRequest req = load("point/named-points-batch-upsert-request", PointsBatchUpsertRequest.class);
-		// req.getBatch().getVectors()
-		String json = Json.parse(req);
+		Json.parse(req);
 	}
 
 	@Test
