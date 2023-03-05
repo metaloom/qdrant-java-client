@@ -20,9 +20,10 @@ public class BasicUsageExampleTest extends AbstractContainerTest {
 	public void testExample() throws Exception {
 
 		int port = qdrant.grpcPort(); // Default: 6334
+		String host = qdrant.getHost();
 
 		try (QDrantGRPCClient client = QDrantGRPCClient.builder()
-			.setHostname("localhost")
+			.setHostname(host)
 			.setPort(port)
 			.build()) {
 

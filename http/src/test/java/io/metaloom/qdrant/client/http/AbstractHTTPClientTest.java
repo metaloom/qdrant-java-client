@@ -34,7 +34,7 @@ public abstract class AbstractHTTPClientTest extends AbstractContainerTest {
 	public void prepareClient() {
 		client = QDrantHttpClient.builder()
 			.setScheme("http")
-			.setHostname("localhost")
+			.setHostname(qdrant.getHost())
 			.setPort(qdrant.httpPort())
 			.build();
 	}

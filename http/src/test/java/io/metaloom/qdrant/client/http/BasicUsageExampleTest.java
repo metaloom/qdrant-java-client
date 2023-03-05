@@ -15,9 +15,10 @@ public class BasicUsageExampleTest extends AbstractContainerTest {
 	public void testExample() throws Exception {
 
 		int port = qdrant.httpPort();
+		String host = qdrant.getHost();
 
 		try (QDrantHttpClient client = QDrantHttpClient.builder()
-			.setHostname("localhost")
+			.setHostname(host)
 			.setPort(port)
 			.build()) {
 

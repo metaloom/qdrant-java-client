@@ -27,7 +27,7 @@ public abstract class AbstractGRPCClientTest extends AbstractContainerTest {
 	@Before
 	public void setupClient() {
 		client = QDrantGRPCClient.builder()
-			.setHostname("localhost")
+			.setHostname(qdrant.getHost())
 			.setPort(qdrant.grpcPort())
 			.build();
 	}
