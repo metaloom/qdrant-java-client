@@ -72,11 +72,12 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 		return new Builder();
 	}
 
-	private OkHttpClient client;
+	private OkHttpClient okClient;
 
 	/**
 	 * Create a new client with a default timeout of 10s for all timeouts (connect, read and write).
 	 * 
+	 * @param okClient
 	 * @param scheme
 	 * @param hostname
 	 * @param port
@@ -84,32 +85,17 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	 * @param readTimeout
 	 * @param writeTimeout
 	 */
-	protected QDrantHttpClientImpl(String scheme, String hostname, int port, Duration connectTimeout, Duration readTimeout, Duration writeTimeout) {
+	protected QDrantHttpClientImpl(OkHttpClient okClient, String scheme, String hostname, int port, Duration connectTimeout, Duration readTimeout,
+			Duration writeTimeout) {
 		super(scheme, hostname, port, connectTimeout, readTimeout, writeTimeout);
+		this.okClient = okClient;
 	}
 
+	/**
+	 * @deprecated No longer needed. OkHttpClient will be initialized in the builder
+	 */
+	@Deprecated
 	public void init() {
-		this.client = createClient();
-	}
-
-	private OkHttpClient createClient() {
-		okhttp3.OkHttpClient.Builder builder = new OkHttpClient.Builder();
-		builder.connectTimeout(connectTimeout);
-		builder.readTimeout(readTimeout);
-		builder.writeTimeout(writeTimeout);
-		// // Disable gzip
-		// builder.addInterceptor(chain -> {
-		// Request request = chain.request();
-		// Request newRequest;
-		// try {
-		// newRequest = request.newBuilder().addHeader("Accept-Encoding", "identity").build();
-		// } catch (Exception e) {
-		// log.error("Error while creating new request", e);
-		// return chain.proceed(request);
-		// }
-		// return chain.proceed(newRequest);
-		// });
-		return builder.build();
 	}
 
 	/**
@@ -118,7 +104,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	 * @return
 	 */
 	public OkHttpClient getOkHttpClient() {
-		return client;
+		return okClient;
 	}
 
 	@Override
@@ -135,6 +121,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 		private Duration connectTimeout = Duration.ofMillis(10_000);
 		private Duration readTimeout = Duration.ofMillis(10_000);
 		private Duration writeTimeout = Duration.ofMillis(10_000);
+		private OkHttpClient okClient;
 
 		/**
 		 * Verify the builder and build the client.
@@ -145,10 +132,31 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 			Objects.requireNonNull(scheme, "A protocol scheme has to be specified.");
 			Objects.requireNonNull(hostname, "A hostname has to be specified.");
 
-			QDrantHttpClientImpl client = new QDrantHttpClientImpl(scheme, hostname, port,
-				connectTimeout, readTimeout, writeTimeout);
-			client.init();
-			return client;
+			if (okClient == null) {
+				okClient = createDefaultOkHttpClient();
+			}
+
+			return new QDrantHttpClientImpl(okClient, scheme, hostname, port, connectTimeout, readTimeout, writeTimeout);
+		}
+
+		private OkHttpClient createDefaultOkHttpClient() {
+			okhttp3.OkHttpClient.Builder builder = new OkHttpClient.Builder();
+			builder.connectTimeout(connectTimeout);
+			builder.readTimeout(readTimeout);
+			builder.writeTimeout(writeTimeout);
+			// // Disable gzip
+			// builder.addInterceptor(chain -> {
+			// Request request = chain.request();
+			// Request newRequest;
+			// try {
+			// newRequest = request.newBuilder().addHeader("Accept-Encoding", "identity").build();
+			// } catch (Exception e) {
+			// log.error("Error while creating new request", e);
+			// return chain.proceed(request);
+			// }
+			// return chain.proceed(newRequest);
+			// });
+			return builder.build();
 		}
 
 		/**
@@ -174,6 +182,17 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 		}
 
 		/**
+		 * Set a custom http client to be used. A default client will be generated if non is specified.
+		 * 
+		 * @param okClient
+		 * @return
+		 */
+		public Builder setOkHttpClient(OkHttpClient okClient) {
+			this.okClient = okClient;
+			return this;
+		}
+
+		/**
 		 * Set the port to connect to. (e.g. 6333).
 		 * 
 		 * @param port
@@ -191,6 +210,9 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 		 * @return Fluent API
 		 */
 		public Builder setConnectTimeout(Duration connectTimeout) {
+			if (okClient != null) {
+				throw new RuntimeException("Please configure the timeout on the okHttpClient you provided.");
+			}
 			this.connectTimeout = connectTimeout;
 			return this;
 		}
@@ -202,6 +224,9 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 		 * @return Fluent API
 		 */
 		public Builder setReadTimeout(Duration readTimeout) {
+			if (okClient != null) {
+				throw new RuntimeException("Please configure the timeout on the okHttpClient you provided.");
+			}
 			this.readTimeout = readTimeout;
 			return this;
 		}
@@ -213,6 +238,9 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 		 * @return Fluent API
 		 */
 		public Builder setWriteTimeout(Duration writeTimeout) {
+			if (okClient != null) {
+				throw new RuntimeException("Please configure the timeout on the okHttpClient you provided.");
+			}
 			this.writeTimeout = writeTimeout;
 			return this;
 		}
@@ -243,7 +271,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	public QDrantClientRequest<UpdateResultResponse> deletePoints(String collectionName, PointsDeleteRequest request, boolean wait) {
 		assertCollectionName(collectionName);
 		QDrantClientRequest<UpdateResultResponse> req = postRequest("collections/" + collectionName + "/points/delete", request,
-			UpdateResultResponse.class);
+				UpdateResultResponse.class);
 		return req.addWait(wait);
 	}
 
@@ -251,7 +279,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	public QDrantClientRequest<UpdateResultResponse> setPointPayload(String collectionName, PointSetPayloadRequest request, boolean wait) {
 		assertCollectionName(collectionName);
 		QDrantClientRequest<UpdateResultResponse> req = postRequest("collections/" + collectionName + "/points/payload", request,
-			UpdateResultResponse.class);
+				UpdateResultResponse.class);
 		return req.addWait(wait);
 	}
 
@@ -259,7 +287,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	public QDrantClientRequest<UpdateResultResponse> overwritePayload(String collectionName, PointOverwritePayloadRequest request, boolean wait) {
 		assertCollectionName(collectionName);
 		QDrantClientRequest<UpdateResultResponse> req = putRequest("collections/" + collectionName + "/points/payload", request,
-			UpdateResultResponse.class);
+				UpdateResultResponse.class);
 		return req.addWait(wait);
 	}
 
@@ -267,15 +295,14 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	public QDrantClientRequest<UpdateResultResponse> deletePayload(String collectionName, PointDeletePayloadRequest request, boolean wait) {
 		assertCollectionName(collectionName);
 		Objects.requireNonNull(request.getKeys(), "Keys must be specified");
-		return postRequest("collections/" + collectionName + "/points/payload/delete", request,
-			UpdateResultResponse.class);
+		return postRequest("collections/" + collectionName + "/points/payload/delete", request, UpdateResultResponse.class);
 	}
 
 	@Override
 	public QDrantClientRequest<UpdateResultResponse> clearPayload(String collectionName, PointsClearPayloadRequest request, boolean wait) {
 		assertCollectionName(collectionName);
 		QDrantClientRequest<UpdateResultResponse> req = postRequest("collections/" + collectionName + "/points/payload/clear", request,
-			UpdateResultResponse.class);
+				UpdateResultResponse.class);
 		return req.addWait(wait);
 	}
 
@@ -290,8 +317,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 		assertCollectionName(collectionName);
 		Objects.requireNonNull(request.getVector(), "A vector must be specified to run the search");
 		Objects.requireNonNull(request.getLimit(), "A limit must be specified");
-		return postRequest("collections/" + collectionName + "/points/search", request,
-			PointsSearchResponse.class);
+		return postRequest("collections/" + collectionName + "/points/search", request, PointsSearchResponse.class);
 	}
 
 	@Override
@@ -337,7 +363,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 
 	@Override
 	public QDrantClientRequest<GenericBooleanStatusResponse> updateCollectionClusterSetup(String collectionName,
-		CollectionUpdateClusterSetupRequest request) {
+			CollectionUpdateClusterSetupRequest request) {
 		assertCollectionName(collectionName);
 		return postRequest("collections/" + collectionName + "/cluster", request, GenericBooleanStatusResponse.class);
 	}
@@ -428,7 +454,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 
 	public QDrantClientRequest<GenericBooleanStatusResponse> updateCollection(String collectionName, CollectionUpdateRequest request, int timeout) {
 		QDrantClientRequest<GenericBooleanStatusResponse> req = patchRequest("collections/" + collectionName, request,
-			GenericBooleanStatusResponse.class);
+				GenericBooleanStatusResponse.class);
 		return req.addTimeout(timeout);
 	}
 
@@ -438,7 +464,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	}
 
 	public QDrantClientRequest<GenericBooleanStatusResponse> updateCollectionAliases(String collectionName, CollectionUpdateAliasesRequest request,
-		int timeout) {
+			int timeout) {
 		QDrantClientRequest<GenericBooleanStatusResponse> req = postRequest("collections/aliases", request, GenericBooleanStatusResponse.class);
 		return req.addTimeout(timeout);
 	}
@@ -449,40 +475,40 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	}
 
 	public QDrantClientRequest<CollectionIndexFieldResponse> createCollectionIndexField(String collectionName,
-		CollectionCreateIndexFieldRequest request, boolean wait) {
+			CollectionCreateIndexFieldRequest request, boolean wait) {
 		QDrantClientRequest<CollectionIndexFieldResponse> req = putRequest("collections/" + collectionName + "/index", request,
-			CollectionIndexFieldResponse.class);
+				CollectionIndexFieldResponse.class);
 		return req.addWait(wait);
 	}
 
 	public QDrantClientRequest<CollectionIndexFieldResponse> deleteCollectionIndexField(String collectionName, String fieldName, boolean wait) {
 		QDrantClientRequest<CollectionIndexFieldResponse> req = deleteRequest("collections/" + collectionName + "/index/" + fieldName,
-			CollectionIndexFieldResponse.class);
+				CollectionIndexFieldResponse.class);
 		return req.addWait(wait);
 	}
 
 	private <T extends RestResponse> QDrantClientRequest<T> deleteRequest(String path, Class<T> responseClass) {
-		return QDrantClientRequest.create(DELETE, path, this, client, responseClass);
+		return QDrantClientRequest.create(DELETE, path, this, okClient, responseClass);
 	}
 
 	private <T extends RestResponse> QDrantClientRequest<T> getRequest(String path, Class<T> responseClass) {
-		return QDrantClientRequest.create(GET, path, this, client, responseClass);
+		return QDrantClientRequest.create(GET, path, this, okClient, responseClass);
 	}
 
 	private <T extends RestResponse> QDrantClientRequest<T> postRequest(String path, RestRequestModel request, Class<T> responseClass) {
-		return QDrantClientRequest.create(POST, path, this, client, request, responseClass);
+		return QDrantClientRequest.create(POST, path, this, okClient, request, responseClass);
 	}
 
 	private <T extends RestResponse> QDrantClientRequest<T> postRequest(String path, Class<T> responseClass) {
-		return QDrantClientRequest.create(POST, path, this, client, responseClass);
+		return QDrantClientRequest.create(POST, path, this, okClient, responseClass);
 	}
 
 	private <T extends RestResponse> QDrantClientRequest<T> putRequest(String path, RestRequestModel request, Class<T> responseClass) {
-		return QDrantClientRequest.create(PUT, path, this, client, request, responseClass);
+		return QDrantClientRequest.create(PUT, path, this, okClient, request, responseClass);
 	}
 
 	private <T extends RestResponse> QDrantClientRequest<T> patchRequest(String path, RestRequestModel request, Class<T> responseClass) {
-		return QDrantClientRequest.create(PATCH, path, this, client, request, responseClass);
+		return QDrantClientRequest.create(PATCH, path, this, okClient, request, responseClass);
 	}
 
 	private void assertCollectionName(String collectionName) {
