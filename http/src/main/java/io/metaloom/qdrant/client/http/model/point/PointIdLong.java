@@ -19,6 +19,11 @@ public class PointIdLong implements PointId {
 	}
 
 	@Override
+	public int hashCode() {
+		return id != null ? id.hashCode() : super.hashCode();
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (obj != null && obj instanceof PointIdLong) {
 			PointIdLong p = (PointIdLong) obj;
@@ -28,7 +33,6 @@ public class PointIdLong implements PointId {
 				return id == p.getId();
 			}
 		}
-		// TODO Auto-generated method stub
 		return super.equals(obj);
 	}
 }
