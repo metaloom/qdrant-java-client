@@ -1,15 +1,19 @@
 package io.metaloom.qdrant.client.http.model;
 
 import static io.metaloom.qdrant.client.http.model.collection.config.Distance.EUCLID;
+import static org.assertj.core.api.Assertions.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
+import io.metaloom.qdrant.client.http.model.collection.CollectionResponse;
 import io.metaloom.qdrant.client.http.model.collection.CollectionUpdateAliasesRequest;
 import io.metaloom.qdrant.client.http.model.collection.CreateAliasOperation;
 import io.metaloom.qdrant.client.http.model.collection.config.NamedVectorParams;
+import io.metaloom.qdrant.client.http.model.collection.config.QuantizationConfig;
+import io.metaloom.qdrant.client.http.model.collection.config.ScalarQuantization;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorParams;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorsConfig;
 import io.metaloom.qdrant.client.http.model.collection.schema.CollectionCreateIndexFieldRequest;
@@ -38,6 +42,28 @@ public class CollectionModelTest extends AbstractModelTest {
 		CollectionCreateRequest deserializedRequest = Json.parse(json, CollectionCreateRequest.class);
 		VectorsConfig vectorsConfig = deserializedRequest.getVectors();
 		System.out.println(vectorsConfig);
+	}
+
+	@Test
+	public void testCollectionGetResponseModel() {
+		CollectionResponse response = load("collection/collection-get-response", CollectionResponse.class);
+		VectorsConfig vectorConfig = response.getResult().getConfig().getParams().getVectors();
+		assertNotNull(vectorConfig);
+		if (!(vectorConfig instanceof NamedVectorParams)) {
+			fail("The vector config should be a named vector param config");
+		}
+	}
+
+	@Test
+	public void testCollectionGetResponseModelWithQuant() {
+		CollectionResponse response = load("collection/collection-get-response-with-quantization_config", CollectionResponse.class);
+		QuantizationConfig config = response.getResult().getConfig().getQuantizationConfig();
+		assertNotNull(config);
+		ScalarQuantization qConfig = (ScalarQuantization)config;
+		assertEquals("int8", qConfig.getScalar().getType());
+		String json = Json.parse(response);
+		CollectionResponse fromJson = Json.parse(json, CollectionResponse.class);
+		assertNotNull(fromJson.getResult().getConfig().getQuantizationConfig());
 	}
 
 	@Test

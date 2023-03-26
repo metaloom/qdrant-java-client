@@ -1,0 +1,19 @@
+{
+  "result": {
+    "config": {
+      "params": {
+        "vectors": { "article": { "size": 1536, "distance": "Cosine" } }
+      },
+      "quantization_config": {
+        "scalar": {
+          "type": "int8",
+          "quantile": 0.5,
+          "always_ram": true
+        }
+      }
+    },
+    "payload_schema": {}
+  },
+  "status": "ok",
+  "time": 0.000017681
+}

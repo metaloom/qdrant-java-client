@@ -6,7 +6,7 @@ import io.metaloom.qdrant.client.http.model.RestModel;
 
 public class CollectionParams implements RestModel {
 
-	private VectorParams vectors;
+	private VectorsConfig vectors;
 
 	@JsonProperty("shard_number")
 	private Integer shardNumber;
@@ -20,11 +20,11 @@ public class CollectionParams implements RestModel {
 	@JsonProperty("on_disk_payload")
 	private Boolean onDiskPayload;
 
-	public VectorParams getVectors() {
+	public VectorsConfig getVectors() {
 		return vectors;
 	}
 
-	public CollectionParams setVectors(VectorParams vectors) {
+	public CollectionParams setVectors(VectorsConfig vectors) {
 		this.vectors = vectors;
 		return this;
 	}

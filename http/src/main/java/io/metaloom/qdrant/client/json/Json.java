@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import io.metaloom.qdrant.client.http.model.RestModel;
 import io.metaloom.qdrant.client.http.model.collection.AliasOperation;
+import io.metaloom.qdrant.client.http.model.collection.config.QuantizationConfig;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorsConfig;
 import io.metaloom.qdrant.client.http.model.collection.filter.condition.Condition;
 import io.metaloom.qdrant.client.http.model.collection.filter.match.Match;
@@ -33,6 +34,7 @@ import io.metaloom.qdrant.client.json.serializer.PayloadFieldSchemaSerializer;
 import io.metaloom.qdrant.client.json.serializer.PayloadSerializer;
 import io.metaloom.qdrant.client.json.serializer.PointIdDeserializer;
 import io.metaloom.qdrant.client.json.serializer.PointIdSerializer;
+import io.metaloom.qdrant.client.json.serializer.QuantizationConfigDeserializer;
 import io.metaloom.qdrant.client.json.serializer.VectorDataDeserializer;
 import io.metaloom.qdrant.client.json.serializer.VectorDataSerializer;
 import io.metaloom.qdrant.client.json.serializer.VectorDeserializer;
@@ -77,6 +79,8 @@ public final class Json {
 
 		module.addSerializer(PayloadFieldSchema.class, new PayloadFieldSchemaSerializer());
 		module.addDeserializer(PayloadFieldSchema.class, new PayloadFieldSchemaDeserializer());
+
+		module.addDeserializer(QuantizationConfig.class, new QuantizationConfigDeserializer());
 		mapper.registerModule(module);
 	}
 

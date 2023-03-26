@@ -1,0 +1,13 @@
+{
+  "result": {
+    "config": {
+      "params": {
+        "vectors": { "article": { "size": 1536, "distance": "Cosine" } }
+      },
+      "quantization_config": null
+    },
+    "payload_schema": {}
+  },
+  "status": "ok",
+  "time": 0.000017681
+}

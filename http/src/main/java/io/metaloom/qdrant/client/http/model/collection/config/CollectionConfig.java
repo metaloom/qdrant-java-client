@@ -17,6 +17,9 @@ public class CollectionConfig implements RestModel {
 	@JsonProperty("wal_config")
 	private WalConfig walConfig;
 
+	@JsonProperty("quantization_config")
+	private QuantizationConfig quantizationConfig;
+
 	public CollectionParams getParams() {
 		return params;
 	}
@@ -50,6 +53,15 @@ public class CollectionConfig implements RestModel {
 
 	public CollectionConfig setWalConfig(WalConfig walConfig) {
 		this.walConfig = walConfig;
+		return this;
+	}
+
+	public QuantizationConfig getQuantizationConfig() {
+		return quantizationConfig;
+	}
+
+	public CollectionConfig setQuantizationConfig(QuantizationConfig quantizationConfig) {
+		this.quantizationConfig = quantizationConfig;
 		return this;
 	}
 }
