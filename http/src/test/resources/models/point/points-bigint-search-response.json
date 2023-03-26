@@ -1,0 +1,27 @@
+{
+  "result": [
+    {
+      "id": 1639887574359322624,
+      "version": 0,
+      "score": 0.7975686,
+      "payload": null,
+      "vector": null
+    },
+    {
+      "id": 1639887558504853504,
+      "version": 0,
+      "score": 0.77643484,
+      "payload": null,
+      "vector": null
+    },
+    {
+      "id": 1639887521473343488,
+      "version": 0,
+      "score": 0.7713549,
+      "payload": null,
+      "vector": null
+    }
+  ],
+  "status": "ok",
+  "time": 0.000717863
+}

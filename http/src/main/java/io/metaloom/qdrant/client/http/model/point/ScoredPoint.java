@@ -4,17 +4,17 @@ import io.metaloom.qdrant.client.http.model.RestModel;
 
 public class ScoredPoint implements RestModel {
 
-	private int id;
+	private PointId id;
 	private long version;
 	private float score;
 	private Payload payload;
 	private Vector vector;
 
-	public int getId() {
+	public PointId getId() {
 		return id;
 	}
 
-	public ScoredPoint setId(int id) {
+	public ScoredPoint setId(PointId id) {
 		this.id = id;
 		return this;
 	}

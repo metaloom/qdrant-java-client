@@ -17,6 +17,7 @@ import io.metaloom.qdrant.client.http.model.point.PointCountRequest;
 import io.metaloom.qdrant.client.http.model.point.PointCountResponse;
 import io.metaloom.qdrant.client.http.model.point.PointDeletePayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointGetResponse;
+import io.metaloom.qdrant.client.http.model.point.PointIdLong;
 import io.metaloom.qdrant.client.http.model.point.PointSetPayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointStruct;
 import io.metaloom.qdrant.client.http.model.point.PointsBatchUpsertRequest;
@@ -24,6 +25,7 @@ import io.metaloom.qdrant.client.http.model.point.PointsGetResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsListUpsertRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsRecommendRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsSearchResponse;
 import io.metaloom.qdrant.client.http.model.point.UpdateResultResponse;
 import io.metaloom.qdrant.client.http.model.point.UpdateStatus;
 import io.metaloom.qdrant.client.http.model.point.VectorDataMap;
@@ -58,6 +60,12 @@ public class PointModelTest extends AbstractModelTest {
 	public void testPointSetPayloadRequestModel() {
 		PointSetPayloadRequest request = load("point/point-set-payload-request", PointSetPayloadRequest.class);
 		assertEquals("jacket", request.getPayload().getJson().get("name").asText());
+	}
+
+	@Test
+	public void testBigIntPointIdPointSearchResponseModel() {
+		PointsSearchResponse response = load("point/points-bigint-search-response", PointsSearchResponse.class);
+		assertEquals(1639887574359322624L, ((PointIdLong) response.getResult().get(0).getId()).getId().longValue());
 	}
 
 	@Test
