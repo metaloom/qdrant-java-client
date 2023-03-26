@@ -158,11 +158,4 @@ mvn clean package
 # Deploy to maven central and auto-close staging repo. 
 # Adding the property will trigger the profiles in the parent pom to include gpg,javadoc...
 mvn clean deploy -Drelease
-
-# 1. Update version in jreleaser.yml
-# 2. Check config
-jreleaser config
-
-# 3. Invoke release (will update github releases and create git tag)
-jreleaser full-release
 ```
