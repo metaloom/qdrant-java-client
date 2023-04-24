@@ -36,7 +36,7 @@ This project contains a java client for the [Qdrant vector database](https://qdr
 <dependency>
 	<groupId>io.metaloom.qdrant</groupId>
 	<artifactId>qdrant-java-grpc-client</artifactId>
-	<version>0.11.0</version>
+	<version>0.12.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -46,22 +46,25 @@ or for the HTTP client
 <dependency>
 	<groupId>io.metaloom.qdrant</groupId>
 	<artifactId>qdrant-java-http-client</artifactId>
-	<version>0.11.0</version>
+	<version>0.12.0-SNAPSHOT</version>
 </dependency>
 ```
 
-NOTE: The http client currently (as of v1.0.1 of Qdrant) supports more methods compared to the gRPC client.
+NOTE: The http client currently (as of v1.1.1 of Qdrant) supports more methods compared to the gRPC client.
 
 
 ## Notes / Status
 
-This client was build and tested for Qdrant server version `v1.0.1`. Minimum required JRE is current LTS version **17**.
+This client was build and tested for Qdrant server version `v1.1.1`. Minimum required JRE is current LTS version **17**.
 
 ## Usage - gRPC
 
 ```java
+int port = qdrant.grpcPort(); // Default: 6334
+String host = qdrant.getHost();
+
 try (QDrantGRPCClient client = QDrantGRPCClient.builder()
-	.setHostname("localhost")
+	.setHostname(host)
 	.setPort(port)
 	.build()) {
 
@@ -113,10 +116,13 @@ try (QDrantGRPCClient client = QDrantGRPCClient.builder()
 ## Usage - HTTP
 
 ```java
+int port = qdrant.httpPort();
+String host = qdrant.getHost();
+
 try (QDrantHttpClient client = QDrantHttpClient.builder()
-		.setHostname("localhost")
-		.setPort(port)
-		.build()) {
+	.setHostname(host)
+	.setPort(port)
+	.build()) {
 
 	// Create a collection
 	CollectionCreateRequest req = new CollectionCreateRequest();
@@ -149,7 +155,9 @@ try (QDrantHttpClient client = QDrantHttpClient.builder()
 ## Release Process
 
 ```bash
-# Update maven version to next release + Update jreleaser.yml version
+# Bump qdrant.version in pom.xml and QDrantContainer#DEFAULT_VERSION
+
+# Update maven version to next release
 mvn versions:set -DgenerateBackupPoms=false
 
 # Now run tests locally or via GitHub actions

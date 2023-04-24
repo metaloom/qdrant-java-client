@@ -18,7 +18,7 @@ public class BasicUsageExampleTest extends AbstractContainerTest {
 
 	@Test
 	public void testExample() throws Exception {
-
+		// SNIPPET START example
 		int port = qdrant.grpcPort(); // Default: 6334
 		String host = qdrant.getHost();
 
@@ -69,5 +69,6 @@ public class BasicUsageExampleTest extends AbstractContainerTest {
 			// Invoke backup via Snapshot API
 			client.createSnapshot("test1").sync();
 		}
+		// SNIPPET END example
 	}
 }

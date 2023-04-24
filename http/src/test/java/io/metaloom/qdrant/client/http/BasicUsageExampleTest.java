@@ -13,7 +13,7 @@ public class BasicUsageExampleTest extends AbstractContainerTest {
 
 	@Test
 	public void testExample() throws Exception {
-
+		// SNIPPET START example
 		int port = qdrant.httpPort();
 		String host = qdrant.getHost();
 
@@ -47,5 +47,6 @@ public class BasicUsageExampleTest extends AbstractContainerTest {
 			// Count the points in the collection
 			client.countPoints("the-collection-name", new PointCountRequest().setExact(true)).sync();
 		}
+		// SNIPPET END example
 	}
 }
