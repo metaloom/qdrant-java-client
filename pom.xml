@@ -29,8 +29,8 @@
 		<!-- Version against the client was tests -->
 		<!-- Currently this needs to be manually synced with QDrantContainer#DEFAULT_VERSION -->
 		<qdrant.version>v1.1.1</qdrant.version>
-		<okhttp.version>4.10.0</okhttp.version>
-		<grpc.version>1.52.1</grpc.version>
+		<okhttp.version>4.11.0</okhttp.version>
+		<grpc.version>1.54.1</grpc.version>
 		<!-- Sonar -->
 		<jacoco.version>0.8.8</jacoco.version>
 		<sonar.version>3.9.1.2184</sonar.version>
@@ -57,6 +57,12 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.9.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
