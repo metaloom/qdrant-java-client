@@ -36,7 +36,7 @@ This project contains a java client for the [Qdrant vector database](https://qdr
 <dependency>
 	<groupId>io.metaloom.qdrant</groupId>
 	<artifactId>qdrant-java-grpc-client</artifactId>
-	<version>0.12.0-SNAPSHOT</version>
+	<version>0.12.0</version>
 </dependency>
 ```
 
@@ -46,7 +46,7 @@ or for the HTTP client
 <dependency>
 	<groupId>io.metaloom.qdrant</groupId>
 	<artifactId>qdrant-java-http-client</artifactId>
-	<version>0.12.0-SNAPSHOT</version>
+	<version>0.12.0</version>
 </dependency>
 ```
 
