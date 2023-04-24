@@ -20,6 +20,9 @@ public class OperationDurationStatistics implements RestModel {
 	@JsonProperty("max_duration_micros")
 	private Float maxDurationMicros;
 
+	@JsonProperty("last_responded")
+	private String lastResponded;
+
 	public int getCount() {
 		return count;
 	}
@@ -62,6 +65,15 @@ public class OperationDurationStatistics implements RestModel {
 
 	public OperationDurationStatistics setMaxDurationMicros(Float maxDurationMicros) {
 		this.maxDurationMicros = maxDurationMicros;
+		return this;
+	}
+
+	public String getLastResponded() {
+		return lastResponded;
+	}
+
+	public OperationDurationStatistics setLastResponded(String lastResponded) {
+		this.lastResponded = lastResponded;
 		return this;
 	}
 }
