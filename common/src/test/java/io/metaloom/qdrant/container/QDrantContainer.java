@@ -10,7 +10,7 @@ import org.testcontainers.containers.wait.strategy.Wait;
  */
 public class QDrantContainer extends GenericContainer<QDrantContainer> {
 
-	public static final String DEFAULT_VERSION = "v1.1.1";
+	public static final String DEFAULT_VERSION = "v1.2.0";
 
 	public static final int HTTP_PORT = 6333;
 

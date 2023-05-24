@@ -28,7 +28,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- Version against the client was tests -->
 		<!-- Currently this needs to be manually synced with QDrantContainer#DEFAULT_VERSION -->
-		<qdrant.version>v1.1.1</qdrant.version>
+		<qdrant.version>v1.2.0</qdrant.version>
 		<okhttp.version>4.11.0</okhttp.version>
 		<grpc.version>1.54.1</grpc.version>
 		<!-- Sonar -->

@@ -50,12 +50,12 @@ or for the HTTP client
 </dependency>
 ```
 
-NOTE: The http client currently (as of v1.1.1 of Qdrant) supports more methods compared to the gRPC client.
+NOTE: The http client currently (as of v1.2.0 of Qdrant) supports more methods compared to the gRPC client.
 
 
 ## Notes / Status
 
-This client was build and tested for Qdrant server version `v1.1.1`. Minimum required JRE is current LTS version **17**.
+This client was build and tested for Qdrant server version `v1.2.0`. Minimum required JRE is current LTS version **17**.
 
 ## Usage - gRPC
 
