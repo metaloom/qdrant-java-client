@@ -1,6 +1,6 @@
 package io.metaloom.qdrant.client.http.model;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import io.metaloom.qdrant.client.http.model.service.ServiceTelemetryResponse;
 

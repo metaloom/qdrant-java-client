@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionResponse;
@@ -17,7 +17,6 @@ import io.metaloom.qdrant.client.http.model.collection.config.ScalarQuantization
 import io.metaloom.qdrant.client.http.model.collection.config.VectorParams;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorsConfig;
 import io.metaloom.qdrant.client.http.model.collection.schema.CollectionCreateIndexFieldRequest;
-import io.metaloom.qdrant.client.http.model.collection.schema.recommend.CollectionRecommendPointsResponse;
 import io.metaloom.qdrant.client.json.Json;
 
 public class CollectionModelTest extends AbstractModelTest {

@@ -1,14 +1,13 @@
 package io.metaloom.qdrant.client.http.model;
 
+import static io.metaloom.qdrant.client.http.model.snapshot.SnapshotPriority.SNAPSHOT;
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import io.metaloom.qdrant.client.http.model.snapshot.SnapshotListResponse;
 import io.metaloom.qdrant.client.http.model.snapshot.SnapshotRecoverRequest;
 import io.metaloom.qdrant.client.http.model.snapshot.SnapshotResponse;
-
-import static io.metaloom.qdrant.client.http.model.snapshot.SnapshotPriority.SNAPSHOT;
 
 public class SnapshotModelTest extends AbstractModelTest {
 

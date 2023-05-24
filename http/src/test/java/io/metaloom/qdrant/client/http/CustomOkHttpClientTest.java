@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import io.metaloom.qdrant.client.AbstractContainerTest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
@@ -26,31 +26,33 @@ public class CustomOkHttpClientTest extends AbstractContainerTest {
 		OkHttpClient customClient = createCustomOkClient(interceptedUrl);
 
 		try (QDrantHttpClient client = QDrantHttpClient.builder()
-				.setHostname(host)
-				.setOkHttpClient(customClient)
-				.setPort(port)
-				.build()) {
+			.setHostname(host)
+			.setOkHttpClient(customClient)
+			.setPort(port)
+			.build()) {
 
 			// Create a collection
 			CollectionCreateRequest req = new CollectionCreateRequest();
 			req.setVectors("colors", 4, Distance.EUCLID);
 			client.createCollection("the-collection-name", req)
-					.sync();
+				.sync();
 			assertEquals("The intercetor did not catch the correct url", "/collections/the-collection-name", interceptedUrl.get()
-					.encodedPath()
-					.toString());
+				.encodedPath()
+				.toString());
 		}
 	}
 
-	@Test(expected = RuntimeException.class)
+	@Test
 	public void testConflictingBuildParams() {
-		try (QDrantHttpClient client = QDrantHttpClient.builder()
+		org.junit.jupiter.api.Assertions.assertThrows(RuntimeException.class, () -> {
+			try (QDrantHttpClient client = QDrantHttpClient.builder()
 				.setHostname("localhost")
 				.setOkHttpClient(createCustomOkClient(null))
 				.setConnectTimeout(Duration.ofMinutes(1))
 				.setPort(123)
 				.build()) {
-		}
+			}
+		});
 	}
 
 	private OkHttpClient createCustomOkClient(AtomicReference<HttpUrl> interceptedUrl) {

@@ -1,6 +1,6 @@
 package io.metaloom.qdrant.client.http;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import io.metaloom.qdrant.client.AbstractContainerTest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;

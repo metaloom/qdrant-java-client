@@ -7,8 +7,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import io.metaloom.qdrant.client.http.AbstractHTTPClientTest;
 import io.metaloom.qdrant.client.http.model.collection.AliasDescription;
@@ -43,7 +43,7 @@ public class CollectionHttpClientTest extends AbstractHTTPClientTest implements 
 	}
 
 	@Test
-	@Ignore
+	@Disabled
 	public void testCreateMultipleCollections() throws Exception {
 		CollectionCreateRequest request = new CollectionCreateRequest();
 		request.setVectors(VectorParams.of(4, EUCLID));

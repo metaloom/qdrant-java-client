@@ -2,23 +2,28 @@ package io.metaloom.qdrant.util;
 
 import java.util.UUID;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import io.metaloom.qdrant.client.http.model.point.PointIdLong;
 import io.metaloom.qdrant.client.util.QDrantClientUtil;
 
 public class QDrantClientUtilTest {
 
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void testAssertPoint() {
-		QDrantClientUtil.assertPointId(new PointIdLong());
-		QDrantClientUtil.assertPointId(null);
+		Assertions.assertThrows(NullPointerException.class, () -> {
+			QDrantClientUtil.assertPointId(new PointIdLong());
+			QDrantClientUtil.assertPointId(null);
+		});
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void testUUID() {
-		QDrantClientUtil.assertUuid(UUID.randomUUID());
-		QDrantClientUtil.assertUuid(null);
+		Assertions.assertThrows(NullPointerException.class, () -> {
+			QDrantClientUtil.assertUuid(UUID.randomUUID());
+			QDrantClientUtil.assertUuid(null);
+		});
 	}
 
 }

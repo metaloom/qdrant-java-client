@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import io.metaloom.qdrant.client.http.AbstractHTTPClientTest;
@@ -147,7 +147,7 @@ public class SnapshotHttpClientTest extends AbstractHTTPClientTest implements Sn
 
 	@Test
 	@Override
-	@Ignore("It is unclear how to recover from a storage snapshot. No endpoint defined.")
+	@Disabled("It is unclear how to recover from a storage snapshot. No endpoint defined.")
 	public void testRecoverStorageSnapshot() throws Exception {
 
 	}
