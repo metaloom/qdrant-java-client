@@ -1,9 +1,11 @@
 package io.metaloom.qdrant.client.grpc.method;
 
-import static io.metaloom.qdrant.client.util.ModelHelper.point;
+import static io.metaloom.qdrant.client.util.ModelHelper.namedPoint;
 import static io.metaloom.qdrant.client.util.ModelHelper.pointId;
 import static io.metaloom.qdrant.client.util.ModelHelper.pointIds;
+import static io.metaloom.qdrant.client.util.ModelHelper.selectByIds;
 import static io.metaloom.qdrant.client.util.ModelHelper.value;
+import static io.metaloom.qdrant.client.util.ModelHelper.vectorList;
 import static io.metaloom.qdrant.client.util.ModelHelper.withPayload;
 import static io.metaloom.qdrant.client.util.ModelHelper.withVector;
 import static io.metaloom.qdrant.client.util.VectorUtil.toList;
@@ -19,43 +21,49 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.testcontainers.shaded.com.google.common.collect.Sets;
 
 import io.metaloom.qdrant.client.grpc.AbstractGRPCClientTest;
 import io.metaloom.qdrant.client.grpc.proto.JsonWithInt.Value;
+import io.metaloom.qdrant.client.grpc.proto.Points.DeletePointVectors;
 import io.metaloom.qdrant.client.grpc.proto.Points.GetResponse;
+import io.metaloom.qdrant.client.grpc.proto.Points.NamedVectors;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointStruct;
+import io.metaloom.qdrant.client.grpc.proto.Points.PointVectors;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointsOperationResponse;
 import io.metaloom.qdrant.client.grpc.proto.Points.RecommendBatchResponse;
+import io.metaloom.qdrant.client.grpc.proto.Points.RecommendPointGroups;
 import io.metaloom.qdrant.client.grpc.proto.Points.RecommendPoints;
 import io.metaloom.qdrant.client.grpc.proto.Points.RecommendResponse;
 import io.metaloom.qdrant.client.grpc.proto.Points.RetrievedPoint;
 import io.metaloom.qdrant.client.grpc.proto.Points.ScoredPoint;
 import io.metaloom.qdrant.client.grpc.proto.Points.ScrollResponse;
 import io.metaloom.qdrant.client.grpc.proto.Points.SearchBatchResponse;
+import io.metaloom.qdrant.client.grpc.proto.Points.SearchPointGroups;
 import io.metaloom.qdrant.client.grpc.proto.Points.SearchPoints;
 import io.metaloom.qdrant.client.grpc.proto.Points.SearchResponse;
+import io.metaloom.qdrant.client.grpc.proto.Points.UpdatePointVectors;
 import io.metaloom.qdrant.client.grpc.proto.Points.UpdateStatus;
-import io.metaloom.qdrant.client.grpc.proto.Points.Vector;
 import io.metaloom.qdrant.client.grpc.proto.Points.Vectors;
+import io.metaloom.qdrant.client.grpc.proto.Points.VectorsSelector;
 import io.metaloom.qdrant.client.testcases.PointClientTestcases;
 import io.metaloom.qdrant.client.util.ModelHelper;
 
 public class PointGRPCClientTest extends AbstractGRPCClientTest implements PointClientTestcases {
 
-	@Before
+	@BeforeEach
 	public void setupTestData() {
 		createCollection(TEST_COLLECTION_NAME);
 
 		Map<String, Value> values = new HashMap<>();
-		values.put("color", value("blue"));
-		PointStruct p1 = point(42L, new float[] { 7.43f, 0.1f, 0.25f, 1.5f }, values);
-		PointStruct p2 = point(43L, new float[] { 0.45f, 2.61f, 0.88f, 6.25f }, values);
-		PointStruct p3 = point(44L, new float[] { 2.41f, 0.9f, 0.81f, 2.45f }, values);
-		PointStruct p4 = point(45L, new float[] { 0.42f, 1.0f, 0.51f, 5.85f }, values);
+		values.put(TEST_VECTOR_NAME, value("blue"));
+		PointStruct p1 = namedPoint(pointId(42L), TEST_VECTOR_NAME, new float[] { 7.43f, 0.1f, 0.25f, 1.5f }, values);
+		PointStruct p2 = namedPoint(pointId(43L), TEST_VECTOR_NAME, new float[] { 0.45f, 2.61f, 0.88f, 6.25f }, values);
+		PointStruct p3 = namedPoint(pointId(44L), TEST_VECTOR_NAME, new float[] { 2.41f, 0.9f, 0.81f, 2.45f }, values);
+		PointStruct p4 = namedPoint(pointId(45L), TEST_VECTOR_NAME, new float[] { 0.42f, 1.0f, 0.51f, 5.85f }, values);
 
 		client.upsertPoint(TEST_COLLECTION_NAME, p1, true).sync();
 		client.upsertPoint(TEST_COLLECTION_NAME, p2, true).sync();
@@ -86,7 +94,7 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 		float[] vec = new float[] { 0, 0, 0, 0 };
 		List<PointStruct> list = new ArrayList<>();
 		for (int i = 0; i < 10; i++) {
-			list.add(point(80L + i, vec, null));
+			list.add(namedPoint(80L + i, TEST_VECTOR_NAME, vec, null));
 		}
 
 		client.upsertPoints(TEST_COLLECTION_NAME, list, true).sync();
@@ -95,20 +103,20 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 
 	@Test
 	public void testUpsertPointWithUuid() {
-		PointStruct point = point(UUID.randomUUID(), new float[] { 0.2f, 0.1f, 0.3f, 0.4f }, null);
+		PointStruct point = namedPoint(pointId(UUID.randomUUID()), TEST_VECTOR_NAME, new float[] { 0.2f, 0.1f, 0.3f, 0.4f }, null);
 		client.upsertPoint(TEST_COLLECTION_NAME, point, true).sync();
 		assertPointCount(4 + 1, TEST_COLLECTION_NAME);
 	}
 
 	@Test
 	@Override
-	@Ignore("Not supported via gRPC")
+	@Disabled("Not supported via gRPC")
 	public void testUpsertPointsViaListBatch() throws Exception {
 	}
 
 	@Test
 	@Override
-	@Ignore("Not supported via gRPC")
+	@Disabled("Not supported via gRPC")
 	public void testUpsertPointsViaNamedBatch() throws Exception {
 	}
 
@@ -163,10 +171,10 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 		HashSet<String> keys = Sets.newHashSet(extraKey);
 		PointsOperationResponse response2 = client.deletePayload(TEST_COLLECTION_NAME, true, keys, null, pointId(42L)).sync();
 		assertEquals(UpdateStatus.Completed, response2.getResult().getStatus());
-		
+
 		// And assert the operation
 		Map<String, Value> after = client.getPoint(TEST_COLLECTION_NAME, true, false, pointId(42)).sync().getResult(0).getPayloadMap();
-		assertEquals("There should only be one remaining prop",1, after.size()); 
+		assertEquals("There should only be one remaining prop", 1, after.size());
 		assertFalse("The prop should have been deleted", after.containsKey(extraKey));
 		assertTrue("The prop should be still there", after.containsKey("color"));
 	}
@@ -197,7 +205,7 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 	@Override
 	public void testSearchPoints() throws Exception {
 		float[] vector = new float[] { 2.41f, 0.9f, 0.81f, 2.45f };
-		SearchResponse response = client.searchPoints(TEST_COLLECTION_NAME, vector, 2, 100f).sync();
+		SearchResponse response = client.searchPoints(TEST_COLLECTION_NAME, TEST_VECTOR_NAME, vector, 2, 100f).sync();
 		List<ScoredPoint> list = response.getResultList();
 		assertFalse(list.isEmpty());
 		assertEquals("The first result should be exactly 0 scrore since it used the stored vector of a point for the search", 0f,
@@ -215,6 +223,7 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 		SearchPoints.Builder request = SearchPoints.newBuilder()
 			.setLimit(10)
 			.addAllVector(vectorList)
+			.setVectorName(TEST_VECTOR_NAME)
 			.setCollectionName(TEST_COLLECTION_NAME);
 
 		searches.add(request.build());
@@ -226,7 +235,7 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 	@Test
 	@Override
 	public void testRecommendPoints() throws Exception {
-		RecommendResponse result = client.recommendPoints(TEST_COLLECTION_NAME, pointIds(42L), 2, null).sync();
+		RecommendResponse result = client.recommendPoints(TEST_COLLECTION_NAME, pointIds(42L), 2, TEST_VECTOR_NAME).sync();
 		List<ScoredPoint> list = result.getResultList();
 		assertFalse(list.isEmpty());
 		assertEquals("The result was not limited to two results.", 2, list.size());
@@ -240,6 +249,7 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 		RecommendPoints.Builder request = RecommendPoints.newBuilder()
 			.setCollectionName(TEST_COLLECTION_NAME)
 			.addAllPositive(pointIds(42L))
+			.setUsing(TEST_VECTOR_NAME)
 			.setLimit(10);
 
 		searches.add(request.build());
@@ -253,15 +263,94 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 	public void testCountPoints() throws Exception {
 		// Insert a new vector
 		for (int i = 0; i < 10; i++) {
-			Vector vector = ModelHelper.vector(new float[] { 0.43f + i, 0.1f, 0.61f, 1.45f });
+			NamedVectors vectors = ModelHelper.namedVector(TEST_VECTOR_NAME, new float[] { 0.43f + i, 0.1f, 0.61f, 1.45f });
 			PointStruct point = PointStruct.newBuilder()
-				.putPayload("color", ModelHelper.value("blue"))
+				.putPayload(TEST_VECTOR_NAME, ModelHelper.value("blue"))
 				.setId(ModelHelper.pointId(82L + i))
-				.setVectors(Vectors.newBuilder().setVector(vector))
+				.setVectors(Vectors.newBuilder().setVectors(vectors).build())
 				.build();
 			assertEquals(UpdateStatus.Completed, client.upsertPoint(TEST_COLLECTION_NAME, point, true).sync().getResult().getStatus());
 		}
 		assertPointCount(14, TEST_COLLECTION_NAME);
+	}
+
+	@Test
+	@Override
+	public void testUpdateVectors() throws Exception {
+		GetResponse response = client.getPoint(TEST_COLLECTION_NAME, true, true, pointId(42L)).sync();
+		assertFalse(response.getResult(0).getVectors().getVectors().containsVectors(TEST_VECTOR_NAME_2));
+
+		UpdatePointVectors request = UpdatePointVectors
+			.newBuilder()
+			.setCollectionName(TEST_COLLECTION_NAME)
+			.addPoints(PointVectors.newBuilder()
+				.setId(ModelHelper.pointId(42L))
+				.setVectors(Vectors.newBuilder().setVectors(ModelHelper.namedVector(TEST_VECTOR_NAME_2, new float[] { 0.4f, 0.1f, 0.2f, 0.3f })))
+				.build())
+			.build();
+		client.updateVectors(request).sync();
+
+		GetResponse response2 = client.getPoint(TEST_COLLECTION_NAME, true, true, pointId(42L)).sync();
+		assertTrue(response2.getResult(0).getVectors().getVectors().containsVectors(TEST_VECTOR_NAME_2));
+	}
+
+	@Test
+	@Override
+	public void testDeleteVectors() throws Exception {
+		UpdatePointVectors request = UpdatePointVectors
+			.newBuilder()
+			.setCollectionName(TEST_COLLECTION_NAME)
+			.addPoints(PointVectors.newBuilder()
+				.setId(ModelHelper.pointId(42L))
+				.setVectors(Vectors.newBuilder().setVectors(ModelHelper.namedVector(TEST_VECTOR_NAME_2, new float[] { 0.4f, 0.1f, 0.2f, 0.3f })))
+				.build())
+			.build();
+		client.updateVectors(request).sync();
+
+		DeletePointVectors request2 = DeletePointVectors.newBuilder()
+			.setCollectionName(TEST_COLLECTION_NAME)
+			.setWait(true)
+			.setPointsSelector(selectByIds(42L))
+			.setVectors(VectorsSelector.newBuilder().addNames(TEST_VECTOR_NAME_2))
+			.build();
+		client.deleteVectors(request2).sync();
+
+		GetResponse response = client.getPoint(TEST_COLLECTION_NAME, true, true, pointId(42L)).sync();
+		assertFalse(response.getResult(0).getVectors().getVectors().containsVectors(TEST_VECTOR_NAME_2));
+
+	}
+
+	@Test
+	@Override
+	public void testSearchGroupPoints() throws Exception {
+		SearchPointGroups request = SearchPointGroups.newBuilder()
+			.setCollectionName(TEST_COLLECTION_NAME)
+			.setGroupBy(TEST_VECTOR_NAME)
+			.setGroupSize(10)
+			.setWithVectors(withVector())
+			.setWithPayload(withPayload())
+			.setLimit(10)
+			.setVectorName(TEST_VECTOR_NAME)
+			.addAllVector(vectorList(0.1f, 0.2f, 0.3f, 0.4f))
+			.build();
+		client.searchGroupPoints(request).sync();
+	}
+
+	@Test
+	@Override
+	public void testRecommendGroupPoints() throws Exception {
+		RecommendPointGroups request = RecommendPointGroups.newBuilder()
+			.setCollectionName(TEST_COLLECTION_NAME)
+			.setGroupBy("color")
+			.setGroupSize(10)
+			.setWithVectors(withVector())
+			.setWithPayload(withPayload())
+			.addAllPositive(pointIds(42L))
+			.setUsing(TEST_VECTOR_NAME)
+			.setLimit(10)
+			.build();
+		client.recommendGroupPoints(request).sync();
+
 	}
 
 }

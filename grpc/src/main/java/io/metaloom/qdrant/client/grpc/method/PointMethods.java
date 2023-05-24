@@ -16,6 +16,7 @@ import io.metaloom.qdrant.client.grpc.proto.Points.ClearPayloadPoints;
 import io.metaloom.qdrant.client.grpc.proto.Points.CountPoints;
 import io.metaloom.qdrant.client.grpc.proto.Points.CountResponse;
 import io.metaloom.qdrant.client.grpc.proto.Points.DeletePayloadPoints;
+import io.metaloom.qdrant.client.grpc.proto.Points.DeletePointVectors;
 import io.metaloom.qdrant.client.grpc.proto.Points.DeletePoints;
 import io.metaloom.qdrant.client.grpc.proto.Points.Filter;
 import io.metaloom.qdrant.client.grpc.proto.Points.GetPoints;
@@ -25,9 +26,14 @@ import io.metaloom.qdrant.client.grpc.proto.Points.PointStruct;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointsIdsList;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointsOperationResponse;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointsSelector;
+import io.metaloom.qdrant.client.grpc.proto.Points.RecommendGroupsResponse;
+import io.metaloom.qdrant.client.grpc.proto.Points.RecommendPointGroups;
 import io.metaloom.qdrant.client.grpc.proto.Points.ScrollPoints;
 import io.metaloom.qdrant.client.grpc.proto.Points.ScrollResponse;
+import io.metaloom.qdrant.client.grpc.proto.Points.SearchGroupsResponse;
+import io.metaloom.qdrant.client.grpc.proto.Points.SearchPointGroups;
 import io.metaloom.qdrant.client.grpc.proto.Points.SetPayloadPoints;
+import io.metaloom.qdrant.client.grpc.proto.Points.UpdatePointVectors;
 import io.metaloom.qdrant.client.grpc.proto.Points.UpsertPoints;
 import io.metaloom.qdrant.client.grpc.proto.Points.WithPayloadSelector;
 import io.metaloom.qdrant.client.grpc.proto.Points.WithVectorsSelector;
@@ -457,6 +463,30 @@ public interface PointMethods extends ClientSettings {
 		return request(
 			() -> pointsStub(this).upsert(request.build()),
 			() -> pointsAsyncStub(this).upsert(request.build()));
+	}
+
+	default GrpcClientRequest<PointsOperationResponse> updateVectors(UpdatePointVectors request) {
+		return request(
+			() -> pointsStub(this).updateVectors(request),
+			() -> pointsAsyncStub(this).updateVectors(request));
+	}
+
+	default GrpcClientRequest<PointsOperationResponse> deleteVectors(DeletePointVectors request) {
+		return request(
+			() -> pointsStub(this).deleteVectors(request),
+			() -> pointsAsyncStub(this).deleteVectors(request));
+	}
+
+	default GrpcClientRequest<SearchGroupsResponse> searchGroupPoints(SearchPointGroups request) {
+		return request(
+			() -> pointsStub(this).searchGroups(request),
+			() -> pointsAsyncStub(this).searchGroups(request));
+	}
+
+	default GrpcClientRequest<RecommendGroupsResponse> recommendGroupPoints(RecommendPointGroups request) {
+		return request(
+			() -> pointsStub(this).recommendGroups(request),
+			() -> pointsAsyncStub(this).recommendGroups(request));
 	}
 
 }

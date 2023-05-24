@@ -4,11 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import io.metaloom.qdrant.client.AbstractContainerTest;
 import io.metaloom.qdrant.client.grpc.proto.Collections.Distance;
 import io.metaloom.qdrant.client.grpc.proto.Collections.VectorParams;
+import io.metaloom.qdrant.client.grpc.proto.Collections.VectorParamsMap;
 import io.metaloom.qdrant.client.grpc.proto.JsonWithInt.Value;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointStruct;
 import io.metaloom.qdrant.client.grpc.proto.Points.ScoredPoint;
@@ -33,8 +34,14 @@ public class BasicUsageExampleTest extends AbstractContainerTest {
 				.setDistance(Distance.Euclid)
 				.build();
 
+			// Add the params to a map
+			VectorParamsMap paramsMap = VectorParamsMap.newBuilder()
+				.putMap("firstVector", params)
+				.putMap("secondVector", params)
+				.build();
+
 			// Create new collections - blocking
-			client.createCollection("test1", params).sync();
+			client.createCollection("test1", paramsMap).sync();
 			// .. or via Future API
 			client.createCollection("test2", params).async().get();
 			// .. or via RxJava API
@@ -51,7 +58,7 @@ public class BasicUsageExampleTest extends AbstractContainerTest {
 				payload.put("color", ModelHelper.value("blue"));
 
 				// Now construct the point
-				PointStruct point = ModelHelper.point(42L + i, vector, payload);
+				PointStruct point = ModelHelper.namedPoint(42L + i, "firstVector", vector, payload);
 				// .. and insert it
 				client.upsertPoint("test1", point, true).sync();
 			}
@@ -61,7 +68,7 @@ public class BasicUsageExampleTest extends AbstractContainerTest {
 
 			// Now run KNN search
 			float[] searchVector = new float[] { 0.43f, 0.09f, 0.41f, 1.35f };
-			List<ScoredPoint> searchResults = client.searchPoints("test1", searchVector, 2, null).sync().getResultList();
+			List<ScoredPoint> searchResults = client.searchPoints("test1", "firstVector", searchVector, 2, null).sync().getResultList();
 			for (ScoredPoint result : searchResults) {
 				System.out.println("Found: [" + result.getId().getNum() + "] " + result.getScore());
 			}

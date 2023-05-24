@@ -29,13 +29,14 @@ public interface SearchMethods extends ClientSettings {
 	 * Retrieve closest points based on vector similarity.
 	 * 
 	 * @param collectionName
+	 * @param vectorName
 	 * @param vector
 	 * @param limit
 	 * @param scoreThreshold
 	 * @return
 	 */
-	default GrpcClientRequest<SearchResponse> searchPoints(String collectionName, float[] vector, long limit, Float scoreThreshold) {
-		return searchPoints(collectionName, vector, null, null, limit, null, null, null, scoreThreshold);
+	default GrpcClientRequest<SearchResponse> searchPoints(String collectionName, String vectorName, float[] vector, long limit, Float scoreThreshold) {
+		return searchPoints(collectionName, vectorName, vector, null, null, limit, null, null, null, scoreThreshold);
 	}
 
 	/**
@@ -43,6 +44,8 @@ public interface SearchMethods extends ClientSettings {
 	 * 
 	 * @param collectionName
 	 *            Name of the collection to search in
+	 * @param vectorName
+	 *            Optional name of the vector to be searched
 	 * @param vector
 	 *            Vector data
 	 * @param filter
@@ -62,7 +65,8 @@ public interface SearchMethods extends ClientSettings {
 	 *            higher or smaller than the threshold depending on the Distance function used. E.g. for cosine similarity only higher scores will be returned.
 	 * @return
 	 */
-	default GrpcClientRequest<SearchResponse> searchPoints(String collectionName, float[] vector, Filter filter, SearchParams params, long limit,
+	default GrpcClientRequest<SearchResponse> searchPoints(String collectionName, String vectorName, float[] vector, Filter filter,
+		SearchParams params, long limit,
 		Long offset,
 		WithPayloadSelector withPayloadSelector, WithVectorsSelector withVectorsSelector, Float scoreThreshold) {
 		Objects.requireNonNull(collectionName, "A collection name must be specified");
@@ -77,6 +81,10 @@ public interface SearchMethods extends ClientSettings {
 			.setLimit(limit)
 			.addAllVector(vectorList)
 			.setCollectionName(collectionName);
+
+		if (vectorName != null) {
+			request.setVectorName(vectorName);
+		}
 
 		if (filter != null) {
 			request.setFilter(filter);

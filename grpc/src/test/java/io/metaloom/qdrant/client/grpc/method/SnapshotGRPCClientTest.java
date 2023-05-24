@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import io.metaloom.qdrant.client.grpc.AbstractGRPCClientTest;
 import io.metaloom.qdrant.client.grpc.proto.SnapshotsService.CreateSnapshotResponse;
@@ -53,14 +53,14 @@ public class SnapshotGRPCClientTest extends AbstractGRPCClientTest implements Sn
 
 	@Test
 	@Override
-	@Ignore("Not supported for gRPC")
+	@Disabled("Not supported for gRPC")
 	public void testDownloadCollectionSnapshot() throws Exception {
 
 	}
 
 	@Test
 	@Override
-	@Ignore("Not supported for gRPC")
+	@Disabled("Not supported for gRPC")
 	public void testRecoverCollectionSnapshot() throws Exception {
 
 	}
@@ -88,7 +88,7 @@ public class SnapshotGRPCClientTest extends AbstractGRPCClientTest implements Sn
 
 	@Test
 	@Override
-	@Ignore("Not supported for gRPC")
+	@Disabled("Not supported for gRPC")
 	public void testDownloadStorageSnapshot() throws Exception {
 		// TODO Auto-generated method stub
 
@@ -96,7 +96,7 @@ public class SnapshotGRPCClientTest extends AbstractGRPCClientTest implements Sn
 
 	@Test
 	@Override
-	@Ignore("Not supported for gRPC")
+	@Disabled("Not supported for gRPC")
 	public void testRecoverStorageSnapshot() throws Exception {
 		// TODO Auto-generated method stub
 

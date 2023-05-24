@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import com.google.protobuf.GeneratedMessageV3;
 
@@ -15,16 +15,21 @@ import io.metaloom.qdrant.client.grpc.proto.Collections.AliasOperations;
 import io.metaloom.qdrant.client.grpc.proto.Collections.CreateAlias;
 import io.metaloom.qdrant.client.grpc.proto.Collections.Distance;
 import io.metaloom.qdrant.client.grpc.proto.Collections.VectorParams;
+import io.metaloom.qdrant.client.grpc.proto.Collections.VectorParamsMap;
 
 public abstract class AbstractGRPCClientTest extends AbstractContainerTest {
 
 	public static final String TEST_COLLECTION_NAME = "the-test-collection";
 
+	public static final String TEST_VECTOR_NAME = "color";
+
+	public static final String TEST_VECTOR_NAME_2 = "color-2";
+
 	public static final String TEST_ALIAS_NAME = "new-alias-name";
 
 	protected QDrantGRPCClient client;
 
-	@Before
+	@BeforeEach
 	public void setupClient() {
 		client = QDrantGRPCClient.builder()
 			.setHostname(qdrant.getHost())
@@ -32,7 +37,7 @@ public abstract class AbstractGRPCClientTest extends AbstractContainerTest {
 			.build();
 	}
 
-	@After
+	@AfterEach
 	public void closeClient() {
 		if (client != null) {
 			client.close();
@@ -45,8 +50,14 @@ public abstract class AbstractGRPCClientTest extends AbstractContainerTest {
 			.setDistance(Distance.Euclid)
 			.build();
 
+		// Add the params to a map
+		VectorParamsMap paramsMap = VectorParamsMap.newBuilder()
+			.putMap(TEST_VECTOR_NAME, params)
+			.putMap(TEST_VECTOR_NAME_2, params)
+			.build();
+
 		// Create new collections
-		assertTrue(client.createCollection(collectionName, params).sync().getResult());
+		assertTrue(client.createCollection(collectionName, paramsMap).sync().getResult());
 	}
 
 	protected void createAlias(String collectionName, String aliasName) {

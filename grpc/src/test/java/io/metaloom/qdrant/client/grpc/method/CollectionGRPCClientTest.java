@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import io.metaloom.qdrant.client.grpc.AbstractGRPCClientTest;
 import io.metaloom.qdrant.client.grpc.proto.Collections.AliasDescription;
@@ -29,7 +29,10 @@ public class CollectionGRPCClientTest extends AbstractGRPCClientTest implements 
 			.build();
 
 		// Add the params to a map
-		VectorParamsMap paramsMap = VectorParamsMap.newBuilder().putMap("colors", params).build();
+		VectorParamsMap paramsMap = VectorParamsMap.newBuilder()
+			.putMap(TEST_VECTOR_NAME, params)
+			.putMap(TEST_VECTOR_NAME_2, params)
+			.build();
 
 		// Create new collections
 		assertTrue(client.createCollection(TEST_COLLECTION_NAME, paramsMap).sync().getResult());
@@ -39,7 +42,8 @@ public class CollectionGRPCClientTest extends AbstractGRPCClientTest implements 
 			System.out.println(collection.getName());
 			GetCollectionInfoResponse info = client.loadCollections(collection.getName()).sync();
 			VectorsConfig config = info.getResult().getConfig().getParams().getVectorsConfig();
-			assertTrue("The config did not contain the colors vector parameters.", config.getParamsMap().containsMap("colors"));
+			assertTrue("The config did not contain the colors vector parameters.", config.getParamsMap().containsMap(TEST_VECTOR_NAME));
+			assertTrue("The config did not contain the colors-2 vector parameters.", config.getParamsMap().containsMap(TEST_VECTOR_NAME_2));
 		}
 	}
 
@@ -100,9 +104,9 @@ public class CollectionGRPCClientTest extends AbstractGRPCClientTest implements 
 
 		GetCollectionInfoResponse info = client.loadCollections(TEST_COLLECTION_NAME).sync();
 		assertEquals("Could not load correct distance from collection", Distance.Euclid,
-			info.getResult().getConfig().getParams().getVectorsConfig().getParams().getDistance());
+			info.getResult().getConfig().getParams().getVectorsConfig().getParamsMap().getMapMap().get(TEST_VECTOR_NAME).getDistance());
 		assertEquals("Could not load correct dimension from collection", 4,
-			info.getResult().getConfig().getParams().getVectorsConfig().getParams().getSize());
+			info.getResult().getConfig().getParams().getVectorsConfig().getParamsMap().getMapMap().get(TEST_VECTOR_NAME).getSize());
 	}
 
 	@Test

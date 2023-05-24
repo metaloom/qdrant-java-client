@@ -8,9 +8,13 @@ import java.util.UUID;
 
 import io.metaloom.qdrant.client.grpc.proto.JsonWithInt;
 import io.metaloom.qdrant.client.grpc.proto.JsonWithInt.Value;
+import io.metaloom.qdrant.client.grpc.proto.Points.NamedVectors;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointId;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointStruct;
 import io.metaloom.qdrant.client.grpc.proto.Points.PointStruct.Builder;
+import io.metaloom.qdrant.client.grpc.proto.Points.PointVectors;
+import io.metaloom.qdrant.client.grpc.proto.Points.PointsIdsList;
+import io.metaloom.qdrant.client.grpc.proto.Points.PointsSelector;
 import io.metaloom.qdrant.client.grpc.proto.Points.Vector;
 import io.metaloom.qdrant.client.grpc.proto.Points.Vectors;
 import io.metaloom.qdrant.client.grpc.proto.Points.WithPayloadSelector;
@@ -33,6 +37,14 @@ public final class ModelHelper {
 			builder.addData(vector[i]);
 		}
 		return builder.build();
+	}
+
+	public static List<Float> vectorList(Float... vectors) {
+		List<Float> vectorList = new ArrayList<>(vectors.length);
+		for (float f : vectors) {
+			vectorList.add(Float.valueOf(f));
+		}
+		return vectorList;
 	}
 
 	/**
@@ -113,7 +125,7 @@ public final class ModelHelper {
 	 */
 	public static PointStruct point(PointId id, float[] vectorData, Map<String, Value> payload) {
 		Objects.requireNonNull(id, "A pointId must be provided.");
-		Vector vector = ModelHelper.vector(vectorData);
+		Vector vector = vector(vectorData);
 		Builder builder = PointStruct.newBuilder()
 			.setId(id)
 			.setVectors(Vectors.newBuilder().setVector(vector));
@@ -123,11 +135,52 @@ public final class ModelHelper {
 		return builder.build();
 	}
 
+	public static PointStruct namedPoint(Long id, String vectorName, float[] vectorData, Map<String, Value> payload) {
+		return namedPoint(pointId(id), vectorName, vectorData, payload);
+	}
+
+	public static PointStruct namedPoint(PointId id, String vectorName, float[] vectorData, Map<String, Value> payload) {
+		Objects.requireNonNull(id, "A pointId must be provided.");
+		NamedVectors vectors = namedVector(vectorName, vectorData);
+		Builder builder = PointStruct.newBuilder()
+			.setId(id)
+			.setVectors(Vectors.newBuilder().setVectors(vectors));
+		if (payload != null) {
+			builder.putAllPayload(payload);
+		}
+		return builder.build();
+	}
+
+	public static PointsSelector selectByIds(Long... ids) {
+		PointsIdsList.Builder pointList = PointsIdsList.newBuilder();
+		for (Long id : ids) {
+			pointList.addIds(pointId(id));
+		}
+
+		return PointsSelector.newBuilder().setPoints(pointList.build()).build();
+	}
+
 	public static WithPayloadSelector withPayload() {
 		return WithPayloadSelector.newBuilder().setEnable(true).build();
 	}
 
 	public static WithVectorsSelector withVector() {
 		return WithVectorsSelector.newBuilder().setEnable(true).build();
+	}
+
+	public static PointVectors pointVector(long id, String name, float[] vector) {
+		Vectors vectors = Vectors.newBuilder()
+			.setVectors(namedVector(name, vector))
+			.build();
+		return PointVectors.newBuilder()
+			.setId(pointId(id))
+			.setVectors(vectors)
+			.build();
+	}
+
+	public static NamedVectors namedVector(String name, float[] vector) {
+		return NamedVectors.newBuilder()
+			.putVectors(name, vector(vector))
+			.build();
 	}
 }
