@@ -110,12 +110,20 @@ public class QDrantClientRequestImpl<T extends RestResponse> implements QDrantCl
 
 	@Override
 	public QDrantClientRequest<T> addWriteOrdering(WriteOrdering ordering) {
-		return addQueryParameter("ordering", ordering.getName());
+		if (ordering != null) {
+			return addQueryParameter("ordering", ordering.getName());
+		} else {
+			return this;
+		}
 	}
 
 	@Override
 	public QDrantClientRequest<T> addConsistency(ReadConsistencyType type) {
-		return addQueryParameter("consistency", type.getName());
+		if (type != null) {
+			return addQueryParameter("consistency", type.getName());
+		} else {
+			return this;
+		}
 	}
 
 	@Override

@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import io.metaloom.qdrant.client.AbstractContainerTest;
 import io.metaloom.qdrant.client.http.impl.HttpErrorException;
@@ -20,6 +20,7 @@ import io.metaloom.qdrant.client.http.model.collection.config.VectorParams;
 public abstract class AbstractHTTPClientTest extends AbstractContainerTest {
 
 	public static String VECTOR_NAME = "test-points";
+	public static String VECTOR_NAME_2 = "test-points-2";
 	public static float[] VECTOR_1 = { 0.42f, 0.33f, 42.15f, 68.72f };
 	public static float[] NEAR_VECTOR_1 = { 0.41f, 0.32f, 42.11f, 68.71f };
 	public static float[] VECTOR_2 = { 0.12f, 0.23f, 12.46f, 47.17f };
@@ -30,7 +31,7 @@ public abstract class AbstractHTTPClientTest extends AbstractContainerTest {
 
 	protected QDrantHttpClient client;
 
-	@Before
+	@BeforeEach
 	public void prepareClient() {
 		client = QDrantHttpClient.builder()
 			.setScheme("http")
@@ -39,7 +40,7 @@ public abstract class AbstractHTTPClientTest extends AbstractContainerTest {
 			.build();
 	}
 
-	@After
+	@AfterEach
 	public void closeClient() {
 		if (client != null) {
 			client.close();

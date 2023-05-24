@@ -1,13 +1,15 @@
 package io.metaloom.qdrant.client;
 
-import org.junit.Rule;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import io.metaloom.qdrant.container.QDrantContainer;
 
+@Testcontainers
 public abstract class AbstractContainerTest {
 
-	@Rule
-	public QDrantContainer qdrant = new QDrantContainer();
+	@Container
+	protected QDrantContainer qdrant = new QDrantContainer();
 
 	protected void sleep(int i) {
 		try {

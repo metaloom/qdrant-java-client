@@ -10,6 +10,9 @@ import io.metaloom.qdrant.client.http.model.collection.CollectionUpdateRequest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionsAliasesListResponse;
 import io.metaloom.qdrant.client.http.model.collection.schema.CollectionCreateIndexFieldRequest;
 import io.metaloom.qdrant.client.http.model.collection.schema.CollectionIndexFieldResponse;
+import io.metaloom.qdrant.client.http.model.collection.schema.recommend.CollectionRecommendPointsResponse;
+import io.metaloom.qdrant.client.http.model.point.PointsRecommendRequest;
+import io.metaloom.qdrant.client.http.model.query.ReadConsistencyType;
 
 /**
  * API methods which are used to interact with collections.

@@ -30,28 +30,37 @@ import io.metaloom.qdrant.client.http.model.collection.CollectionUpdateRequest;
 import io.metaloom.qdrant.client.http.model.collection.CollectionsAliasesListResponse;
 import io.metaloom.qdrant.client.http.model.collection.schema.CollectionCreateIndexFieldRequest;
 import io.metaloom.qdrant.client.http.model.collection.schema.CollectionIndexFieldResponse;
+import io.metaloom.qdrant.client.http.model.point.DeleteVectorsResponse;
 import io.metaloom.qdrant.client.http.model.point.PointCountRequest;
 import io.metaloom.qdrant.client.http.model.point.PointCountResponse;
 import io.metaloom.qdrant.client.http.model.point.PointDeletePayloadRequest;
+import io.metaloom.qdrant.client.http.model.point.PointDeleteVectorsRequest;
 import io.metaloom.qdrant.client.http.model.point.PointGetResponse;
 import io.metaloom.qdrant.client.http.model.point.PointOverwritePayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointSetPayloadRequest;
+import io.metaloom.qdrant.client.http.model.point.PointUpdateVectorsRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsClearPayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsDeleteRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsGetRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsGetResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsRecommendBatchRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsRecommendBatchResponse;
+import io.metaloom.qdrant.client.http.model.point.PointsRecommendGroupRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsRecommendGroupResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsRecommendRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsRecommendResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsScrollRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsScrollResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchBatchRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchBatchResponse;
+import io.metaloom.qdrant.client.http.model.point.PointsSearchGroupRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsSearchGroupResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsUpsertRequest;
 import io.metaloom.qdrant.client.http.model.point.UpdateResultResponse;
+import io.metaloom.qdrant.client.http.model.point.UpdateVectorsResponse;
+import io.metaloom.qdrant.client.http.model.query.WriteOrdering;
 import io.metaloom.qdrant.client.http.model.service.LockOptionResponse;
 import io.metaloom.qdrant.client.http.model.service.LockRequest;
 import io.metaloom.qdrant.client.http.model.service.ServiceTelemetryResponse;
@@ -86,7 +95,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	 * @param writeTimeout
 	 */
 	protected QDrantHttpClientImpl(OkHttpClient okClient, String scheme, String hostname, int port, Duration connectTimeout, Duration readTimeout,
-			Duration writeTimeout) {
+		Duration writeTimeout) {
 		super(scheme, hostname, port, connectTimeout, readTimeout, writeTimeout);
 		this.okClient = okClient;
 	}
@@ -271,7 +280,23 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	public QDrantClientRequest<UpdateResultResponse> deletePoints(String collectionName, PointsDeleteRequest request, boolean wait) {
 		assertCollectionName(collectionName);
 		QDrantClientRequest<UpdateResultResponse> req = postRequest("collections/" + collectionName + "/points/delete", request,
-				UpdateResultResponse.class);
+			UpdateResultResponse.class);
+		return req.addWait(wait);
+	}
+
+	@Override
+	public QDrantClientRequest<UpdateVectorsResponse> updateVectors(String collectionName, PointUpdateVectorsRequest request, boolean wait,
+		WriteOrdering ordering) {
+		QDrantClientRequest<UpdateVectorsResponse> req = putRequest("collections/" + collectionName + "/points/vectors", request,
+			UpdateVectorsResponse.class);
+		return req.addWriteOrdering(ordering);
+	}
+
+	@Override
+	public QDrantClientRequest<DeleteVectorsResponse> deleteVectors(String collectionName, PointDeleteVectorsRequest request, boolean wait,
+		WriteOrdering ordering) {
+		QDrantClientRequest<DeleteVectorsResponse> req = postRequest("collections/" + collectionName + "/points/vectors/delete", request,
+			DeleteVectorsResponse.class);
 		return req.addWait(wait);
 	}
 
@@ -279,7 +304,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	public QDrantClientRequest<UpdateResultResponse> setPointPayload(String collectionName, PointSetPayloadRequest request, boolean wait) {
 		assertCollectionName(collectionName);
 		QDrantClientRequest<UpdateResultResponse> req = postRequest("collections/" + collectionName + "/points/payload", request,
-				UpdateResultResponse.class);
+			UpdateResultResponse.class);
 		return req.addWait(wait);
 	}
 
@@ -287,7 +312,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	public QDrantClientRequest<UpdateResultResponse> overwritePayload(String collectionName, PointOverwritePayloadRequest request, boolean wait) {
 		assertCollectionName(collectionName);
 		QDrantClientRequest<UpdateResultResponse> req = putRequest("collections/" + collectionName + "/points/payload", request,
-				UpdateResultResponse.class);
+			UpdateResultResponse.class);
 		return req.addWait(wait);
 	}
 
@@ -302,7 +327,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	public QDrantClientRequest<UpdateResultResponse> clearPayload(String collectionName, PointsClearPayloadRequest request, boolean wait) {
 		assertCollectionName(collectionName);
 		QDrantClientRequest<UpdateResultResponse> req = postRequest("collections/" + collectionName + "/points/payload/clear", request,
-				UpdateResultResponse.class);
+			UpdateResultResponse.class);
 		return req.addWait(wait);
 	}
 
@@ -327,6 +352,12 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	}
 
 	@Override
+	public QDrantClientRequest<PointsSearchGroupResponse> searchGroupPoints(String collectionName, PointsSearchGroupRequest request) {
+		assertCollectionName(collectionName);
+		return postRequest("collections/" + collectionName + "/points/search/groups", request, PointsSearchGroupResponse.class);
+	}
+
+	@Override
 	public QDrantClientRequest<PointsRecommendResponse> recommendPoints(String collectionName, PointsRecommendRequest request) {
 		assertCollectionName(collectionName);
 		return postRequest("collections/" + collectionName + "/points/recommend", request, PointsRecommendResponse.class);
@@ -336,6 +367,12 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	public QDrantClientRequest<PointsRecommendBatchResponse> recommendBatchPoints(String collectionName, PointsRecommendBatchRequest request) {
 		assertCollectionName(collectionName);
 		return postRequest("collections/" + collectionName + "/points/recommend/batch", request, PointsRecommendBatchResponse.class);
+	}
+
+	@Override
+	public QDrantClientRequest<PointsRecommendGroupResponse> recommendGroupPoints(String collectionName, PointsRecommendGroupRequest request) {
+		assertCollectionName(collectionName);
+		return postRequest("collections/" + collectionName + "/points/recommend/groups", request, PointsRecommendGroupResponse.class);
 	}
 
 	@Override
@@ -363,7 +400,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 
 	@Override
 	public QDrantClientRequest<GenericBooleanStatusResponse> updateCollectionClusterSetup(String collectionName,
-			CollectionUpdateClusterSetupRequest request) {
+		CollectionUpdateClusterSetupRequest request) {
 		assertCollectionName(collectionName);
 		return postRequest("collections/" + collectionName + "/cluster", request, GenericBooleanStatusResponse.class);
 	}
@@ -454,7 +491,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 
 	public QDrantClientRequest<GenericBooleanStatusResponse> updateCollection(String collectionName, CollectionUpdateRequest request, int timeout) {
 		QDrantClientRequest<GenericBooleanStatusResponse> req = patchRequest("collections/" + collectionName, request,
-				GenericBooleanStatusResponse.class);
+			GenericBooleanStatusResponse.class);
 		return req.addTimeout(timeout);
 	}
 
@@ -464,7 +501,7 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	}
 
 	public QDrantClientRequest<GenericBooleanStatusResponse> updateCollectionAliases(String collectionName, CollectionUpdateAliasesRequest request,
-			int timeout) {
+		int timeout) {
 		QDrantClientRequest<GenericBooleanStatusResponse> req = postRequest("collections/aliases", request, GenericBooleanStatusResponse.class);
 		return req.addTimeout(timeout);
 	}
@@ -475,15 +512,15 @@ public class QDrantHttpClientImpl extends AbstractQDrantClient {
 	}
 
 	public QDrantClientRequest<CollectionIndexFieldResponse> createCollectionIndexField(String collectionName,
-			CollectionCreateIndexFieldRequest request, boolean wait) {
+		CollectionCreateIndexFieldRequest request, boolean wait) {
 		QDrantClientRequest<CollectionIndexFieldResponse> req = putRequest("collections/" + collectionName + "/index", request,
-				CollectionIndexFieldResponse.class);
+			CollectionIndexFieldResponse.class);
 		return req.addWait(wait);
 	}
 
 	public QDrantClientRequest<CollectionIndexFieldResponse> deleteCollectionIndexField(String collectionName, String fieldName, boolean wait) {
 		QDrantClientRequest<CollectionIndexFieldResponse> req = deleteRequest("collections/" + collectionName + "/index/" + fieldName,
-				CollectionIndexFieldResponse.class);
+			CollectionIndexFieldResponse.class);
 		return req.addWait(wait);
 	}
 

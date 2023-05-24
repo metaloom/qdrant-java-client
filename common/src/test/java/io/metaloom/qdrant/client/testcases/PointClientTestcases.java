@@ -14,6 +14,10 @@ public interface PointClientTestcases {
 
 	void testDeletePoints() throws Exception;
 
+	void testUpdateVectors() throws Exception;
+
+	void testDeleteVectors() throws Exception;
+
 	void testSetPointPayload() throws Exception;
 
 	void testOverwritePointPayload() throws Exception;
@@ -28,9 +32,13 @@ public interface PointClientTestcases {
 
 	void testSearchBatchPoints() throws Exception;
 
+	void testSearchGroupPoints() throws Exception;
+
 	void testRecommendPoints() throws Exception;
 
 	void testRecommendBatchPoints() throws Exception;
+
+	void testRecommendGroupPoints() throws Exception;
 
 	void testCountPoints() throws Exception;
 

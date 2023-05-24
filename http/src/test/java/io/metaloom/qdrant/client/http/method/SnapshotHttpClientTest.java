@@ -13,7 +13,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import io.metaloom.qdrant.client.http.AbstractHTTPClientTest;
 import io.metaloom.qdrant.client.http.QDrantBinaryResponse;

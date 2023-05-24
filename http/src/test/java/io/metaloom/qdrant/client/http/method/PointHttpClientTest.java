@@ -5,11 +5,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -18,6 +19,8 @@ import io.metaloom.qdrant.client.http.AbstractHTTPClientTest;
 import io.metaloom.qdrant.client.http.impl.HttpErrorException;
 import io.metaloom.qdrant.client.http.model.collection.CollectionCreateRequest;
 import io.metaloom.qdrant.client.http.model.collection.config.Distance;
+import io.metaloom.qdrant.client.http.model.collection.config.NamedVectorParams;
+import io.metaloom.qdrant.client.http.model.collection.config.VectorParams;
 import io.metaloom.qdrant.client.http.model.collection.filter.Filter;
 import io.metaloom.qdrant.client.http.model.collection.filter.condition.FieldCondition;
 import io.metaloom.qdrant.client.http.model.collection.filter.condition.HasIdCondition;
@@ -31,10 +34,13 @@ import io.metaloom.qdrant.client.http.model.point.Payload;
 import io.metaloom.qdrant.client.http.model.point.PointCountRequest;
 import io.metaloom.qdrant.client.http.model.point.PointCountResponse;
 import io.metaloom.qdrant.client.http.model.point.PointDeletePayloadRequest;
+import io.metaloom.qdrant.client.http.model.point.PointDeleteVectorsRequest;
 import io.metaloom.qdrant.client.http.model.point.PointId;
 import io.metaloom.qdrant.client.http.model.point.PointOverwritePayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointSetPayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointStruct;
+import io.metaloom.qdrant.client.http.model.point.PointUpdateVectorsRequest;
+import io.metaloom.qdrant.client.http.model.point.PointVectors;
 import io.metaloom.qdrant.client.http.model.point.PointsBatch;
 import io.metaloom.qdrant.client.http.model.point.PointsBatchUpsertRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsClearPayloadRequest;
@@ -45,24 +51,30 @@ import io.metaloom.qdrant.client.http.model.point.PointsListDeleteRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsListUpsertRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsRecommendBatchRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsRecommendBatchResponse;
+import io.metaloom.qdrant.client.http.model.point.PointsRecommendGroupRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsRecommendGroupResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsRecommendRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsRecommendResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsScrollRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsScrollResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchBatchRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchBatchResponse;
+import io.metaloom.qdrant.client.http.model.point.PointsSearchGroupRequest;
+import io.metaloom.qdrant.client.http.model.point.PointsSearchGroupResponse;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchRequest;
 import io.metaloom.qdrant.client.http.model.point.PointsSearchResponse;
 import io.metaloom.qdrant.client.http.model.point.Record;
+import io.metaloom.qdrant.client.http.model.point.VectorDataMap;
 import io.metaloom.qdrant.client.json.Json;
 import io.metaloom.qdrant.client.testcases.PointClientTestcases;
 
 public class PointHttpClientTest extends AbstractHTTPClientTest implements PointClientTestcases {
 
-	@Before
+	@BeforeEach
 	public void setupTestData() throws Exception {
 		CollectionCreateRequest collection = new CollectionCreateRequest();
-		collection.setVectors(VECTOR_NAME, 4, Distance.EUCLID);
+		NamedVectorParams params = collection.setVectors(VECTOR_NAME, 4, Distance.EUCLID);
+		params.put(VECTOR_NAME_2, VectorParams.of(4, Distance.EUCLID));
 		invoke(client.createCollection(TEST_COLLECTION_NAME, collection));
 
 		PointStruct p1 = PointStruct.of(VECTOR_NAME, VECTOR_1).setId(1);
@@ -185,6 +197,43 @@ public class PointHttpClientTest extends AbstractHTTPClientTest implements Point
 		assertEquals("We expect the original payload property to be not modified.", "first",
 			resp.first().getPayload().text("name"));
 
+	}
+
+	@Test
+	@Override
+	public void testUpdateVectors() throws Exception {
+		PointUpdateVectorsRequest request = new PointUpdateVectorsRequest();
+		VectorDataMap vector = new VectorDataMap();
+		vector.put(VECTOR_NAME_2, Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f));
+		request.addPoint(new PointVectors()
+			.setId(PointId.id(1L))
+			.setVector(vector));
+		invoke(client.updateVectors(TEST_COLLECTION_NAME, request, true, null));
+
+		PointsGetRequest pointRequest = new PointsGetRequest();
+		pointRequest.setWithVector(true);
+		pointRequest.setWithPayload(true);
+		pointRequest.setIds(1L);
+		PointsGetResponse response = invoke(client.getPoints(TEST_COLLECTION_NAME, pointRequest));
+		VectorDataMap vectorMap = (VectorDataMap) response.getResult().get(0).getVector();
+		assertTrue("The new vector data should be stored with the point", vectorMap.containsKey(VECTOR_NAME_2));
+	}
+
+	@Test
+	@Override
+	public void testDeleteVectors() throws Exception {
+		PointDeleteVectorsRequest request2 = new PointDeleteVectorsRequest();
+		request2.setPoints(Arrays.asList(PointId.id(1L), PointId.id(2L)));
+		request2.setVector(VECTOR_NAME);
+		invoke(client.deleteVectors(TEST_COLLECTION_NAME, request2, true, null));
+
+		PointsGetRequest pointRequest = new PointsGetRequest();
+		pointRequest.setWithVector(true);
+		pointRequest.setWithPayload(true);
+		pointRequest.setIds(1L);
+		PointsGetResponse response = invoke(client.getPoints(TEST_COLLECTION_NAME, pointRequest));
+		VectorDataMap vectorMap = (VectorDataMap) response.getResult().get(0).getVector();
+		assertFalse("The named vector should have been removed", vectorMap.containsKey(VECTOR_NAME));
 	}
 
 	@Test
@@ -330,6 +379,22 @@ public class PointHttpClientTest extends AbstractHTTPClientTest implements Point
 
 	@Test
 	@Override
+	public void testSearchGroupPoints() throws HttpErrorException {
+		PointsSearchGroupRequest request = new PointsSearchGroupRequest();
+		request.setVector(NamedVector.of(VECTOR_NAME, NEAR_VECTOR_1));
+		request.setLimit(10);
+		request.setGroupBy("color");
+		request.setGroupSize(10);
+		request.setWithPayload(true);
+		request.setWithVector(true);
+
+		PointsSearchGroupResponse response = invoke(client.searchGroupPoints(TEST_COLLECTION_NAME, request));
+		assertEquals("There should be one result since we send a batch with one request.", 1, response.getResult().getGroups().size());
+		assertEquals("red", response.getResult().getGroups().get(0).getId());
+	}
+
+	@Test
+	@Override
 	public void testRecommendPoints() throws HttpErrorException {
 		PointsRecommendRequest request = new PointsRecommendRequest();
 		request.setPositive(1L);
@@ -352,6 +417,21 @@ public class PointHttpClientTest extends AbstractHTTPClientTest implements Point
 		PointsRecommendBatchResponse response = invoke(client.recommendBatchPoints(TEST_COLLECTION_NAME, batchRequest));
 		assertEquals("There should be one result since we sent one batched request.", 1, response.getResult().size());
 		assertFalse("The response should contain recommended points", response.getResult().get(0).isEmpty());
+	}
+
+	@Test
+	@Override
+	public void testRecommendGroupPoints() throws Exception {
+		PointsRecommendGroupRequest request = new PointsRecommendGroupRequest();
+		request.setPositive(1L);
+		request.setUsing(VECTOR_NAME);
+		request.setLimit(10);
+		request.setGroupBy("color");
+		request.setGroupSize(10);
+
+		PointsRecommendGroupResponse response = invoke(client.recommendGroupPoints(TEST_COLLECTION_NAME, request));
+		assertEquals("There should be one result since we sent one batched request.", 1, response.getResult().getGroups().size());
+		assertEquals("red", response.getResult().getGroups().get(0).getId());
 	}
 
 	@Test

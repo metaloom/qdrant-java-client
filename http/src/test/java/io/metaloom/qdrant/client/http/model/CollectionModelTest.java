@@ -17,6 +17,7 @@ import io.metaloom.qdrant.client.http.model.collection.config.ScalarQuantization
 import io.metaloom.qdrant.client.http.model.collection.config.VectorParams;
 import io.metaloom.qdrant.client.http.model.collection.config.VectorsConfig;
 import io.metaloom.qdrant.client.http.model.collection.schema.CollectionCreateIndexFieldRequest;
+import io.metaloom.qdrant.client.http.model.collection.schema.recommend.CollectionRecommendPointsResponse;
 import io.metaloom.qdrant.client.json.Json;
 
 public class CollectionModelTest extends AbstractModelTest {
@@ -59,7 +60,7 @@ public class CollectionModelTest extends AbstractModelTest {
 		CollectionResponse response = load("collection/collection-get-response-with-quantization_config", CollectionResponse.class);
 		QuantizationConfig config = response.getResult().getConfig().getQuantizationConfig();
 		assertNotNull(config);
-		ScalarQuantization qConfig = (ScalarQuantization)config;
+		ScalarQuantization qConfig = (ScalarQuantization) config;
 		assertEquals("int8", qConfig.getScalar().getType());
 		String json = Json.parse(response);
 		CollectionResponse fromJson = Json.parse(json, CollectionResponse.class);
@@ -95,4 +96,5 @@ public class CollectionModelTest extends AbstractModelTest {
 		System.out.println(json);
 		Json.parse(json, CollectionCreateIndexFieldRequest.class);
 	}
+
 }
