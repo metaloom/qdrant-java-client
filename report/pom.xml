@@ -8,7 +8,7 @@
   <parent>
     <groupId>io.metaloom.qdrant</groupId>
     <artifactId>qdrant-java-client</artifactId>
-    <version>0.13.0-SNAPSHOT</version>
+    <version>0.13.0</version>
   </parent>
 
   <name>Qdrant Java Client :: report</name>

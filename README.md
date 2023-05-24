@@ -36,7 +36,7 @@ This project contains a java client for the [Qdrant vector database](https://qdr
 <dependency>
 	<groupId>io.metaloom.qdrant</groupId>
 	<artifactId>qdrant-java-grpc-client</artifactId>
-	<version>0.13.0-SNAPSHOT</version>
+	<version>0.13.0</version>
 </dependency>
 ```
 
@@ -46,7 +46,7 @@ or for the HTTP client
 <dependency>
 	<groupId>io.metaloom.qdrant</groupId>
 	<artifactId>qdrant-java-http-client</artifactId>
-	<version>0.13.0-SNAPSHOT</version>
+	<version>0.13.0</version>
 </dependency>
 ```
 
@@ -74,8 +74,14 @@ try (QDrantGRPCClient client = QDrantGRPCClient.builder()
 		.setDistance(Distance.Euclid)
 		.build();
 
+	// Add the params to a map
+	VectorParamsMap paramsMap = VectorParamsMap.newBuilder()
+		.putMap("firstVector", params)
+		.putMap("secondVector", params)
+		.build();
+
 	// Create new collections - blocking
-	client.createCollection("test1", params).sync();
+	client.createCollection("test1", paramsMap).sync();
 	// .. or via Future API
 	client.createCollection("test2", params).async().get();
 	// .. or via RxJava API
@@ -92,7 +98,7 @@ try (QDrantGRPCClient client = QDrantGRPCClient.builder()
 		payload.put("color", ModelHelper.value("blue"));
 
 		// Now construct the point
-		PointStruct point = ModelHelper.point(42L + i, vector, payload);
+		PointStruct point = ModelHelper.namedPoint(42L + i, "firstVector", vector, payload);
 		// .. and insert it
 		client.upsertPoint("test1", point, true).sync();
 	}
@@ -102,7 +108,7 @@ try (QDrantGRPCClient client = QDrantGRPCClient.builder()
 
 	// Now run KNN search
 	float[] searchVector = new float[] { 0.43f, 0.09f, 0.41f, 1.35f };
-	List<ScoredPoint> searchResults = client.searchPoints("test1", searchVector, 2, null).sync().getResultList();
+	List<ScoredPoint> searchResults = client.searchPoints("test1", "firstVector", searchVector, 2, null).sync().getResultList();
 	for (ScoredPoint result : searchResults) {
 		System.out.println("Found: [" + result.getId().getNum() + "] " + result.getScore());
 	}
