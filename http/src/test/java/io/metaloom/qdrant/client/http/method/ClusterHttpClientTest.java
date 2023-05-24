@@ -2,8 +2,8 @@ package io.metaloom.qdrant.client.http.method;
 
 import java.math.BigInteger;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import io.metaloom.qdrant.client.http.AbstractHTTPClientTest;
 import io.metaloom.qdrant.client.http.impl.HttpErrorException;
@@ -20,7 +20,7 @@ public class ClusterHttpClientTest extends AbstractHTTPClientTest implements Clu
 
 	@Test
 	@Override
-	@Ignore("Clustering not implemented for test environment")
+	@Disabled("Clustering not implemented for test environment")
 	public void testRemovePeerFromCluster() throws HttpErrorException {
 		createTestCollection();
 		BigInteger peerId = invoke(client.getCollectionClusterInfo(TEST_COLLECTION_NAME)).getResult().getPeerId();
@@ -36,7 +36,7 @@ public class ClusterHttpClientTest extends AbstractHTTPClientTest implements Clu
 
 	@Test
 	@Override
-	@Ignore("Clustering not implemented for test environment")
+	@Disabled("Clustering not implemented for test environment")
 	public void testUpdateCollectionClusterSetup() throws HttpErrorException {
 		CollectionUpdateClusterSetupRequest request = new CollectionUpdateClusterSetupRequest();
 		invoke(client.updateCollectionClusterSetup(TEST_COLLECTION_NAME, request));
