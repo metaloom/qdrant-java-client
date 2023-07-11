@@ -203,6 +203,22 @@ public class PointGRPCClientTest extends AbstractGRPCClientTest implements Point
 
 	@Test
 	@Override
+	public void testScrollPointsOffset() throws Exception {
+		// First request
+		ScrollResponse scrollResponse1 = client.scrollPoint(TEST_COLLECTION_NAME, null, 1, null, null, null).sync();
+		List<RetrievedPoint> list = scrollResponse1.getResultList();
+		assertEquals(4, list.size());
+		assertNotNull(scrollResponse1.getNextPageOffset());
+
+		// Second request
+		ScrollResponse scrollResponse2 = client.scrollPoint(TEST_COLLECTION_NAME, scrollResponse1.getNextPageOffset(), 1, null, null, null).sync();
+		List<RetrievedPoint> list2 = scrollResponse2.getResultList();
+		assertEquals(4, list2.size());
+		assertNotNull(scrollResponse2.getNextPageOffset());
+	}
+
+	@Test
+	@Override
 	public void testSearchPoints() throws Exception {
 		float[] vector = new float[] { 2.41f, 0.9f, 0.81f, 2.45f };
 		SearchResponse response = client.searchPoints(TEST_COLLECTION_NAME, TEST_VECTOR_NAME, vector, 2, 100f).sync();

@@ -7,7 +7,7 @@ import io.metaloom.qdrant.client.http.model.collection.filter.Filter;
 
 public class PointsScrollRequest implements RestRequestModel {
 
-	private Long offset;
+	private PointId offset;
 
 	private Integer limit;
 
@@ -19,11 +19,11 @@ public class PointsScrollRequest implements RestRequestModel {
 	@JsonProperty("with_vector")
 	private boolean withVector;
 
-	public Long getOffset() {
+	public PointId getOffset() {
 		return offset;
 	}
 
-	public PointsScrollRequest setOffset(Long offset) {
+	public PointsScrollRequest setOffset(PointId offset) {
 		this.offset = offset;
 		return this;
 	}

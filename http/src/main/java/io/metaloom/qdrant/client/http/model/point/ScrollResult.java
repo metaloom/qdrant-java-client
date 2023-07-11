@@ -11,7 +11,7 @@ public class ScrollResult implements RestModel {
 	private List<Record> points;
 
 	@JsonProperty("next_page_offset")
-	private Long nextPageOffset;
+	private PointId nextPageOffset;
 
 	public List<Record> getPoints() {
 		return points;
@@ -22,11 +22,11 @@ public class ScrollResult implements RestModel {
 		return this;
 	}
 
-	public Long getNextPageOffset() {
+	public PointId getNextPageOffset() {
 		return nextPageOffset;
 	}
 
-	public ScrollResult setNextPageOffset(Long nextPageOffset) {
+	public ScrollResult setNextPageOffset(PointId nextPageOffset) {
 		this.nextPageOffset = nextPageOffset;
 		return this;
 	}

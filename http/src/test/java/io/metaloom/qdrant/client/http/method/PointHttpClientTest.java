@@ -3,6 +3,7 @@ package io.metaloom.qdrant.client.http.method;
 import static io.metaloom.qdrant.client.http.test.QDrantHttpClientAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -36,6 +37,7 @@ import io.metaloom.qdrant.client.http.model.point.PointCountResponse;
 import io.metaloom.qdrant.client.http.model.point.PointDeletePayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointDeleteVectorsRequest;
 import io.metaloom.qdrant.client.http.model.point.PointId;
+import io.metaloom.qdrant.client.http.model.point.PointIdLong;
 import io.metaloom.qdrant.client.http.model.point.PointOverwritePayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointSetPayloadRequest;
 import io.metaloom.qdrant.client.http.model.point.PointStruct;
@@ -305,8 +307,27 @@ public class PointHttpClientTest extends AbstractHTTPClientTest implements Point
 		request.setLimit(1);
 		PointsScrollResponse resp = invoke(client.scrollPoints(TEST_COLLECTION_NAME, request));
 		assertEquals(1, resp.getResult().getPoints().size());
-		Long nextOffset = resp.getResult().getNextPageOffset();
-		assertEquals(2L, nextOffset.longValue());
+		PointIdLong nextOffset = (PointIdLong) resp.getResult().getNextPageOffset();
+		assertEquals(2L, nextOffset.getId().longValue());
+	}
+
+	@Test
+	@Override
+	public void testScrollPointsOffset() throws HttpErrorException {
+		// First request
+		PointsScrollRequest request = new PointsScrollRequest();
+		request.setLimit(1);
+		PointsScrollResponse resp1 = invoke(client.scrollPoints(TEST_COLLECTION_NAME, request));
+		assertEquals(1, resp1.getResult().getPoints().size());
+		PointIdLong offset1 = (PointIdLong) resp1.getResult().getNextPageOffset();
+		assertEquals(2L, offset1.getId().longValue());
+
+		// Second request
+		request.setOffset(resp1.getResult().getNextPageOffset());
+		PointsScrollResponse resp2 = invoke(client.scrollPoints(TEST_COLLECTION_NAME, request));
+		assertEquals(1, resp2.getResult().getPoints().size());
+		PointIdLong offset2 = (PointIdLong) resp2.getResult().getNextPageOffset();
+		assertNotEquals(offset1.getId().longValue(), offset2.getId().longValue());
 	}
 
 	@Test

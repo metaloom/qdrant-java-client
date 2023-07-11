@@ -28,6 +28,8 @@ public interface PointClientTestcases {
 
 	void testScrollPoints() throws Exception;
 
+	void testScrollPointsOffset() throws Exception;
+
 	void testSearchPoints() throws Exception;
 
 	void testSearchBatchPoints() throws Exception;
