@@ -79,6 +79,15 @@ public class CollectionCreateRequest implements RestRequestModel {
 		return this;
 	}
 
+	public CollectionCreateRequest setReplicationFactor(Integer replicationFactor) {
+		this.replicationFactor = replicationFactor;
+		return this;
+	}
+
+	public Integer getReplicationFactor() {
+		return replicationFactor;
+	}
+
 	public Integer getWriteConsistencyFactor() {
 		return writeConsistencyFactor;
 	}
