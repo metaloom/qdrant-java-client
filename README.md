@@ -1,3 +1,7 @@
+<h1 align="center"><a href="https://github.com/qdrant/java-client">Qdrant now supports an official Qdrant Java Client</a> </h3>
+
+
+
 <h1 align="center">Qdrant Java Client </h3>
 
 This project contains a java client for the [Qdrant vector database](https://qdrant.tech/). The client supports HTTP and gRPC transport in either blocking or non-blocking fashion. For async operation a `Future` or RxJava3 based API can be used.
